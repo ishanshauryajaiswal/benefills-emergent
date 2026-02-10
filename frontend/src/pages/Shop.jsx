@@ -50,7 +50,7 @@ const Shop = () => {
 
         {/* Filters */}
         <div className="flex justify-between items-center mb-8">
-          <p className="text-gray-600">{filteredProducts.length} products</p>
+          <p className="text-gray-600">{products.length} products</p>
           
           <div className="flex items-center gap-3">
             <label className="text-sm font-medium text-gray-700">Sort by:</label>
