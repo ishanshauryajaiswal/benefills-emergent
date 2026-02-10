@@ -18,24 +18,29 @@ const Login = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Mock login - will be replaced with actual API call
-    setTimeout(() => {
-      const mockUser = {
-        id: '1',
-        email: email,
-        name: email.split('@')[0],
-        role: email.includes('admin') ? 'admin' : 'customer'
-      };
+    try {
+      const response = await authAPI.login({ email, password });
+      const { access_token, user } = response.data;
       
-      login(mockUser);
+      // Store token and user data
+      localStorage.setItem('benefills_token', access_token);
+      login(user);
+      
       toast({
         title: 'Login successful!',
         description: 'Welcome back to Benefills',
       });
       
-      setIsLoading(false);
       navigate('/');
-    }, 1000);
+    } catch (error) {
+      toast({
+        title: 'Login failed',
+        description: error.response?.data?.detail || 'Invalid credentials',
+        variant: 'destructive'
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
