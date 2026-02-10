@@ -61,16 +61,52 @@ const Checkout = () => {
     e.preventDefault();
     setIsProcessing(true);
 
-    // Mock payment processing - will be replaced with Razorpay
-    setTimeout(() => {
+    try {
+      // Prepare order data
+      const orderData = {
+        customerInfo: {
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          address: formData.address,
+          city: formData.city,
+          state: formData.state,
+          pincode: formData.pincode,
+        },
+        items: cartItems.map(item => ({
+          productId: item.id,
+          name: item.name,
+          price: item.price,
+          quantity: item.quantity,
+          image: item.image,
+        })),
+        subtotal,
+        discount,
+        deliveryCharge,
+        total,
+        couponCode: formData.couponCode,
+        userId: user?.id || null,
+      };
+
+      // Create order
+      const response = await ordersAPI.create(orderData);
+      
       toast({
         title: 'Order placed successfully!',
-        description: 'You will receive a confirmation email shortly.',
+        description: `Order ID: ${response.data.id}`,
       });
+      
       clearCart();
+      navigate('/');
+    } catch (error) {
+      toast({
+        title: 'Order failed',
+        description: error.response?.data?.detail || 'Something went wrong',
+        variant: 'destructive'
+      });
+    } finally {
       setIsProcessing(false);
-      navigate('/orders');
-    }, 2000);
+    }
   };
 
   if (cartItems.length === 0) {
