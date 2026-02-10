@@ -40,24 +40,35 @@ const Register = () => {
 
     setIsLoading(true);
 
-    // Mock registration - will be replaced with actual API call
-    setTimeout(() => {
-      const mockUser = {
-        id: Date.now().toString(),
-        email: formData.email,
+    try {
+      const response = await authAPI.register({
         name: formData.name,
-        role: 'customer'
-      };
+        email: formData.email,
+        password: formData.password,
+        phone: ''
+      });
       
-      register(mockUser);
+      const { access_token, user } = response.data;
+      
+      // Store token and user data
+      localStorage.setItem('benefills_token', access_token);
+      register(user);
+      
       toast({
         title: 'Account created!',
         description: 'Welcome to Benefills',
       });
       
-      setIsLoading(false);
       navigate('/');
-    }, 1000);
+    } catch (error) {
+      toast({
+        title: 'Registration failed',
+        description: error.response?.data?.detail || 'Something went wrong',
+        variant: 'destructive'
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
