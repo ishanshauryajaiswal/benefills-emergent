@@ -223,36 +223,67 @@ class BenefillsAPITester:
         except Exception as e:
             self.log_result("auth", "POST /api/auth/login", "FAIL", f"Request failed: {str(e)}")
 
-        # Test 3: POST /api/auth/admin/login - Admin login
-        try:
-            admin_data = {
-                "email": "admin@benefills.com",
-                "password": "admin123"
-            }
-            
-            response = self.session.post(f"{BASE_URL}/api/auth/admin/login", json=admin_data)
-            if response.status_code == 200:
-                token_data = response.json()
-                if 'access_token' in token_data and 'user' in token_data:
-                    user = token_data['user']
-                    if user.get('role') == 'admin':
-                        self.admin_token = token_data['access_token']
-                        self.log_result("auth", "POST /api/auth/admin/login", "PASS", 
-                                      f"Admin login successful: {user['email']}", response)
+        # Test 3: POST /api/auth/admin/login - Admin login with retry logic
+        import time
+        max_retries = 3
+        retry_delay = 1
+        
+        for attempt in range(max_retries):
+            try:
+                admin_data = {
+                    "email": "admin@benefills.com",
+                    "password": "admin123"
+                }
+                
+                # Add headers and timeout
+                headers = {"Content-Type": "application/json"}
+                response = self.session.post(
+                    f"{BASE_URL}/api/auth/admin/login", 
+                    json=admin_data,
+                    headers=headers,
+                    timeout=10
+                )
+                
+                if response.status_code == 200:
+                    token_data = response.json()
+                    if 'access_token' in token_data and 'user' in token_data:
+                        user = token_data['user']
+                        if user.get('role') == 'admin':
+                            self.admin_token = token_data['access_token']
+                            self.log_result("auth", "POST /api/auth/admin/login", "PASS", 
+                                          f"Admin login successful: {user['email']}", response)
+                            break
+                        else:
+                            self.log_result("auth", "POST /api/auth/admin/login", "FAIL", 
+                                          "User authenticated but role is not admin", response)
+                            break
                     else:
                         self.log_result("auth", "POST /api/auth/admin/login", "FAIL", 
-                                      "User authenticated but role is not admin", response)
-                else:
+                                      "Invalid response format - missing token or user", response)
+                        break
+                elif response.status_code == 401:
                     self.log_result("auth", "POST /api/auth/admin/login", "FAIL", 
-                                  "Invalid response format - missing token or user", response)
-            elif response.status_code == 401:
-                self.log_result("auth", "POST /api/auth/admin/login", "FAIL", 
-                              "Admin login failed - invalid credentials or admin not found", response)
-            else:
-                self.log_result("auth", "POST /api/auth/admin/login", "FAIL", 
-                              f"Unexpected status code: {response.status_code}", response)
-        except Exception as e:
-            self.log_result("auth", "POST /api/auth/admin/login", "FAIL", f"Request failed: {str(e)}")
+                                  "Admin login failed - invalid credentials or admin not found", response)
+                    break
+                elif response.status_code == 520 and attempt < max_retries - 1:
+                    print(f"   520 error on attempt {attempt + 1}, retrying...")
+                    time.sleep(retry_delay)
+                    continue
+                else:
+                    error_msg = f"Unexpected status code: {response.status_code}"
+                    if attempt == max_retries - 1:
+                        error_msg += f" (after {max_retries} attempts)"
+                    self.log_result("auth", "POST /api/auth/admin/login", "FAIL", error_msg, response)
+                    break
+                    
+            except Exception as e:
+                if attempt < max_retries - 1:
+                    print(f"   Request failed on attempt {attempt + 1}, retrying...")
+                    time.sleep(retry_delay)
+                    continue
+                else:
+                    self.log_result("auth", "POST /api/auth/admin/login", "FAIL", f"Request failed after {max_retries} attempts: {str(e)}")
+                    break
 
     def test_orders_api(self):
         """Test Orders API endpoints"""
