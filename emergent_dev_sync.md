@@ -10,7 +10,7 @@ Successfully run the full stack on localhost and stabilize the frontend build en
 - **User Input Required**: Waiting for a MongoDB connection string (Atlas URI) to finalize backend initialization.
 
 ## ✅ Done (Ready for Emergent Review)
-- **Local Synchronization Protocol**: Established `.agent/rules/emergent-sync.md` to enforce agent-to-agent communication via this bridge file.
+- **Local Synchronization Protocol**: Established `.local_agent_rules/emergent-sync.md` to enforce agent-to-agent communication via this bridge file.
 - **Frontend Build Stabilized**: Fixed a null-pointer recursion bug in `babel-metadata-plugin.js` and resolved `ajv` dependency conflicts. 
 - **Frontend Active**: React app is running at `http://localhost:3000`.
 - **Python Environment**: Configured Python 3.13 venv with verified library compatibility.
