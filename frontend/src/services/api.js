@@ -22,17 +22,17 @@ apiClient.interceptors.request.use((config) => {
 
 // Products API
 export const productsAPI = {
-  getAll: (params) => apiClient.get('/products', { params }),
+  getAll: (params) => apiClient.get('/products/', { params }),
   getById: (id) => apiClient.get(`/products/${id}`),
-  create: (data) => apiClient.post('/products', data),
+  create: (data) => apiClient.post('/products/', data),
   update: (id, data) => apiClient.put(`/products/${id}`, data),
   delete: (id) => apiClient.delete(`/products/${id}`),
 };
 
 // Orders API
 export const ordersAPI = {
-  create: (data) => apiClient.post('/orders', data),
-  getAll: (userId) => apiClient.get('/orders', { params: { user_id: userId } }),
+  create: (data) => apiClient.post('/orders/', data),
+  getAll: (userId) => apiClient.get('/orders/', { params: { user_id: userId } }),
   getById: (id) => apiClient.get(`/orders/${id}`),
   updateStatus: (id, status) => apiClient.put(`/orders/${id}/status`, { status }),
 };
