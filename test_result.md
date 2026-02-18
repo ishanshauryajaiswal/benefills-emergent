@@ -224,7 +224,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "All backend API endpoints tested successfully"
+    - "Guest Checkout Flow - All components tested and working"
   stuck_tasks: []
   test_all: true
   test_priority: "high_first"
