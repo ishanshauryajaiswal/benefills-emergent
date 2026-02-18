@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Test the Benefills e-commerce backend API with comprehensive test coverage of Products, Authentication, and Orders APIs"
+user_problem_statement: "Test the complete GUEST CHECKOUT flow for Benefills e-commerce store end-to-end including stock management, customer info storage, coupon codes, and order verification"
 
 backend:
   - task: "Products API - Get all products"
