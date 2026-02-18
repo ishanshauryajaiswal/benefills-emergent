@@ -22,9 +22,9 @@ Successfully run the full stack on localhost and stabilize the frontend build en
 - **Impact**: Critical for local builds. Emergent should preserve these changes.
 - **Action Required**: Verify that `emergentintegrations` is available in Emergent's environment before re-enabling.
 
-## 🔄 In Progress
-- **Database Bottleneck**: The backend (FastAPI) is failing to start because it cannot connect to a MongoDB instance at `localhost:27017`. Local machine lacks `mongod` and `docker`. 
-- **User Input Required**: Waiting for a MongoDB connection string (Atlas URI) to finalize backend initialization.
+- **Database Connection**: Backend is failing to connect to MongoDB at `localhost:27017`. Emergent needs to configure a valid connection (Atlas URI or Docker instance).
+- **Checkout Flow**: Blocked by database issue. Front-end is ready, but Backend needs Razorpay integration (see `contracts.md`).
+- **Dependencies**: `emergentintegrations` was commented out for local stability. `stripe` is in requirements, but `contracts.md` specifies Razorpay.
 
 ## ✅ Done (Ready for Emergent Review)
 - **Local Synchronization Protocol**: Established `.local_agent_rules/emergent-sync.md` to enforce agent-to-agent communication via this bridge file.
@@ -49,7 +49,17 @@ Successfully run the full stack on localhost and stabilize the frontend build en
    - 🎨 **Aesthetics**: Modern, premium design language
    - 🧈 **Smoothness**: 60fps animations, no jank
 
-## 📋 Next Local Steps
-- Obtain MongoDB connection string (Atlas or local)
-- Seed database with initial product data
-- Validate end-to-end user flow: Home → Shop → Cart → Checkout
+## 🚨 Emergent Action Items (High Priority)
+1. **Fix Database**: Configure `MONGODB_URL` in `.env` (use Atlas or local Docker).
+2. **Backend Startup**: Ensure `server.py` starts successfully.
+3. **Dependencies**: Check `backend/requirements.txt`.
+   - Re-enable `emergentintegrations` if required in your environment.
+   - **Critical**: `stripe` is listed in requirements, but `contracts.md` specifies **Razorpay**. Please verify and rectify.
+4. **Implement Integrations** (Reference `contracts.md`):
+   - **Payment**: Implement Razorpay flow (`/api/payment/razorpay/create`).
+   - **Shipping**: Implement Shiprocket flow (`/api/shipping/create`).
+5. **Verify Checkout**: Test the full "Guest Checkout" flow end-to-end.
+
+## 📝 User Notes
+- **Frontend State**: The frontend is running and stable locally at `http://localhost:3000`.
+- **UI/UX**: Frontend matches the desired design. Please preserve the visual fidelity.
