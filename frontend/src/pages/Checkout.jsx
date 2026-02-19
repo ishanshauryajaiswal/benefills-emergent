@@ -312,6 +312,9 @@ const Checkout = () => {
                         src={item.image}
                         alt={item.name}
                         className="w-16 h-16 object-cover rounded"
+                        loading="lazy"
+                        width={64}
+                        height={64}
                       />
                       <div className="flex-1">
                         <p className="text-sm font-medium line-clamp-1">{item.name}</p>
