@@ -21,11 +21,11 @@ db = client[os.environ['DB_NAME']]
 products = [
     {
         'id': '1',
-        'name': 'Seeds Boost Bar- pack of 7',
+        'name': 'Thyrovibe Seeds Boost Bar- pack of 7',
         'description': 'Crunchy, chewy energy bars packed with thyroid-supporting seeds and nutrients. Perfect grab-and-go snack.',
         'price': 410,
         'originalPrice': 490,
-        'image': 'https://cdn.zyrosite.com/cdn-cgi/image/format=auto,w=375,h=375,fit=crop,q=100/cdn-ecommerce/store_01JV34HD4RNHZAHYNVCHTPM6QH/assets/32cbec0f-02c1-4290-b485-23c7f796d37e.png',
+        'image': 'https://cdn.zyrosite.com/cdn-cgi/image/format=auto,w=768,h=768,fit=crop,q=100/cdn-ecommerce/store_01JV34HD4RNHZAHYNVCHTPM6QH/assets/d7dfeaea-8b58-4050-af66-914067979d02.png',
         'category': 'bars',
         'badge': 'most repurchased',
         'stock': 50,
@@ -36,11 +36,11 @@ products = [
     },
     {
         'id': '2',
-        'name': 'Benefills Nut-ella Nut Butter',
+        'name': 'Thyrovibe Nut-ella Nut Butter',
         'description': 'Rich, creamy nut butter with adaptogens and thyroid-supporting minerals. Spread it, spoon it, love it.',
         'price': 650,
         'originalPrice': 750,
-        'image': 'https://cdn.zyrosite.com/cdn-cgi/image/format=auto,w=375,h=375,fit=crop,q=100/cdn-ecommerce/store_01JV34HD4RNHZAHYNVCHTPM6QH/assets/f5a99b8b-537d-403c-8210-4df278f8da6f.png',
+        'image': 'https://cdn.zyrosite.com/cdn-cgi/image/format=auto,w=768,h=768,fit=crop,q=100/cdn-ecommerce/store_01JV34HD4RNHZAHYNVCHTPM6QH/assets/da53d612-dd3d-4e7a-9df2-73c297921502.png',
         'category': 'nut-butter',
         'badge': 'bestseller',
         'stock': 35,
