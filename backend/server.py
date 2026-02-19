@@ -62,6 +62,8 @@ async def startup_event():
     await db.products.create_index("id", unique=True)
     await db.orders.create_index("id", unique=True)
     await db.users.create_index("email", unique=True)
+    await db.coupons.create_index("code", unique=True)
+    await db.coupons.create_index("id", unique=True)
     logger.info("Database indexes created")
 
 @app.on_event("shutdown")
