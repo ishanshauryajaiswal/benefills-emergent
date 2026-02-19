@@ -210,7 +210,7 @@ JWT_SECRET_KEY=benefills-secret-key-change-in-production
 
 ### Frontend (.env)
 ```env
-REACT_APP_BACKEND_URL=https://benefills-preview.preview.emergentagent.com
+REACT_APP_BACKEND_URL=https://ongoing-site-2.preview.emergentagent.com
 WDS_SOCKET_PORT=443
 ENABLE_HEALTH_CHECK=false
 ```
