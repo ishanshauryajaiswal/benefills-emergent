@@ -289,6 +289,30 @@ test_plan:
         agent: "testing"
         comment: "✅ Coupon code functionality working perfectly. Order created with 'FIRSTLOVE20' coupon code correctly stored coupon, applied ₹240 discount, and calculated final total ₹1010 accurately."
 
+  - task: "Coupons API - Get all available coupons"
+    implemented: true
+    working: true
+    file: "/app/backend/routes/coupons.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ GET /api/coupons/ endpoint working correctly. Retrieved 3 active coupons with proper response format including all required fields (code, discountType, discountValue, isActive). Database seeding successful."
+
+  - task: "Coupons API - Validate coupon code"
+    implemented: true
+    working: true
+    file: "/app/backend/routes/coupons.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ POST /api/coupons/validate endpoint working correctly. Successfully validated 'FIRSTLOVE20' coupon with ₹200 discount for ₹1000 order. Invalid coupon rejection working properly. Minimum order amount validation functional."
+
 agent_communication:
   - agent: "testing"
     message: "Completed comprehensive backend API testing. All 9 test cases passed (100% success rate). Products API (4/4), Authentication API (3/3), and Orders API (2/2) are all working correctly. Database seeding successful. Stock management working. Minor issue with intermittent 520 errors on admin login resolved with retry logic - this appears to be a load balancer/proxy issue rather than backend code issue."
