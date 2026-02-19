@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { ordersAPI } from '../services/api';
+import axios from 'axios';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
@@ -10,6 +11,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card'
 import { Separator } from '../components/ui/separator';
 import { toast } from '../hooks/use-toast';
 import { ArrowLeft } from 'lucide-react';
+import CouponModal from '../components/CouponModal';
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 const Checkout = () => {
   const { cartItems, getCartTotal, clearCart } = useCart();
