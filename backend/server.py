@@ -14,7 +14,7 @@ sys.path.insert(0, str(ROOT_DIR))
 load_dotenv(ROOT_DIR / '.env')
 
 # Import routes
-from routes import products, orders, auth
+from routes import products, orders, auth, coupons
 
 # MongoDB connection
 mongo_url = os.environ['MONGO_URL']
