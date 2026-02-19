@@ -179,7 +179,7 @@ const AdminDashboard = () => {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#6FA78E] mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-theme-primary mx-auto"></div>
           <p className="mt-4 text-gray-600">Loading dashboard...</p>
         </div>
       </div>
@@ -204,9 +204,9 @@ const AdminDashboard = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-600">Total Products</p>
-                  <p className="text-3xl font-bold text-[#6FA78E]">{products.length}</p>
+                  <p className="text-3xl font-bold text-theme-primary">{products.length}</p>
                 </div>
-                <Package className="h-10 w-10 text-[#6FA78E]" />
+                <Package className="h-10 w-10 text-theme-primary" />
               </div>
             </CardContent>
           </Card>
@@ -216,9 +216,9 @@ const AdminDashboard = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-600">Total Orders</p>
-                  <p className="text-3xl font-bold text-[#6FA78E]">{orders.length}</p>
+                  <p className="text-3xl font-bold text-theme-primary">{orders.length}</p>
                 </div>
-                <ShoppingBag className="h-10 w-10 text-[#6FA78E]" />
+                <ShoppingBag className="h-10 w-10 text-theme-primary" />
               </div>
             </CardContent>
           </Card>
@@ -228,7 +228,7 @@ const AdminDashboard = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-600">Total Revenue</p>
-                  <p className="text-3xl font-bold text-[#6FA78E]">₹{totalRevenue}</p>
+                  <p className="text-3xl font-bold text-theme-primary">₹{totalRevenue}</p>
                 </div>
                 <Badge className="bg-yellow-500 text-white px-3 py-1">
                   {pendingOrders} Pending
@@ -256,7 +256,7 @@ const AdminDashboard = () => {
                       setEditingProduct(null);
                       resetForm();
                     }}
-                    className="bg-[#6FA78E] hover:bg-[#5d8e76]"
+                    className="bg-theme-primary hover:bg-theme-primary-hover"
                   >
                     <PlusCircle className="h-4 w-4 mr-2" />
                     Add Product
@@ -368,7 +368,7 @@ const AdminDashboard = () => {
                       />
                     </div>
                     
-                    <Button type="submit" className="w-full bg-[#6FA78E] hover:bg-[#5d8e76]">
+                    <Button type="submit" className="w-full bg-theme-primary hover:bg-theme-primary-hover">
                       {editingProduct ? 'Update Product' : 'Create Product'}
                     </Button>
                   </form>
@@ -443,7 +443,7 @@ const AdminDashboard = () => {
                         </p>
                       </div>
                       <div className="text-right">
-                        <p className="text-2xl font-bold text-[#6FA78E]">₹{order.total}</p>
+                        <p className="text-2xl font-bold text-theme-primary">₹{order.total}</p>
                         <Badge className={`mt-2 ${
                           order.status === 'delivered' ? 'bg-green-500' :
                           order.status === 'shipped' ? 'bg-blue-500' :

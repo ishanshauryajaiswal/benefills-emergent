@@ -24,7 +24,7 @@ const ProductCard = ({ product }) => {
       <CardContent className="p-0">
         <div className="relative overflow-hidden">
           {product.badge && (
-            <Badge className="absolute top-3 left-3 z-10 bg-[#6FA78E] hover:bg-[#5d8e76] text-white">
+            <Badge className="absolute top-3 left-3 z-10 bg-theme-primary hover:bg-theme-primary-hover text-white">
               {product.badge}
             </Badge>
           )}
@@ -52,7 +52,7 @@ const ProductCard = ({ product }) => {
 
           <div className="flex items-center gap-2 mb-4">
             <span className="text-gray-400 line-through text-sm">₹{product.originalPrice}</span>
-            <span className="text-2xl font-bold text-[#6FA78E]">₹{product.price}</span>
+            <span className="text-2xl font-bold text-theme-primary">₹{product.price}</span>
             <Badge variant="outline" className="text-green-600 border-green-600">
               {discount}% OFF
             </Badge>
@@ -60,7 +60,7 @@ const ProductCard = ({ product }) => {
 
           <Button 
             onClick={handleAddToCart}
-            className="w-full bg-[#6FA78E] hover:bg-[#5d8e76] text-white transition-colors"
+            className="w-full bg-theme-primary hover:bg-theme-primary-hover text-white transition-colors"
           >
             Add to bag
           </Button>

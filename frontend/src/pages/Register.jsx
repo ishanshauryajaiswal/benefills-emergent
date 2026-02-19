@@ -132,7 +132,7 @@ const Register = () => {
 
             <Button 
               type="submit" 
-              className="w-full bg-[#6FA78E] hover:bg-[#5d8e76]"
+              className="w-full bg-theme-primary hover:bg-theme-primary-hover"
               disabled={isLoading}
             >
               {isLoading ? 'Creating account...' : 'Create Account'}
@@ -141,7 +141,7 @@ const Register = () => {
 
           <div className="mt-6 text-center text-sm">
             <span className="text-gray-600">Already have an account? </span>
-            <Link to="/login" className="text-[#6FA78E] hover:underline font-medium">
+            <Link to="/login" className="text-theme-primary hover:underline font-medium">
               Sign in
             </Link>
           </div>

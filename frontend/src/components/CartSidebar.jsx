@@ -35,7 +35,7 @@ const CartSidebar = () => {
                     setIsCartOpen(false);
                     navigate('/shop');
                   }}
-                  className="mt-4 bg-[#6FA78E] hover:bg-[#5d8e76]"
+                  className="mt-4 bg-theme-primary hover:bg-theme-primary-hover"
                 >
                   Continue Shopping
                 </Button>
@@ -54,7 +54,7 @@ const CartSidebar = () => {
                       />
                       <div className="flex-1">
                         <h3 className="font-medium text-sm mb-1">{item.name}</h3>
-                        <p className="text-[#6FA78E] font-bold">₹{item.price}</p>
+                        <p className="text-theme-primary font-bold">₹{item.price}</p>
                         
                         <div className="flex items-center gap-3 mt-2">
                           <div className="flex items-center border rounded">
@@ -89,12 +89,12 @@ const CartSidebar = () => {
               <div className="border-t pt-4 space-y-4">
                 <div className="flex justify-between text-lg font-bold">
                   <span>Total:</span>
-                  <span className="text-[#6FA78E]">₹{getCartTotal()}</span>
+                  <span className="text-theme-primary">₹{getCartTotal()}</span>
                 </div>
                 
                 <Button 
                   onClick={handleCheckout}
-                  className="w-full bg-[#6FA78E] hover:bg-[#5d8e76] text-white py-6 text-lg"
+                  className="w-full bg-theme-primary hover:bg-theme-primary-hover text-white py-6 text-lg"
                 >
                   Proceed to Checkout
                 </Button>

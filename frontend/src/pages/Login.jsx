@@ -81,7 +81,7 @@ const Login = () => {
 
             <Button 
               type="submit" 
-              className="w-full bg-[#6FA78E] hover:bg-[#5d8e76]"
+              className="w-full bg-theme-primary hover:bg-theme-primary-hover"
               disabled={isLoading}
             >
               {isLoading ? 'Signing in...' : 'Sign In'}
@@ -90,13 +90,13 @@ const Login = () => {
 
           <div className="mt-6 text-center text-sm">
             <span className="text-gray-600">Don't have an account? </span>
-            <Link to="/register" className="text-[#6FA78E] hover:underline font-medium">
+            <Link to="/register" className="text-theme-primary hover:underline font-medium">
               Sign up
             </Link>
           </div>
           
           <div className="mt-4 text-center">
-            <Link to="/shop" className="text-sm text-gray-600 hover:text-[#6FA78E]">
+            <Link to="/shop" className="text-sm text-gray-600 hover:text-theme-primary">
               Continue as guest
             </Link>
           </div>
