@@ -19,23 +19,7 @@ Successfully run the full stack on localhost and stabilize the frontend build en
     - **Note**: Product data is fetched from Backend API. `mockData.js` update is for reference/fallback. Logic to switch to mock data was NOT added to keep code pattern consistent.
 - **Frontend Config**: Added `StaticPages` component and routes in `App.js`.
 
-### Commit 672de5f - "docs: update paths for local agent rules"
-- **Changed**: `emergent_dev_sync.md` - Updated reference paths
-- **Impact**: Documentation only, no code changes
 
-### Commit 38a5892 - "chore: setup local dev environment, fix dependencies"
-- **Changed Files**:
-  - `backend/requirements.txt`: Removed version pins for `black` and `numpy`, commented out `emergentintegrations==0.1.0`
-  - `frontend/craco.config.js`: Added `process.env.ENABLE_VISUAL_EDITS !== "false"` check
-  - `frontend/plugins/visual-edits/babel-metadata-plugin.js`: Fixed null pointer in line 936 (`importPath.findParent(p => p.isProgram())?.traverse`)
-  - `frontend/package.json` & `package-lock.json`: Added `ajv` dependency
-  - `.gitignore`: Added `.local_agent_rules` exclusion
-- **Impact**: Critical for local builds. Emergent should preserve these changes.
-- **Action Required**: Verify that `emergentintegrations` is available in Emergent's environment before re-enabling.
-
-- **Database Connection**: Backend is failing to connect to MongoDB at `localhost:27017`. Emergent needs to configure a valid connection (Atlas URI or Docker instance).
-- **Checkout Flow**: Blocked by database issue. Front-end is ready, but Backend needs Razorpay integration (see `contracts.md`).
-- **Dependencies**: `emergentintegrations` was commented out for local stability. `stripe` is in requirements, but `contracts.md` specifies Razorpay.
 
 ## ✅ Done (Ready for Emergent Review)
 - **Static Pages**: Full content implementation for all 5 legal/info pages.
@@ -64,15 +48,14 @@ Successfully run the full stack on localhost and stabilize the frontend build en
    - 🧈 **Smoothness**: 60fps animations, no jank
 
 ## 🚨 Emergent Action Items (High Priority)
-1. **Fix Database**: Configure `MONGODB_URL` in `.env` (use Atlas or local Docker).
-2. **Backend Startup**: Ensure `server.py` starts successfully.
-3. **Dependencies**: Check `backend/requirements.txt`.
+
+1. **Dependencies**: Check `backend/requirements.txt`.
    - Re-enable `emergentintegrations` if required in your environment.
    - **Critical**: `stripe` is listed in requirements, but `contracts.md` specifies **Razorpay**. Please verify and rectify.
-4. **Implement Integrations** (Reference `contracts.md`):
+2. **Implement Integrations** (Reference `contracts.md`):
    - **Payment**: Implement Razorpay flow (`/api/payment/razorpay/create`).
    - **Shipping**: Implement Shiprocket flow (`/api/shipping/create`).
-5. **Verify Checkout**: Test the full "Guest Checkout" flow end-to-end.
+3. **Verify Checkout**: Test the full "Guest Checkout" flow end-to-end.
 
 ## 📝 User Notes
 - **Frontend State**: The frontend is running and stable locally at `http://localhost:3000`.
