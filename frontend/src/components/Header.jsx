@@ -19,7 +19,7 @@ const Header = () => {
   return (
     <>
       {/* Promo Banner */}
-      <div className="bg-theme-primary text-white text-center py-3 px-4 text-sm font-medium">
+      <div className="bg-theme-primary-section text-white text-center py-3 px-4 text-sm font-medium">
         Get 20% OFF on your first order with code <span className="font-bold">FIRSTLOVE20</span>
       </div>
 
@@ -29,23 +29,23 @@ const Header = () => {
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
             <Link to="/" className="flex items-center">
-              <img 
-                src="https://assets.zyrosite.com/AzGXppLqlGTo9X9r/benefills-png-A85M60Nx0phaMVln.png" 
-                alt="Benefills" 
+              <img
+                src="https://assets.zyrosite.com/AzGXppLqlGTo9X9r/benefills-png-A85M60Nx0phaMVln.png"
+                alt="Benefills"
                 className="h-16 w-auto"
               />
             </Link>
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center space-x-8">
-              <Link 
-                to="/" 
+              <Link
+                to="/"
                 className="text-gray-800 hover:text-theme-primary font-medium transition-colors border-b-2 border-transparent hover:border-theme-primary pb-1"
               >
                 Home
               </Link>
-              <Link 
-                to="/shop" 
+              <Link
+                to="/shop"
                 className="text-gray-800 hover:text-theme-primary font-medium transition-colors border-b-2 border-transparent hover:border-theme-primary pb-1"
               >
                 Shop
@@ -91,9 +91,9 @@ const Header = () => {
               </DropdownMenu>
 
               {/* Cart Button */}
-              <Button 
-                variant="ghost" 
-                size="icon" 
+              <Button
+                variant="ghost"
+                size="icon"
                 className="relative"
                 onClick={() => setIsCartOpen(true)}
               >

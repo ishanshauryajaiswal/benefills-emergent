@@ -5,42 +5,42 @@ export const themes = {
   default: {
     name: 'Benefills Medical-Grade',
     colors: {
-      // Primary - Deep Green
-      primary: '#2b5a41',
-      primaryHover: '#234731',
-      primaryLight: '#3d7456',
-      
+      // Primary - Sage Green (matches benefills.com)
+      primary: '#3b825f',
+      primaryHover: '#317352',
+      primaryLight: '#5da67e',
+
       // Secondary
       secondary: '#f5f5f5',
       secondaryForeground: '#1a1a1a',
-      
+
       // Accent colors
-      accent: '#2b5a41',
-      accentLight: '#e8f2ee',
-      
+      accent: '#3b825f',
+      accentLight: '#e8f4ef',
+
       // Neutral colors
       background: '#ffffff',
       foreground: '#1a1a1a',
       muted: '#f5f5f5',
       mutedForeground: '#6b6b6b',
-      
+
       // Status colors
       success: '#22c55e',
       warning: '#f59e0b',
       error: '#ef4444',
       info: '#3b82f6',
-      
+
       // Border and dividers
       border: '#e5e5e5',
-      ring: '#2b5a41',
+      ring: '#3b825f',
     },
-    
+
     // Typography
     fonts: {
       heading: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
       body: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
     },
-    
+
     // Spacing
     spacing: {
       xs: '0.5rem',
@@ -49,7 +49,7 @@ export const themes = {
       lg: '2rem',
       xl: '3rem',
     },
-    
+
     // Border radius
     radius: {
       sm: '0.375rem',
@@ -59,7 +59,7 @@ export const themes = {
       full: '9999px',
     },
   },
-  
+
   // Example alternate theme (for future use)
   sage: {
     name: 'Benefills Sage',

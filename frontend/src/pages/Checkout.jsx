@@ -20,7 +20,7 @@ const Checkout = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [isProcessing, setIsProcessing] = useState(false);
-  
+
   const [formData, setFormData] = useState({
     name: user?.name || '',
     email: user?.email || '',
@@ -126,12 +126,12 @@ const Checkout = () => {
 
       // Create order
       const response = await ordersAPI.create(orderData);
-      
+
       toast({
         title: 'Order placed successfully!',
         description: `Order ID: ${response.data.id}`,
       });
-      
+
       clearCart();
       navigate('/');
     } catch (error) {
@@ -151,9 +151,9 @@ const Checkout = () => {
         <Card className="max-w-md w-full">
           <CardContent className="pt-6 text-center">
             <p className="text-gray-600 mb-4">Your cart is empty</p>
-            <Button 
+            <Button
               onClick={() => navigate('/shop')}
-              className="bg-[bg-theme-primary] hover:bg-[bg-theme-primary-hover]"
+              className="bg-theme-primary hover:bg-theme-primary-hover"
             >
               Continue Shopping
             </Button>
@@ -166,10 +166,10 @@ const Checkout = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Button 
-          variant="ghost" 
+        <Button
+          variant="ghost"
           onClick={() => navigate(-1)}
-          className="mb-6 hover:text-[bg-theme-primary]"
+          className="mb-6 hover:text-theme-primary"
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back
@@ -260,9 +260,9 @@ const Checkout = () => {
                     </div>
                   </div>
 
-                  <Button 
-                    type="submit" 
-                    className="w-full bg-[bg-theme-primary] hover:bg-[bg-theme-primary-hover] py-6 text-lg mt-6"
+                  <Button
+                    type="submit"
+                    className="w-full bg-theme-primary hover:bg-theme-primary-hover py-6 text-lg mt-6"
                     disabled={isProcessing}
                   >
                     {isProcessing ? 'Processing...' : `Pay ₹${total}`}
@@ -283,15 +283,15 @@ const Checkout = () => {
                 <div className="space-y-3">
                   {cartItems.map((item) => (
                     <div key={item.id} className="flex gap-3">
-                      <img 
-                        src={item.image} 
+                      <img
+                        src={item.image}
                         alt={item.name}
                         className="w-16 h-16 object-cover rounded"
                       />
                       <div className="flex-1">
                         <p className="text-sm font-medium line-clamp-1">{item.name}</p>
                         <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
-                        <p className="text-sm font-bold text-[bg-theme-primary]">₹{item.price * item.quantity}</p>
+                        <p className="text-sm font-bold text-theme-primary">₹{item.price * item.quantity}</p>
                       </div>
                     </div>
                   ))}
@@ -311,7 +311,7 @@ const Checkout = () => {
                       placeholder="Enter code"
                       className="uppercase"
                     />
-                    <Button 
+                    <Button
                       type="button"
                       onClick={applyCoupon}
                       variant="outline"
@@ -343,7 +343,7 @@ const Checkout = () => {
                   <Separator />
                   <div className="flex justify-between text-lg font-bold">
                     <span>Total</span>
-                    <span className="text-[bg-theme-primary]">₹{total}</span>
+                    <span className="text-theme-primary">₹{total}</span>
                   </div>
                 </div>
               </CardContent>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { benefits, howItWorks, testimonials, instagramPosts } from '../mockData';
 import { productsAPI } from '../services/api';
@@ -7,6 +7,12 @@ import { Button } from '../components/ui/button';
 import { Card, CardContent } from '../components/ui/card';
 import { Zap, Heart, Sparkles, Flame, Star, Instagram } from 'lucide-react';
 import TrustBadges from '../components/TrustBadges';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from '../components/ui/carousel';
+import Autoplay from 'embla-carousel-autoplay';
 
 const iconMap = {
   Zap,
@@ -15,13 +21,54 @@ const iconMap = {
   Flame
 };
 
+const heroSlides = [
+  {
+    id: 1,
+    headline: 'The most lipsmacking and clean Nut Butters, made to Benefit Health',
+    subtext: 'ThyroVibe by Benefills — tasty, thyroid-friendly, on-the-go nut butters with selenium, zinc & adaptogens for clean daily thyroid support.',
+    image: '/images/hero-slide-1.png',
+    bgClass: 'from-amber-50 via-orange-50 to-white',
+  },
+  {
+    id: 2,
+    headline: 'Not just any BAR — Your go-to for Thyroid Nourishment',
+    subtext: 'Seeds & Nuts, Herbs like Mulethi, Dates — Crunchy, Chewy, just 110 calories per bar.',
+    image: '/images/hero-slide-2.png',
+    bgClass: 'from-purple-100 via-purple-50 to-white',
+  },
+];
+
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [carouselApi, setCarouselApi] = useState(null);
 
   useEffect(() => {
     fetchProducts();
   }, []);
+
+  useEffect(() => {
+    if (!carouselApi) return;
+
+    const onSelect = () => {
+      setCurrentSlide(carouselApi.selectedScrollSnap());
+    };
+
+    carouselApi.on('select', onSelect);
+    onSelect();
+
+    return () => {
+      carouselApi.off('select', onSelect);
+    };
+  }, [carouselApi]);
+
+  const scrollToSlide = useCallback(
+    (index) => {
+      carouselApi?.scrollTo(index);
+    },
+    [carouselApi]
+  );
 
   const fetchProducts = async () => {
     try {
@@ -48,29 +95,75 @@ const Home = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-b from-purple-100 to-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-4">
-              Snacks with Benefits for Thyroid Health
-            </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              ThyroVibe by Benefills — tasty, thyroid-friendly, on-the-go nut butters & bars with selenium, zinc & adaptogens for clean daily thyroid support.
-            </p>
-          </div>
+      <section className="relative bg-gradient-to-b from-purple-50 to-white overflow-hidden">
+        <Carousel
+          className="w-full"
+          opts={{ loop: true, align: 'start' }}
+          plugins={[
+            Autoplay({
+              delay: 5000,
+              stopOnInteraction: false,
+              stopOnMouseEnter: true,
+            }),
+          ]}
+          setApi={setCarouselApi}
+        >
+          <CarouselContent className="-ml-0">
+            {heroSlides.map((slide) => (
+              <CarouselItem key={slide.id} className="pl-0">
+                <div
+                  className={`bg-gradient-to-b ${slide.bgClass} py-16 md:py-20 lg:py-24`}
+                >
+                  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-center">
+                      {/* Text Column */}
+                      <div className="text-center md:text-left order-2 md:order-1">
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 leading-tight">
+                          {slide.headline}
+                        </h1>
+                        <p className="text-lg text-gray-600 max-w-xl mb-8">
+                          {slide.subtext}
+                        </p>
+                        <Link to="/shop">
+                          <Button className="bg-theme-primary hover:bg-theme-primary-hover text-white px-8 py-6 text-lg rounded-full shadow-lg hover:shadow-xl transition-all duration-300">
+                            Shop Now
+                          </Button>
+                        </Link>
+                      </div>
+                      {/* Image Column */}
+                      <div className="order-1 md:order-2 flex justify-center">
+                        <img
+                          src={slide.image}
+                          alt={slide.headline}
+                          className="w-full max-w-lg rounded-2xl shadow-xl transform hover:scale-[1.02] transition-transform duration-500"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
 
-          <div className="grid md:grid-cols-2 gap-8 items-center mt-12">
-            <div className="order-2 md:order-1">
-              <img
-                src="https://cdn.zyrosite.com/cdn-cgi/image/format=auto,w=768,h=768,fit=crop,q=100/cdn-ecommerce/store_01JV34HD4RNHZAHYNVCHTPM6QH/assets/d7dfeaea-8b58-4050-af66-914067979d02.png"
-                alt="Thyrovibe Products"
-                className="w-full rounded-lg shadow-lg"
+          {/* Dot Indicators */}
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2.5 z-10">
+            {heroSlides.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => scrollToSlide(index)}
+                className={`rounded-full transition-all duration-300 ${currentSlide === index
+                    ? 'w-8 h-3 bg-theme-primary'
+                    : 'w-3 h-3 bg-gray-400/50 hover:bg-gray-500/70'
+                  }`}
+                aria-label={`Go to slide ${index + 1}`}
               />
-            </div>
-            <div className="order-1 md:order-2">
-              <TrustBadges />
-            </div>
+            ))}
           </div>
+        </Carousel>
+
+        {/* Trust Badges — Static below carousel */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <TrustBadges />
         </div>
       </section>
 
@@ -95,7 +188,7 @@ const Home = () => {
       </section>
 
       {/* Why Benefills Works */}
-      <section className="py-16 bg-theme-primary text-white">
+      <section className="py-16 bg-theme-primary-section text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-center mb-12">Why Benefills Works</h2>
 
@@ -147,13 +240,13 @@ const Home = () => {
       </section>
 
       {/* Testimonials */}
-      <section className="py-16 bg-theme-primary text-white">
+      <section className="py-16 bg-theme-primary-section-alt text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl font-bold text-center mb-12">Real people, Real results</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {testimonials.map((testimonial) => (
-              <Card key={testimonial.id} className="bg-white/10 backdrop-blur border-white/20">
+              <Card key={testimonial.id} className="bg-theme-glass border-white/20">
                 <CardContent className="p-6">
                   <div className="flex gap-1 mb-3">
                     {[...Array(5)].map((_, i) => (
