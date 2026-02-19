@@ -81,6 +81,49 @@ products = [
     }
 ]
 
+# Coupons data
+coupons = [
+    {
+        'id': 'coupon-001',
+        'code': 'FIRSTLOVE20',
+        'discountType': 'percentage',
+        'discountValue': 20.0,
+        'minOrderAmount': 0,
+        'maxDiscountAmount': 500,
+        'description': '20% off on your first order',
+        'isActive': True,
+        'usageLimit': None,
+        'usageCount': 0,
+        'expiryDate': None
+    },
+    {
+        'id': 'coupon-002',
+        'code': 'THYROCARE15',
+        'discountType': 'percentage',
+        'discountValue': 15.0,
+        'minOrderAmount': 1000,
+        'maxDiscountAmount': 300,
+        'description': '15% off on orders above ₹1000',
+        'isActive': True,
+        'usageLimit': 100,
+        'usageCount': 0,
+        'expiryDate': None
+    },
+    {
+        'id': 'coupon-003',
+        'code': 'FLAT100',
+        'discountType': 'fixed',
+        'discountValue': 100.0,
+        'minOrderAmount': 500,
+        'maxDiscountAmount': None,
+        'description': 'Flat ₹100 off on orders above ₹500',
+        'isActive': True,
+        'usageLimit': None,
+        'usageCount': 0,
+        'expiryDate': None
+    }
+]
+
 # Admin user
 admin_user = {
     'id': 'admin-001',
