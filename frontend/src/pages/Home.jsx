@@ -312,6 +312,9 @@ const Home = () => {
                   src={post}
                   alt={`Instagram post ${index + 1}`}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  loading="lazy"
+                  width={300}
+                  height={300}
                 />
               </div>
             ))}
