@@ -286,7 +286,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Instagram Section */}
+      {/* Instagram Section - SnapWidget Embed */}
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
@@ -302,22 +302,37 @@ const Home = () => {
             </a>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {instagramPosts.map((post, index) => (
-              <div
-                key={index}
-                className="aspect-square overflow-hidden rounded-lg group cursor-pointer"
-              >
-                <img
-                  src={post}
-                  alt={`Instagram post ${index + 1}`}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  loading="lazy"
-                  width={300}
-                  height={300}
-                />
-              </div>
-            ))}
+          {/* SnapWidget Instagram Feed Embed */}
+          <div className="flex justify-center">
+            <iframe 
+              src="https://snapwidget.com/embed/1089953" 
+              className="snapwidget-widget" 
+              allowTransparency="true" 
+              frameBorder="0" 
+              scrolling="no" 
+              style={{
+                border: 'none', 
+                overflow: 'hidden', 
+                width: '100%', 
+                maxWidth: '800px',
+                height: '400px'
+              }}
+              title="Instagram Feed @benefills.foods"
+              loading="lazy"
+            />
+          </div>
+          
+          {/* Follow Button */}
+          <div className="text-center mt-8">
+            <a
+              href="https://www.instagram.com/benefills.foods/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 text-white px-6 py-3 rounded-full font-medium hover:opacity-90 transition-opacity"
+            >
+              <Instagram className="h-5 w-5" />
+              Follow us on Instagram
+            </a>
           </div>
         </div>
       </section>
