@@ -324,10 +324,12 @@ const Checkout = () => {
 
                 <Separator />
 
-                {/* Coupon */}
-                <div className="space-y-2">
+                {/* Coupon - Reserved space for CLS prevention */}
+                <div className="space-y-2 min-h-[100px]">
                   <Label htmlFor="couponCode">Have a coupon?</Label>
-                  <CouponModal onApplyCoupon={handleCouponSelect} orderAmount={subtotal} />
+                  <div className="min-h-[24px]">
+                    <CouponModal onApplyCoupon={handleCouponSelect} orderAmount={subtotal} />
+                  </div>
                   <div className="flex gap-2 mt-2">
                     <Input
                       id="couponCode"
