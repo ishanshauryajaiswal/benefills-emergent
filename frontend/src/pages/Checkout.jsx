@@ -153,7 +153,7 @@ const Checkout = () => {
             <p className="text-gray-600 mb-4">Your cart is empty</p>
             <Button 
               onClick={() => navigate('/shop')}
-              className="bg-[#6FA78E] hover:bg-[#5d8e76]"
+              className="bg-[bg-theme-primary] hover:bg-[bg-theme-primary-hover]"
             >
               Continue Shopping
             </Button>
@@ -169,7 +169,7 @@ const Checkout = () => {
         <Button 
           variant="ghost" 
           onClick={() => navigate(-1)}
-          className="mb-6 hover:text-[#6FA78E]"
+          className="mb-6 hover:text-[bg-theme-primary]"
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back
@@ -262,7 +262,7 @@ const Checkout = () => {
 
                   <Button 
                     type="submit" 
-                    className="w-full bg-[#6FA78E] hover:bg-[#5d8e76] py-6 text-lg mt-6"
+                    className="w-full bg-[bg-theme-primary] hover:bg-[bg-theme-primary-hover] py-6 text-lg mt-6"
                     disabled={isProcessing}
                   >
                     {isProcessing ? 'Processing...' : `Pay ₹${total}`}
@@ -291,7 +291,7 @@ const Checkout = () => {
                       <div className="flex-1">
                         <p className="text-sm font-medium line-clamp-1">{item.name}</p>
                         <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
-                        <p className="text-sm font-bold text-[#6FA78E]">₹{item.price * item.quantity}</p>
+                        <p className="text-sm font-bold text-[bg-theme-primary]">₹{item.price * item.quantity}</p>
                       </div>
                     </div>
                   ))}
@@ -343,7 +343,7 @@ const Checkout = () => {
                   <Separator />
                   <div className="flex justify-between text-lg font-bold">
                     <span>Total</span>
-                    <span className="text-[#6FA78E]">₹{total}</span>
+                    <span className="text-[bg-theme-primary]">₹{total}</span>
                   </div>
                 </div>
               </CardContent>
