@@ -36,6 +36,7 @@ async def root():
 app.include_router(products.router)
 app.include_router(orders.router)
 app.include_router(auth.router)
+app.include_router(coupons.router)
 app.include_router(api_router)
 
 # CORS middleware
