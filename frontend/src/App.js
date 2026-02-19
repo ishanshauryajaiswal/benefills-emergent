@@ -13,6 +13,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Checkout from "./pages/Checkout";
 import AdminDashboard from "./pages/AdminDashboard";
+import { Terms, Privacy, Returns, PaymentsDelivery, Contact } from "./pages/StaticPages";
 
 function App() {
   return (
@@ -29,6 +30,11 @@ function App() {
                 <Route path="/register" element={<Register />} />
                 <Route path="/checkout" element={<Checkout />} />
                 <Route path="/admin" element={<AdminDashboard />} />
+                <Route path="/terms" element={<Terms />} />
+                <Route path="/privacy" element={<Privacy />} />
+                <Route path="/returns" element={<Returns />} />
+                <Route path="/payments-delivery" element={<PaymentsDelivery />} />
+                <Route path="/contact" element={<Contact />} />
               </Routes>
             </main>
             <Footer />

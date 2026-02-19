@@ -6,6 +6,7 @@ import ProductCard from '../components/ProductCard';
 import { Button } from '../components/ui/button';
 import { Card, CardContent } from '../components/ui/card';
 import { Zap, Heart, Sparkles, Flame, Star, Instagram } from 'lucide-react';
+import TrustBadges from '../components/TrustBadges';
 
 const iconMap = {
   Zap,
@@ -57,34 +58,17 @@ const Home = () => {
               ThyroVibe by Benefills — tasty, thyroid-friendly, on-the-go nut butters & bars with selenium, zinc & adaptogens for clean daily thyroid support.
             </p>
           </div>
-          
+
           <div className="grid md:grid-cols-2 gap-8 items-center mt-12">
             <div className="order-2 md:order-1">
-              <img 
+              <img
                 src="https://cdn.zyrosite.com/cdn-cgi/image/format=auto,w=768,h=768,fit=crop,q=100/cdn-ecommerce/store_01JV34HD4RNHZAHYNVCHTPM6QH/assets/d7dfeaea-8b58-4050-af66-914067979d02.png"
                 alt="Thyrovibe Products"
                 className="w-full rounded-lg shadow-lg"
               />
             </div>
             <div className="order-1 md:order-2">
-              <div className="space-y-4 text-gray-700">
-                <p className="flex items-center gap-3 text-lg">
-                  <span className="text-theme-primary text-2xl">✓</span> 
-                  <span>Ready to eat</span>
-                </p>
-                <p className="flex items-center gap-3 text-lg">
-                  <span className="text-theme-primary text-2xl">✓</span> 
-                  <span>Made for hormone health</span>
-                </p>
-                <p className="flex items-center gap-3 text-lg">
-                  <span className="text-theme-primary text-2xl">✓</span> 
-                  <span>No refined sugar</span>
-                </p>
-                <p className="flex items-center gap-3 text-lg">
-                  <span className="text-theme-primary text-2xl">✓</span> 
-                  <span>No preservatives</span>
-                </p>
-              </div>
+              <TrustBadges />
             </div>
           </div>
         </div>
@@ -101,7 +85,7 @@ const Home = () => {
               </Button>
             </Link>
           </div>
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {products.map((product) => (
               <ProductCard key={product.id} product={product} />
@@ -114,7 +98,7 @@ const Home = () => {
       <section className="py-16 bg-theme-primary text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-center mb-12">Why Benefills Works</h2>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {benefits.map((benefit, index) => {
               const Icon = iconMap[benefit.icon];
@@ -166,7 +150,7 @@ const Home = () => {
       <section className="py-16 bg-theme-primary text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl font-bold text-center mb-12">Real people, Real results</h2>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {testimonials.map((testimonial) => (
               <Card key={testimonial.id} className="bg-white/10 backdrop-blur border-white/20">
@@ -176,13 +160,13 @@ const Home = () => {
                       <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
                     ))}
                   </div>
-                  
+
                   <p className="text-lg font-semibold mb-3 italic">"{testimonial.text}"</p>
                   <p className="text-white/90 mb-4">{testimonial.description}</p>
-                  
+
                   <div className="flex items-center gap-3">
-                    <img 
-                      src={testimonial.image} 
+                    <img
+                      src={testimonial.image}
                       alt={testimonial.name}
                       className="w-12 h-12 rounded-full object-cover"
                     />
@@ -208,9 +192,9 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">Our Community and Socials</h2>
-            <a 
-              href="https://www.instagram.com/benefills.foods/" 
-              target="_blank" 
+            <a
+              href="https://www.instagram.com/benefills.foods/"
+              target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 text-theme-primary hover:text-[#5d8e76] font-medium"
             >
@@ -218,15 +202,15 @@ const Home = () => {
               @benefills.foods
             </a>
           </div>
-          
+
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {instagramPosts.map((post, index) => (
-              <div 
-                key={index} 
+              <div
+                key={index}
                 className="aspect-square overflow-hidden rounded-lg group cursor-pointer"
               >
-                <img 
-                  src={post} 
+                <img
+                  src={post}
                   alt={`Instagram post ${index + 1}`}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
