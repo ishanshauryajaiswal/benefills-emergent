@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { benefits, howItWorks, testimonials, instagramPosts } from '../mockData';
+import { benefits, howItWorks, testimonials } from '../mockData';
 import { productsAPI } from '../services/api';
 import ProductCard from '../components/ProductCard';
 import { Button } from '../components/ui/button';
