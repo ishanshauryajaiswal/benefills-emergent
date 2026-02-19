@@ -302,8 +302,9 @@ const Home = () => {
             </a>
           </div>
 
-          {/* SnapWidget Instagram Feed Embed */}
-          <div className="flex justify-center">
+          {/* SnapWidget Instagram Feed Embed - Replace WIDGET_ID with your actual widget ID from snapwidget.com */}
+          <div className="flex justify-center" id="instagram-feed-container">
+            <script src="https://snapwidget.com/js/snapwidget.js"></script>
             <iframe 
               src="https://snapwidget.com/embed/1089953" 
               className="snapwidget-widget" 
@@ -314,8 +315,8 @@ const Home = () => {
                 border: 'none', 
                 overflow: 'hidden', 
                 width: '100%', 
-                maxWidth: '800px',
-                height: '400px'
+                maxWidth: '1000px',
+                height: '500px'
               }}
               title="Instagram Feed @benefills.foods"
               loading="lazy"
