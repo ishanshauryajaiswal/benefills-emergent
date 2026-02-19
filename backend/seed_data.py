@@ -141,11 +141,16 @@ async def seed_database():
     # Clear existing data
     await db.products.delete_many({})
     await db.users.delete_many({})
+    await db.coupons.delete_many({})
     print("✓ Cleared existing data")
     
     # Insert products
     await db.products.insert_many(products)
     print(f"✓ Inserted {len(products)} products")
+    
+    # Insert coupons
+    await db.coupons.insert_many(coupons)
+    print(f"✓ Inserted {len(coupons)} coupons")
     
     # Insert admin user
     await db.users.insert_one(admin_user)
@@ -155,12 +160,17 @@ async def seed_database():
     await db.products.create_index("id", unique=True)
     await db.orders.create_index("id", unique=True)
     await db.users.create_index("email", unique=True)
+    await db.coupons.create_index("code", unique=True)
+    await db.coupons.create_index("id", unique=True)
     print("✓ Created database indexes")
     
     print("\n✅ Database seeding completed!")
     print("\n📝 Admin credentials:")
     print("   Email: admin@benefills.com")
     print("   Password: admin123")
+    print("\n🎟️ Available Coupons:")
+    for coupon in coupons:
+        print(f"   - {coupon['code']}: {coupon['description']}")
     print("\n⚠️  Remember to change the admin password in production!")
 
 if __name__ == '__main__':
