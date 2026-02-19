@@ -82,15 +82,40 @@ const Checkout = () => {
     }
   };
 
-  const handleCouponSelect = (code) => {
-    setFormData({
-      ...formData,
+  const handleCouponSelect = async (code) => {
+    // Set the coupon code first
+    setFormData(prev => ({
+      ...prev,
       couponCode: code
-    });
-    // Auto-apply when selected from modal
-    setTimeout(() => {
-      applyCoupon();
-    }, 100);
+    }));
+    
+    // Apply coupon directly with the code (avoid stale state issue)
+    try {
+      const response = await axios.post(`${BACKEND_URL}/api/coupons/validate`, {
+        code: code,
+        orderAmount: subtotal
+      });
+
+      if (response.data.valid) {
+        setDiscount(response.data.discountAmount);
+        toast({
+          title: 'Success!',
+          description: response.data.message,
+        });
+      } else {
+        toast({
+          title: 'Invalid Coupon',
+          description: response.data.message,
+          variant: 'destructive'
+        });
+      }
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: 'Failed to validate coupon',
+        variant: 'destructive'
+      });
+    }
   };
 
   const handleSubmit = async (e) => {
