@@ -18,7 +18,7 @@ const Footer = () => {
               href="https://www.instagram.com/benefills.foods/" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="text-gray-600 hover:text-[#6FA78E] transition-colors"
+              className="text-gray-600 hover:text-theme-primary transition-colors"
             >
               <Instagram className="h-6 w-6" />
             </a>
@@ -28,31 +28,31 @@ const Footer = () => {
           <div className="flex flex-col space-y-3">
             <Link 
               to="/terms" 
-              className="text-gray-700 hover:text-[#6FA78E] transition-colors underline"
+              className="text-gray-700 hover:text-theme-primary transition-colors underline"
             >
               Terms and condition
             </Link>
             <Link 
               to="/contact" 
-              className="text-gray-700 hover:text-[#6FA78E] transition-colors underline"
+              className="text-gray-700 hover:text-theme-primary transition-colors underline"
             >
               Contact
             </Link>
             <Link 
               to="/returns" 
-              className="text-gray-700 hover:text-[#6FA78E] transition-colors underline"
+              className="text-gray-700 hover:text-theme-primary transition-colors underline"
             >
               Returns
             </Link>
             <Link 
               to="/payments-delivery" 
-              className="text-gray-700 hover:text-[#6FA78E] transition-colors underline"
+              className="text-gray-700 hover:text-theme-primary transition-colors underline"
             >
               Payments & Delivery
             </Link>
             <Link 
               to="/privacy" 
-              className="text-gray-700 hover:text-[#6FA78E] transition-colors underline"
+              className="text-gray-700 hover:text-theme-primary transition-colors underline"
             >
               Privacy Policy
             </Link>

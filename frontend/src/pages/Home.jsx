@@ -37,7 +37,7 @@ const Home = () => {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#6FA78E] mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-theme-primary mx-auto"></div>
           <p className="mt-4 text-gray-600">Loading products...</p>
         </div>
       </div>
@@ -47,34 +47,42 @@ const Home = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-b from-purple-100 to-white py-16">
+      <section className="relative bg-gradient-to-b from-purple-100 to-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-8 items-center">
+          <div className="text-center mb-12">
+            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-4">
+              Snacks with Benefits for Thyroid Health
+            </h1>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              ThyroVibe by Benefills — tasty, thyroid-friendly, on-the-go nut butters & bars with selenium, zinc & adaptogens for clean daily thyroid support.
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 gap-8 items-center mt-12">
             <div className="order-2 md:order-1">
               <img 
-                src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=1920,fit=crop/AzGXppLqlGTo9X9r/weare-not-just-any-bar-a-weare-your-go-to-for-thyroid-nourishment.-crunchy-chewy-110-calories-4-YYdpCsGZqqkCVO0J.png"
-                alt="Thyrovibe Bar"
+                src="https://cdn.zyrosite.com/cdn-cgi/image/format=auto,w=768,h=768,fit=crop,q=100/cdn-ecommerce/store_01JV34HD4RNHZAHYNVCHTPM6QH/assets/d7dfeaea-8b58-4050-af66-914067979d02.png"
+                alt="Thyrovibe Products"
                 className="w-full rounded-lg shadow-lg"
               />
             </div>
-            <div className="order-1 md:order-2 text-center md:text-left">
-              <div className="inline-block bg-[#F5E6D3] rounded-lg px-6 py-4 mb-6">
-                <h1 className="text-4xl md:text-5xl font-serif font-bold text-gray-900 leading-tight">
-                  Thyroid Nourishment
-                </h1>
-              </div>
-              <div className="space-y-3 text-gray-700">
-                <p className="flex items-center gap-2">
-                  <span className="text-[#6FA78E]">•</span> Ready to eat
+            <div className="order-1 md:order-2">
+              <div className="space-y-4 text-gray-700">
+                <p className="flex items-center gap-3 text-lg">
+                  <span className="text-theme-primary text-2xl">✓</span> 
+                  <span>Ready to eat</span>
                 </p>
-                <p className="flex items-center gap-2">
-                  <span className="text-[#6FA78E]">•</span> Made for hormone health
+                <p className="flex items-center gap-3 text-lg">
+                  <span className="text-theme-primary text-2xl">✓</span> 
+                  <span>Made for hormone health</span>
                 </p>
-                <p className="flex items-center gap-2">
-                  <span className="text-[#6FA78E]">•</span> No refined sugar
+                <p className="flex items-center gap-3 text-lg">
+                  <span className="text-theme-primary text-2xl">✓</span> 
+                  <span>No refined sugar</span>
                 </p>
-                <p className="flex items-center gap-2">
-                  <span className="text-[#6FA78E]">•</span> No preservatives
+                <p className="flex items-center gap-3 text-lg">
+                  <span className="text-theme-primary text-2xl">✓</span> 
+                  <span>No preservatives</span>
                 </p>
               </div>
             </div>
@@ -88,7 +96,7 @@ const Home = () => {
           <div className="flex justify-between items-center mb-8">
             <h2 className="text-3xl font-bold">Our Products</h2>
             <Link to="/shop">
-              <Button variant="outline" className="border-[#6FA78E] text-[#6FA78E] hover:bg-[#6FA78E] hover:text-white">
+              <Button variant="outline" className="border-theme-primary text-theme-primary hover:bg-theme-primary hover:text-white">
                 View All
               </Button>
             </Link>
@@ -103,7 +111,7 @@ const Home = () => {
       </section>
 
       {/* Why Benefills Works */}
-      <section className="py-16 bg-[#6FA78E] text-white">
+      <section className="py-16 bg-theme-primary text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-center mb-12">Why Benefills Works</h2>
           
@@ -124,7 +132,7 @@ const Home = () => {
 
           <div className="text-center mt-12">
             <Link to="/shop">
-              <Button className="bg-white text-[#6FA78E] hover:bg-gray-100 px-8 py-6 text-lg">
+              <Button className="bg-white text-theme-primary hover:bg-gray-100 px-8 py-6 text-lg">
                 Shop Now
               </Button>
             </Link>
@@ -146,7 +154,7 @@ const Home = () => {
 
           <div className="text-center mt-12">
             <Link to="/shop">
-              <Button className="bg-[#6FA78E] hover:bg-[#5d8e76] text-white px-8 py-6 text-lg">
+              <Button className="bg-theme-primary hover:bg-theme-primary-hover text-white px-8 py-6 text-lg">
                 TRY NOW
               </Button>
             </Link>
@@ -155,7 +163,7 @@ const Home = () => {
       </section>
 
       {/* Testimonials */}
-      <section className="py-16 bg-[#6FA78E] text-white">
+      <section className="py-16 bg-theme-primary text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl font-bold text-center mb-12">Real people, Real results</h2>
           
@@ -187,7 +195,7 @@ const Home = () => {
 
           <div className="text-center mt-12">
             <Link to="/shop">
-              <Button className="bg-white text-[#6FA78E] hover:bg-gray-100 px-8 py-6 text-lg">
+              <Button className="bg-white text-theme-primary hover:bg-gray-100 px-8 py-6 text-lg">
                 Shop Now
               </Button>
             </Link>
@@ -204,7 +212,7 @@ const Home = () => {
               href="https://www.instagram.com/benefills.foods/" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-[#6FA78E] hover:text-[#5d8e76] font-medium"
+              className="inline-flex items-center gap-2 text-theme-primary hover:text-[#5d8e76] font-medium"
             >
               <Instagram className="h-5 w-5" />
               @benefills.foods

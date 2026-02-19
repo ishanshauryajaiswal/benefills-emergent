@@ -72,13 +72,18 @@ agenthub/agents/youtube/db
 *.pack
 *.deb
 *.dylib
+*.pack
+*.deb
+*.dylib
 
 # Build caches
 .cache/
 
 # Mobile development
-android-sdk/ -e 
+android-sdk/
+
 # Environment files
 *.env
 *.env.*
+
 .local_agent_rules

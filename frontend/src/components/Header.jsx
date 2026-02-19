@@ -19,7 +19,7 @@ const Header = () => {
   return (
     <>
       {/* Promo Banner */}
-      <div className="bg-[#6FA78E] text-white text-center py-3 px-4 text-sm font-medium">
+      <div className="bg-theme-primary text-white text-center py-3 px-4 text-sm font-medium">
         Get 20% OFF on your first order with code <span className="font-bold">FIRSTLOVE20</span>
       </div>
 
@@ -40,13 +40,13 @@ const Header = () => {
             <nav className="hidden md:flex items-center space-x-8">
               <Link 
                 to="/" 
-                className="text-gray-800 hover:text-[#6FA78E] font-medium transition-colors border-b-2 border-transparent hover:border-[#6FA78E] pb-1"
+                className="text-gray-800 hover:text-theme-primary font-medium transition-colors border-b-2 border-transparent hover:border-theme-primary pb-1"
               >
                 Home
               </Link>
               <Link 
                 to="/shop" 
-                className="text-gray-800 hover:text-[#6FA78E] font-medium transition-colors border-b-2 border-transparent hover:border-[#6FA78E] pb-1"
+                className="text-gray-800 hover:text-theme-primary font-medium transition-colors border-b-2 border-transparent hover:border-theme-primary pb-1"
               >
                 Shop
               </Link>
@@ -99,7 +99,7 @@ const Header = () => {
               >
                 <ShoppingCart className="h-5 w-5" />
                 {cartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-[#6FA78E] text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold">
+                  <span className="absolute -top-1 -right-1 bg-theme-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold">
                     {cartCount}
                   </span>
                 )}

@@ -14,7 +14,7 @@ sys.path.insert(0, str(ROOT_DIR))
 load_dotenv(ROOT_DIR / '.env')
 
 # Import routes
-from routes import products, orders, auth
+from routes import products, orders, auth, coupons
 
 # MongoDB connection
 mongo_url = os.environ['MONGO_URL']
@@ -36,6 +36,7 @@ async def root():
 app.include_router(products.router)
 app.include_router(orders.router)
 app.include_router(auth.router)
+app.include_router(coupons.router)
 app.include_router(api_router)
 
 # CORS middleware
@@ -61,6 +62,8 @@ async def startup_event():
     await db.products.create_index("id", unique=True)
     await db.orders.create_index("id", unique=True)
     await db.users.create_index("email", unique=True)
+    await db.coupons.create_index("code", unique=True)
+    await db.coupons.create_index("id", unique=True)
     logger.info("Database indexes created")
 
 @app.on_event("shutdown")

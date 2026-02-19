@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { ordersAPI } from '../services/api';
+import axios from 'axios';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
@@ -10,6 +11,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card'
 import { Separator } from '../components/ui/separator';
 import { toast } from '../hooks/use-toast';
 import { ArrowLeft } from 'lucide-react';
+import CouponModal from '../components/CouponModal';
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 const Checkout = () => {
   const { cartItems, getCartTotal, clearCart } = useCart();
@@ -40,21 +44,53 @@ const Checkout = () => {
     });
   };
 
-  const applyCoupon = () => {
-    if (formData.couponCode.toUpperCase() === 'FIRSTLOVE20') {
-      const discountAmount = Math.round(subtotal * 0.2);
-      setDiscount(discountAmount);
+  const applyCoupon = async () => {
+    if (!formData.couponCode) {
       toast({
-        title: 'Coupon applied!',
-        description: `You saved ₹${discountAmount}`,
+        title: 'Error',
+        description: 'Please enter a coupon code',
+        variant: 'destructive'
       });
-    } else {
+      return;
+    }
+
+    try {
+      const response = await axios.post(`${BACKEND_URL}/api/coupons/validate`, {
+        code: formData.couponCode,
+        orderAmount: subtotal
+      });
+
+      if (response.data.valid) {
+        setDiscount(response.data.discountAmount);
+        toast({
+          title: 'Success!',
+          description: response.data.message,
+        });
+      } else {
+        toast({
+          title: 'Invalid Coupon',
+          description: response.data.message,
+          variant: 'destructive'
+        });
+      }
+    } catch (error) {
       toast({
-        title: 'Invalid coupon',
-        description: 'Please check the coupon code',
+        title: 'Error',
+        description: 'Failed to validate coupon',
         variant: 'destructive'
       });
     }
+  };
+
+  const handleCouponSelect = (code) => {
+    setFormData({
+      ...formData,
+      couponCode: code
+    });
+    // Auto-apply when selected from modal
+    setTimeout(() => {
+      applyCoupon();
+    }, 100);
   };
 
   const handleSubmit = async (e) => {
@@ -117,7 +153,7 @@ const Checkout = () => {
             <p className="text-gray-600 mb-4">Your cart is empty</p>
             <Button 
               onClick={() => navigate('/shop')}
-              className="bg-[#6FA78E] hover:bg-[#5d8e76]"
+              className="bg-[bg-theme-primary] hover:bg-[bg-theme-primary-hover]"
             >
               Continue Shopping
             </Button>
@@ -133,7 +169,7 @@ const Checkout = () => {
         <Button 
           variant="ghost" 
           onClick={() => navigate(-1)}
-          className="mb-6 hover:text-[#6FA78E]"
+          className="mb-6 hover:text-[bg-theme-primary]"
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back
@@ -226,7 +262,7 @@ const Checkout = () => {
 
                   <Button 
                     type="submit" 
-                    className="w-full bg-[#6FA78E] hover:bg-[#5d8e76] py-6 text-lg mt-6"
+                    className="w-full bg-[bg-theme-primary] hover:bg-[bg-theme-primary-hover] py-6 text-lg mt-6"
                     disabled={isProcessing}
                   >
                     {isProcessing ? 'Processing...' : `Pay ₹${total}`}
@@ -255,7 +291,7 @@ const Checkout = () => {
                       <div className="flex-1">
                         <p className="text-sm font-medium line-clamp-1">{item.name}</p>
                         <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
-                        <p className="text-sm font-bold text-[#6FA78E]">₹{item.price * item.quantity}</p>
+                        <p className="text-sm font-bold text-[bg-theme-primary]">₹{item.price * item.quantity}</p>
                       </div>
                     </div>
                   ))}
@@ -266,18 +302,20 @@ const Checkout = () => {
                 {/* Coupon */}
                 <div className="space-y-2">
                   <Label htmlFor="couponCode">Have a coupon?</Label>
-                  <div className="flex gap-2">
+                  <CouponModal onApplyCoupon={handleCouponSelect} orderAmount={subtotal} />
+                  <div className="flex gap-2 mt-2">
                     <Input
                       id="couponCode"
                       value={formData.couponCode}
                       onChange={handleChange}
                       placeholder="Enter code"
+                      className="uppercase"
                     />
                     <Button 
                       type="button"
                       onClick={applyCoupon}
                       variant="outline"
-                      className="border-[#6FA78E] text-[#6FA78E]"
+                      className="border-theme-primary text-theme-primary hover:bg-theme-primary hover:text-white"
                     >
                       Apply
                     </Button>
@@ -305,7 +343,7 @@ const Checkout = () => {
                   <Separator />
                   <div className="flex justify-between text-lg font-bold">
                     <span>Total</span>
-                    <span className="text-[#6FA78E]">₹{total}</span>
+                    <span className="text-[bg-theme-primary]">₹{total}</span>
                   </div>
                 </div>
               </CardContent>
