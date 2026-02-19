@@ -302,18 +302,20 @@ const Checkout = () => {
                 {/* Coupon */}
                 <div className="space-y-2">
                   <Label htmlFor="couponCode">Have a coupon?</Label>
-                  <div className="flex gap-2">
+                  <CouponModal onApplyCoupon={handleCouponSelect} orderAmount={subtotal} />
+                  <div className="flex gap-2 mt-2">
                     <Input
                       id="couponCode"
                       value={formData.couponCode}
                       onChange={handleChange}
                       placeholder="Enter code"
+                      className="uppercase"
                     />
                     <Button 
                       type="button"
                       onClick={applyCoupon}
                       variant="outline"
-                      className="border-[#6FA78E] text-[#6FA78E]"
+                      className="border-theme-primary text-theme-primary hover:bg-theme-primary hover:text-white"
                     >
                       Apply
                     </Button>
