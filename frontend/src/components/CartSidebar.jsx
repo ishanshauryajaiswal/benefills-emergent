@@ -51,6 +51,9 @@ const CartSidebar = () => {
                         src={item.image} 
                         alt={item.name}
                         className="w-20 h-20 object-cover rounded"
+                        loading="lazy"
+                        width={80}
+                        height={80}
                       />
                       <div className="flex-1">
                         <h3 className="font-medium text-sm mb-1">{item.name}</h3>
