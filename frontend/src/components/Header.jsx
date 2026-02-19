@@ -19,7 +19,7 @@ const Header = () => {
   return (
     <>
       {/* Promo Banner */}
-      <div className="bg-[#6FA78E] text-white text-center py-3 px-4 text-sm font-medium">
+      <div className="bg-theme-primary text-white text-center py-3 px-4 text-sm font-medium">
         Get 20% OFF on your first order with code <span className="font-bold">FIRSTLOVE20</span>
       </div>
 
