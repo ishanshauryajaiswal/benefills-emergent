@@ -40,13 +40,13 @@ const Header = () => {
             <nav className="hidden md:flex items-center space-x-8">
               <Link 
                 to="/" 
-                className="text-gray-800 hover:text-[#6FA78E] font-medium transition-colors border-b-2 border-transparent hover:border-[#6FA78E] pb-1"
+                className="text-gray-800 hover:text-theme-primary font-medium transition-colors border-b-2 border-transparent hover:border-theme-primary pb-1"
               >
                 Home
               </Link>
               <Link 
                 to="/shop" 
-                className="text-gray-800 hover:text-[#6FA78E] font-medium transition-colors border-b-2 border-transparent hover:border-[#6FA78E] pb-1"
+                className="text-gray-800 hover:text-theme-primary font-medium transition-colors border-b-2 border-transparent hover:border-theme-primary pb-1"
               >
                 Shop
               </Link>
