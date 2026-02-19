@@ -135,7 +135,10 @@ const Home = () => {
                         <img
                           src={slide.image}
                           alt={slide.headline}
+                          width={512}
+                          height={512}
                           className="w-full max-w-lg rounded-2xl shadow-xl transform hover:scale-[1.02] transition-transform duration-500"
+                          fetchpriority={slide.id === 1 ? "high" : "low"}
                         />
                       </div>
                     </div>
