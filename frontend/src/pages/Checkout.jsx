@@ -44,21 +44,53 @@ const Checkout = () => {
     });
   };
 
-  const applyCoupon = () => {
-    if (formData.couponCode.toUpperCase() === 'FIRSTLOVE20') {
-      const discountAmount = Math.round(subtotal * 0.2);
-      setDiscount(discountAmount);
+  const applyCoupon = async () => {
+    if (!formData.couponCode) {
       toast({
-        title: 'Coupon applied!',
-        description: `You saved ₹${discountAmount}`,
+        title: 'Error',
+        description: 'Please enter a coupon code',
+        variant: 'destructive'
       });
-    } else {
+      return;
+    }
+
+    try {
+      const response = await axios.post(`${BACKEND_URL}/api/coupons/validate`, {
+        code: formData.couponCode,
+        orderAmount: subtotal
+      });
+
+      if (response.data.valid) {
+        setDiscount(response.data.discountAmount);
+        toast({
+          title: 'Success!',
+          description: response.data.message,
+        });
+      } else {
+        toast({
+          title: 'Invalid Coupon',
+          description: response.data.message,
+          variant: 'destructive'
+        });
+      }
+    } catch (error) {
       toast({
-        title: 'Invalid coupon',
-        description: 'Please check the coupon code',
+        title: 'Error',
+        description: 'Failed to validate coupon',
         variant: 'destructive'
       });
     }
+  };
+
+  const handleCouponSelect = (code) => {
+    setFormData({
+      ...formData,
+      couponCode: code
+    });
+    // Auto-apply when selected from modal
+    setTimeout(() => {
+      applyCoupon();
+    }, 100);
   };
 
   const handleSubmit = async (e) => {
