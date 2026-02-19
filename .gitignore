@@ -87,3 +87,7 @@ android-sdk/
 *.env.*
 
 .local_agent_rules
+-e 
+# Environment files
+*.env
+*.env.*
