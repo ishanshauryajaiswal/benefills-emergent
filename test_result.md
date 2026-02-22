@@ -334,11 +334,14 @@ test_plan:
     file: "/app/backend/routes/shiprocket.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Track shipment by AWB code endpoint implemented. Needs testing."
+      - working: "NA"
+        agent: "testing"
+        comment: "Skipped testing as per review request instructions - shipment tracking requires actual AWB codes from created shipments and cannot be tested with mock data. Implementation appears correct based on code review."
 
   - task: "ShipRocket API - Calculate rates"
     implemented: true
