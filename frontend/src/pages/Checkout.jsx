@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
@@ -12,6 +12,8 @@ import { Separator } from '../components/ui/separator';
 import { toast } from '../hooks/use-toast';
 import { ArrowLeft } from 'lucide-react';
 import CouponModal from '../components/CouponModal';
+import useRazorpay from '../hooks/useRazorpay';
+import { trackInitiateCheckout, trackPurchase } from '../utils/metaPixel';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -20,6 +22,7 @@ const Checkout = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [isProcessing, setIsProcessing] = useState(false);
+  const { initiatePayment, loading: razorpayLoading } = useRazorpay();
 
   const [formData, setFormData] = useState({
     name: user?.name || '',
@@ -36,6 +39,19 @@ const Checkout = () => {
   const deliveryCharge = 50;
   const subtotal = getCartTotal();
   const total = subtotal + deliveryCharge - discount;
+
+  // Track InitiateCheckout when component mounts
+  useEffect(() => {
+    if (cartItems.length > 0) {
+      trackInitiateCheckout({
+        items: cartItems.map(item => ({
+          id: item.id,
+          quantity: item.quantity,
+        })),
+        total: total,
+      });
+    }
+  }, []);
 
   const handleChange = (e) => {
     setFormData({
@@ -149,20 +165,66 @@ const Checkout = () => {
         userId: user?.id || null,
       };
 
-      // Create order
-      const response = await ordersAPI.create(orderData);
+      // Initiate Razorpay payment
+      await initiatePayment(
+        {
+          amount: total,
+          receipt: `order_${Date.now()}`,
+          customerName: formData.name,
+          customerEmail: formData.email,
+          customerPhone: formData.phone,
+          description: 'Benefills Order',
+          notes: {
+            orderId: `ORD${Date.now()}`,
+          },
+        },
+        async (paymentResponse) => {
+          // Payment successful - create order in backend
+          try {
+            const response = await ordersAPI.create({
+              ...orderData,
+              paymentId: paymentResponse.razorpay_payment_id,
+              paymentStatus: 'paid',
+            });
 
-      toast({
-        title: 'Order placed successfully!',
-        description: `Order ID: ${response.data.id}`,
-      });
+            // Track Purchase event in Meta Pixel
+            trackPurchase({
+              items: cartItems.map(item => ({
+                id: item.id,
+                quantity: item.quantity,
+                price: item.price,
+              })),
+              total: total,
+            });
 
-      clearCart();
-      navigate('/');
+            toast({
+              title: 'Order placed successfully!',
+              description: `Order ID: ${response.data.id}`,
+            });
+
+            clearCart();
+            navigate('/');
+          } catch (error) {
+            toast({
+              title: 'Order creation failed',
+              description: 'Payment successful but order creation failed. Please contact support.',
+              variant: 'destructive',
+            });
+          }
+        },
+        (error) => {
+          // Payment failed
+          toast({
+            title: 'Payment failed',
+            description: error.message || 'Something went wrong',
+            variant: 'destructive',
+          });
+        }
+      );
     } catch (error) {
       toast({
-        title: 'Order failed',
-        description: error.response?.data?.detail || 'Something went wrong',
+        title: 'Error',
+        description: error.message || 'Something went wrong',
         variant: 'destructive'
       });
     } finally {
