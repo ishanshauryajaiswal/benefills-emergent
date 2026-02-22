@@ -396,15 +396,18 @@ test_plan:
 
   - task: "Razorpay API - Get order status"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/routes/payments.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Order status retrieval endpoint implemented. Needs testing."
+      - working: true
+        agent: "testing"
+        comment: "✅ GET /api/payments/order-status/{order_id} endpoint working correctly. Successfully retrieved order status showing 'paid' status after payment verification. Order amount ₹100 correctly displayed. MongoDB integration working properly."
 
 agent_communication:
   - agent: "testing"
