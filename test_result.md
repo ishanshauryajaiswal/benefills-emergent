@@ -224,9 +224,12 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Guest Checkout Flow - All components tested and working"
+    - "Razorpay API - Create order"
+    - "Razorpay API - Verify payment"
+    - "ShipRocket API - Create shipment"
+    - "ShipRocket API - Calculate rates"
   stuck_tasks: []
-  test_all: true
+  test_all: false
   test_priority: "high_first"
 
   - task: "Guest Checkout Flow - Browse Products"
@@ -312,6 +315,90 @@ test_plan:
       - working: true
         agent: "testing"
         comment: "✅ POST /api/coupons/validate endpoint working correctly. Successfully validated 'FIRSTLOVE20' coupon with ₹200 discount for ₹1000 order. Invalid coupon rejection working properly. Minimum order amount validation functional."
+
+  - task: "ShipRocket API - Create shipment"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/routes/shiprocket.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Implemented ShipRocket integration with authentication, shipment creation, tracking, and rate calculation endpoints. Token caching implemented for 239-hour validity. Needs testing with real ShipRocket API."
+
+  - task: "ShipRocket API - Track shipment"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/routes/shiprocket.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Track shipment by AWB code endpoint implemented. Needs testing."
+
+  - task: "ShipRocket API - Calculate rates"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/routes/shiprocket.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Shipping rate calculation between pincodes implemented. Needs testing."
+
+  - task: "Razorpay API - Create order"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/routes/payments.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Razorpay order creation endpoint implemented with MongoDB storage. Needs testing with test credentials."
+
+  - task: "Razorpay API - Verify payment"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/routes/payments.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Payment signature verification endpoint implemented using HMAC SHA256. Needs testing."
+
+  - task: "Razorpay API - Webhook handler"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/routes/payments.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Webhook endpoint for payment.captured and payment.failed events implemented. Needs testing with Razorpay webhook simulator."
+
+  - task: "Razorpay API - Get order status"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/routes/payments.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Order status retrieval endpoint implemented. Needs testing."
 
 agent_communication:
   - agent: "testing"
