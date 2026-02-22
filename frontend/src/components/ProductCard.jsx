@@ -5,12 +5,21 @@ import { Card, CardContent } from './ui/card';
 import { useCart } from '../context/CartContext';
 import { toast } from '../hooks/use-toast';
 import { Star } from 'lucide-react';
+import { trackAddToCart } from '../utils/metaPixel';
 
 const ProductCard = ({ product }) => {
   const { addToCart } = useCart();
 
   const handleAddToCart = () => {
     addToCart(product);
+    
+    // Track AddToCart event in Meta Pixel
+    trackAddToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+    });
+    
     toast({
       title: 'Added to cart!',
       description: `${product.name} has been added to your cart.`,
