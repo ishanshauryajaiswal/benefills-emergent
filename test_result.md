@@ -342,15 +342,18 @@ test_plan:
 
   - task: "ShipRocket API - Calculate rates"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/routes/shiprocket.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Shipping rate calculation between pincodes implemented. Needs testing."
+      - working: true
+        agent: "testing"
+        comment: "✅ POST /api/shiprocket/calculate-rates endpoint working correctly. Successfully calculated shipping rates from Delhi (110001) to Bangalore (560001) for 1kg package. Retrieved 7+ courier options including Blue Dart Air (₹205), Amazon Shipping (₹127-135), India Post (₹165), DTDC (₹155-189), and Ekart (₹127). API authentication and token caching working properly."
 
   - task: "Razorpay API - Create order"
     implemented: true
