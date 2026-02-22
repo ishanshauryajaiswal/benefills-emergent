@@ -1,435 +1,269 @@
 #!/usr/bin/env python3
 """
-Benefills E-commerce Backend API Test Suite
-Tests all API endpoints as requested by the user
+Backend Integration Testing Script
+Tests Razorpay and ShipRocket API integrations
 """
 
 import asyncio
+import httpx
 import json
-import sys
+import hmac
+import hashlib
 from datetime import datetime
 import uuid
-import os
-from pathlib import Path
 
-# Add current directory to path for imports
-sys.path.insert(0, str(Path(__file__).parent))
+# Test Configuration
+BASE_URL = "https://shiprock-integration.preview.emergentagent.com/api"
+RAZORPAY_KEY_SECRET = "ob3lcfFkZz3A7w5uwjriR5GH"  # From backend .env
 
-try:
-    import requests
-    import aiohttp
-    from dotenv import load_dotenv
-except ImportError as e:
-    print(f"❌ Missing required packages: {e}")
-    print("Please install: pip install requests aiohttp python-dotenv")
-    sys.exit(1)
+# Test Data
+test_order_data = {
+    "amount": 10000,  # ₹100 in paise
+    "currency": "INR", 
+    "receipt": f"test_receipt_{int(datetime.now().timestamp())}"
+}
 
-# Load environment variables
-load_dotenv('frontend/.env')
+rate_calculation_data = {
+    "pickup_postcode": "110001",  # Delhi
+    "delivery_postcode": "560001",  # Bangalore
+    "weight": 1.0,  # 1kg
+    "cod": 0
+}
 
-# Get backend URL from environment
-BACKEND_URL = os.getenv('REACT_APP_BACKEND_URL', 'http://localhost:8001')
-BASE_URL = BACKEND_URL
-
-print(f"🔗 Testing backend at: {BASE_URL}")
-
-class BenefillsAPITester:
-    def __init__(self):
-        self.session = requests.Session()
-        self.user_token = None
-        self.admin_token = None
-        self.test_user_email = f"test.user.{uuid.uuid4().hex[:8]}@benefills.com"
-        self.results = {
-            "products": {"passed": 0, "failed": 0, "details": []},
-            "auth": {"passed": 0, "failed": 0, "details": []}, 
-            "orders": {"passed": 0, "failed": 0, "details": []},
-            "overall": {"passed": 0, "failed": 0}
-        }
-
-    def log_result(self, category, test_name, status, message, response=None):
-        """Log test result"""
-        result = {
-            "test": test_name,
-            "status": status,
-            "message": message,
-            "timestamp": datetime.now().isoformat()
-        }
-        
-        if response:
-            result["status_code"] = response.status_code
-            result["response_time"] = f"{response.elapsed.total_seconds():.3f}s"
-        
-        self.results[category]["details"].append(result)
-        
-        if status == "PASS":
-            self.results[category]["passed"] += 1
-            self.results["overall"]["passed"] += 1
-            print(f"✅ {test_name}: {message}")
-        else:
-            self.results[category]["failed"] += 1
-            self.results["overall"]["failed"] += 1
-            print(f"❌ {test_name}: {message}")
-            if response:
-                print(f"   Status: {response.status_code}, Time: {response.elapsed.total_seconds():.3f}s")
-                try:
-                    print(f"   Response: {response.text[:200]}...")
-                except:
-                    print("   Response: Unable to parse")
-
-    def test_products_api(self):
-        """Test Products API endpoints"""
-        print("\n🛍️  Testing Products API...")
-        
-        # Test 1: GET /api/products/ - Get all products
+async def test_razorpay_create_order():
+    """Test Razorpay order creation endpoint"""
+    print("🧪 Testing Razorpay Create Order...")
+    
+    async with httpx.AsyncClient(timeout=30.0) as client:
         try:
-            response = self.session.get(f"{BASE_URL}/api/products/")
-            if response.status_code == 200:
-                products = response.json()
-                if isinstance(products, list) and len(products) > 0:
-                    self.log_result("products", "GET /api/products/", "PASS", 
-                                  f"Retrieved {len(products)} products successfully", response)
-                else:
-                    self.log_result("products", "GET /api/products/", "FAIL", 
-                                  "No products returned or invalid format", response)
-            else:
-                self.log_result("products", "GET /api/products/", "FAIL", 
-                              f"Unexpected status code: {response.status_code}", response)
-        except Exception as e:
-            self.log_result("products", "GET /api/products/", "FAIL", f"Request failed: {str(e)}")
-
-        # Test 2: GET /api/products/?sort=price-low - Sort by price low to high
-        try:
-            response = self.session.get(f"{BASE_URL}/api/products/?sort=price-low")
-            if response.status_code == 200:
-                products = response.json()
-                if len(products) >= 2:
-                    # Check if sorted by price ascending
-                    is_sorted = all(products[i]['price'] <= products[i+1]['price'] 
-                                  for i in range(len(products)-1))
-                    if is_sorted:
-                        self.log_result("products", "GET /api/products/?sort=price-low", "PASS", 
-                                      f"Products sorted by price (low to high) correctly", response)
-                    else:
-                        self.log_result("products", "GET /api/products/?sort=price-low", "FAIL", 
-                                      "Products not sorted by price correctly", response)
-                else:
-                    self.log_result("products", "GET /api/products/?sort=price-low", "PASS", 
-                                  "Sorting endpoint works (insufficient products to verify order)", response)
-            else:
-                self.log_result("products", "GET /api/products/?sort=price-low", "FAIL", 
-                              f"Unexpected status code: {response.status_code}", response)
-        except Exception as e:
-            self.log_result("products", "GET /api/products/?sort=price-low", "FAIL", f"Request failed: {str(e)}")
-
-        # Test 3: GET /api/products/?sort=price-high - Sort by price high to low
-        try:
-            response = self.session.get(f"{BASE_URL}/api/products/?sort=price-high")
-            if response.status_code == 200:
-                products = response.json()
-                if len(products) >= 2:
-                    # Check if sorted by price descending
-                    is_sorted = all(products[i]['price'] >= products[i+1]['price'] 
-                                  for i in range(len(products)-1))
-                    if is_sorted:
-                        self.log_result("products", "GET /api/products/?sort=price-high", "PASS", 
-                                      f"Products sorted by price (high to low) correctly", response)
-                    else:
-                        self.log_result("products", "GET /api/products/?sort=price-high", "FAIL", 
-                                      "Products not sorted by price correctly", response)
-                else:
-                    self.log_result("products", "GET /api/products/?sort=price-high", "PASS", 
-                                  "Sorting endpoint works (insufficient products to verify order)", response)
-            else:
-                self.log_result("products", "GET /api/products/?sort=price-high", "FAIL", 
-                              f"Unexpected status code: {response.status_code}", response)
-        except Exception as e:
-            self.log_result("products", "GET /api/products/?sort=price-high", "FAIL", f"Request failed: {str(e)}")
-
-        # Test 4: GET /api/products/1 - Get specific product by ID
-        try:
-            response = self.session.get(f"{BASE_URL}/api/products/1")
-            if response.status_code == 200:
-                product = response.json()
-                if isinstance(product, dict) and 'id' in product and product['id'] == '1':
-                    self.log_result("products", "GET /api/products/1", "PASS", 
-                                  f"Retrieved specific product: {product.get('name', 'Unknown')}", response)
-                else:
-                    self.log_result("products", "GET /api/products/1", "FAIL", 
-                                  "Invalid product format or ID mismatch", response)
-            elif response.status_code == 404:
-                self.log_result("products", "GET /api/products/1", "FAIL", 
-                              "Product with ID '1' not found (check if database is seeded)", response)
-            else:
-                self.log_result("products", "GET /api/products/1", "FAIL", 
-                              f"Unexpected status code: {response.status_code}", response)
-        except Exception as e:
-            self.log_result("products", "GET /api/products/1", "FAIL", f"Request failed: {str(e)}")
-
-    def test_auth_api(self):
-        """Test Authentication API endpoints"""
-        print("\n🔐 Testing Authentication API...")
-        
-        # Test 1: POST /api/auth/register - Register new user
-        try:
-            register_data = {
-                "name": "Test User",
-                "email": self.test_user_email,
-                "password": "test123",
-                "phone": "9876543210"
-            }
+            response = await client.post(
+                f"{BASE_URL}/payments/create-order",
+                json=test_order_data
+            )
             
-            response = self.session.post(f"{BASE_URL}/api/auth/register", json=register_data)
-            if response.status_code == 201:
-                token_data = response.json()
-                if 'access_token' in token_data and 'user' in token_data:
-                    self.user_token = token_data['access_token']
-                    self.log_result("auth", "POST /api/auth/register", "PASS", 
-                                  f"User registered successfully: {token_data['user']['email']}", response)
-                else:
-                    self.log_result("auth", "POST /api/auth/register", "FAIL", 
-                                  "Invalid response format - missing token or user", response)
-            elif response.status_code == 400:
-                self.log_result("auth", "POST /api/auth/register", "FAIL", 
-                              "Registration failed - email may already exist or validation error", response)
-            else:
-                self.log_result("auth", "POST /api/auth/register", "FAIL", 
-                              f"Unexpected status code: {response.status_code}", response)
-        except Exception as e:
-            self.log_result("auth", "POST /api/auth/register", "FAIL", f"Request failed: {str(e)}")
-
-        # Test 2: POST /api/auth/login - Login with the registered user
-        try:
-            login_data = {
-                "email": self.test_user_email,
-                "password": "test123"
-            }
+            print(f"   Status Code: {response.status_code}")
             
-            response = self.session.post(f"{BASE_URL}/api/auth/login", json=login_data)
             if response.status_code == 200:
-                token_data = response.json()
-                if 'access_token' in token_data and 'user' in token_data:
-                    self.user_token = token_data['access_token']
-                    self.log_result("auth", "POST /api/auth/login", "PASS", 
-                                  f"User login successful: {token_data['user']['email']}", response)
-                else:
-                    self.log_result("auth", "POST /api/auth/login", "FAIL", 
-                                  "Invalid response format - missing token or user", response)
-            elif response.status_code == 401:
-                self.log_result("auth", "POST /api/auth/login", "FAIL", 
-                              "Login failed - invalid credentials", response)
+                data = response.json()
+                print(f"   ✅ Order created successfully!")
+                print(f"   Order ID: {data.get('order_id')}")
+                print(f"   Amount: ₹{data.get('amount', 0) / 100}")
+                print(f"   Key ID: {data.get('key_id')}")
+                return data.get('order_id')
             else:
-                self.log_result("auth", "POST /api/auth/login", "FAIL", 
-                              f"Unexpected status code: {response.status_code}", response)
-        except Exception as e:
-            self.log_result("auth", "POST /api/auth/login", "FAIL", f"Request failed: {str(e)}")
-
-        # Test 3: POST /api/auth/admin/login - Admin login with retry logic
-        import time
-        max_retries = 3
-        retry_delay = 1
-        
-        for attempt in range(max_retries):
-            try:
-                admin_data = {
-                    "email": "admin@benefills.com",
-                    "password": "admin123"
-                }
+                print(f"   ❌ Failed: {response.text}")
+                return None
                 
-                # Add headers and timeout
-                headers = {"Content-Type": "application/json"}
-                response = self.session.post(
-                    f"{BASE_URL}/api/auth/admin/login", 
-                    json=admin_data,
-                    headers=headers,
-                    timeout=10
-                )
-                
-                if response.status_code == 200:
-                    token_data = response.json()
-                    if 'access_token' in token_data and 'user' in token_data:
-                        user = token_data['user']
-                        if user.get('role') == 'admin':
-                            self.admin_token = token_data['access_token']
-                            self.log_result("auth", "POST /api/auth/admin/login", "PASS", 
-                                          f"Admin login successful: {user['email']}", response)
-                            break
-                        else:
-                            self.log_result("auth", "POST /api/auth/admin/login", "FAIL", 
-                                          "User authenticated but role is not admin", response)
-                            break
-                    else:
-                        self.log_result("auth", "POST /api/auth/admin/login", "FAIL", 
-                                      "Invalid response format - missing token or user", response)
-                        break
-                elif response.status_code == 401:
-                    self.log_result("auth", "POST /api/auth/admin/login", "FAIL", 
-                                  "Admin login failed - invalid credentials or admin not found", response)
-                    break
-                elif response.status_code == 520 and attempt < max_retries - 1:
-                    print(f"   520 error on attempt {attempt + 1}, retrying...")
-                    time.sleep(retry_delay)
-                    continue
-                else:
-                    error_msg = f"Unexpected status code: {response.status_code}"
-                    if attempt == max_retries - 1:
-                        error_msg += f" (after {max_retries} attempts)"
-                    self.log_result("auth", "POST /api/auth/admin/login", "FAIL", error_msg, response)
-                    break
-                    
-            except Exception as e:
-                if attempt < max_retries - 1:
-                    print(f"   Request failed on attempt {attempt + 1}, retrying...")
-                    time.sleep(retry_delay)
-                    continue
-                else:
-                    self.log_result("auth", "POST /api/auth/admin/login", "FAIL", f"Request failed after {max_retries} attempts: {str(e)}")
-                    break
+        except Exception as e:
+            print(f"   ❌ Exception: {str(e)}")
+            return None
 
-    def test_orders_api(self):
-        """Test Orders API endpoints"""
-        print("\n📦 Testing Orders API...")
+async def test_razorpay_verify_payment(order_id):
+    """Test Razorpay payment verification with mock signature"""
+    print("🧪 Testing Razorpay Payment Verification...")
+    
+    if not order_id:
+        print("   ❌ Skipped: No order ID available")
+        return False
         
-        # Test 1: POST /api/orders/ - Create test order
+    # Mock payment data
+    mock_payment_id = f"pay_test_{int(datetime.now().timestamp())}"
+    
+    # Generate correct HMAC signature
+    signature_payload = f"{order_id}|{mock_payment_id}"
+    generated_signature = hmac.new(
+        RAZORPAY_KEY_SECRET.encode(),
+        signature_payload.encode(),
+        hashlib.sha256
+    ).hexdigest()
+    
+    verify_data = {
+        "razorpay_order_id": order_id,
+        "razorpay_payment_id": mock_payment_id,
+        "razorpay_signature": generated_signature
+    }
+    
+    async with httpx.AsyncClient(timeout=30.0) as client:
         try:
-            order_data = {
-                "customerInfo": {
-                    "name": "Test Customer",
-                    "email": "customer@test.com",
-                    "phone": "9999999999",
-                    "address": "123 Test Street",
-                    "city": "Mumbai",
-                    "state": "Maharashtra",
-                    "pincode": "400001"
-                },
-                "items": [
-                    {
-                        "productId": "1",
-                        "name": "Seeds Boost Bar",
-                        "price": 410,
-                        "quantity": 2,
-                        "image": "test.jpg"
-                    }
-                ],
-                "subtotal": 820,
-                "discount": 0,
-                "deliveryCharge": 50,
-                "total": 870
-            }
+            response = await client.post(
+                f"{BASE_URL}/payments/verify-payment",
+                json=verify_data
+            )
             
-            response = self.session.post(f"{BASE_URL}/api/orders/", json=order_data)
-            if response.status_code == 201:
-                order = response.json()
-                if isinstance(order, dict) and 'id' in order and 'customerInfo' in order:
-                    self.created_order_id = order['id']
-                    self.log_result("orders", "POST /api/orders/", "PASS", 
-                                  f"Order created successfully: {order['id']}", response)
-                else:
-                    self.log_result("orders", "POST /api/orders/", "FAIL", 
-                                  "Invalid response format - missing required fields", response)
-            elif response.status_code == 400:
-                error_msg = "Order creation failed - likely stock issue or validation error"
-                try:
-                    error_detail = response.json().get('detail', 'Unknown error')
-                    error_msg += f": {error_detail}"
-                except:
-                    pass
-                self.log_result("orders", "POST /api/orders/", "FAIL", error_msg, response)
-            else:
-                self.log_result("orders", "POST /api/orders/", "FAIL", 
-                              f"Unexpected status code: {response.status_code}", response)
-        except Exception as e:
-            self.log_result("orders", "POST /api/orders/", "FAIL", f"Request failed: {str(e)}")
-
-        # Test 2: GET /api/orders/ - Get all orders
-        try:
-            response = self.session.get(f"{BASE_URL}/api/orders/")
+            print(f"   Status Code: {response.status_code}")
+            
             if response.status_code == 200:
-                orders = response.json()
-                if isinstance(orders, list):
-                    self.log_result("orders", "GET /api/orders/", "PASS", 
-                                  f"Retrieved {len(orders)} orders successfully", response)
-                else:
-                    self.log_result("orders", "GET /api/orders/", "FAIL", 
-                                  "Invalid response format - not a list", response)
+                data = response.json()
+                print(f"   ✅ Payment verified successfully!")
+                print(f"   Payment ID: {data.get('payment_id')}")
+                return True
             else:
-                self.log_result("orders", "GET /api/orders/", "FAIL", 
-                              f"Unexpected status code: {response.status_code}", response)
-        except Exception as e:
-            self.log_result("orders", "GET /api/orders/", "FAIL", f"Request failed: {str(e)}")
-
-    def run_all_tests(self):
-        """Run all API tests"""
-        print("🚀 Starting Benefills E-commerce Backend API Tests")
-        print(f"📍 Base URL: {BASE_URL}")
-        print(f"⏰ Test started at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-        
-        try:
-            # Test API availability
-            response = self.session.get(f"{BASE_URL}/api/")
-            if response.status_code != 200:
-                print(f"❌ API not available at {BASE_URL}/api/ - Status: {response.status_code}")
+                print(f"   ❌ Failed: {response.text}")
                 return False
-            else:
-                print(f"✅ API is available: {response.json().get('message', 'OK')}")
+                
         except Exception as e:
-            print(f"❌ Cannot reach API at {BASE_URL}: {str(e)}")
+            print(f"   ❌ Exception: {str(e)}")
             return False
 
-        # Run individual test suites
-        self.test_products_api()
-        self.test_auth_api()
-        self.test_orders_api()
-        
-        # Print summary
-        self.print_summary()
-        return True
-
-    def print_summary(self):
-        """Print test results summary"""
-        print("\n" + "="*60)
-        print("📊 TEST RESULTS SUMMARY")
-        print("="*60)
-        
-        total_passed = self.results["overall"]["passed"]
-        total_failed = self.results["overall"]["failed"]
-        total_tests = total_passed + total_failed
-        
-        print(f"📈 Overall: {total_passed}/{total_tests} tests passed ({(total_passed/total_tests*100):.1f}%)")
-        
-        for category in ["products", "auth", "orders"]:
-            passed = self.results[category]["passed"]
-            failed = self.results[category]["failed"]
-            total = passed + failed
-            if total > 0:
-                print(f"   {category.title()}: {passed}/{total} passed ({(passed/total*100):.1f}%)")
-        
-        if total_failed > 0:
-            print(f"\n❌ {total_failed} tests failed:")
-            for category in ["products", "auth", "orders"]:
-                for detail in self.results[category]["details"]:
-                    if detail["status"] == "FAIL":
-                        print(f"   • {detail['test']}: {detail['message']}")
-        
-        if total_passed == total_tests:
-            print(f"\n🎉 ALL TESTS PASSED! Backend API is working correctly.")
-        else:
-            print(f"\n⚠️  Some tests failed. Please check the issues above.")
-        
-        print("="*60)
-
-
-def main():
-    """Main function to run tests"""
-    tester = BenefillsAPITester()
-    success = tester.run_all_tests()
+async def test_razorpay_order_status(order_id):
+    """Test Razorpay order status retrieval"""
+    print("🧪 Testing Razorpay Order Status...")
     
-    # Exit with appropriate code
-    if not success or tester.results["overall"]["failed"] > 0:
-        sys.exit(1)
-    else:
-        print("\n✅ All backend tests completed successfully!")
-        sys.exit(0)
+    if not order_id:
+        print("   ❌ Skipped: No order ID available")
+        return False
+    
+    async with httpx.AsyncClient(timeout=30.0) as client:
+        try:
+            response = await client.get(f"{BASE_URL}/payments/order-status/{order_id}")
+            
+            print(f"   Status Code: {response.status_code}")
+            
+            if response.status_code == 200:
+                data = response.json()
+                print(f"   ✅ Order status retrieved successfully!")
+                print(f"   Status: {data.get('status')}")
+                print(f"   Amount: ₹{data.get('amount', 0) / 100}")
+                return True
+            else:
+                print(f"   ❌ Failed: {response.text}")
+                return False
+                
+        except Exception as e:
+            print(f"   ❌ Exception: {str(e)}")
+            return False
 
+async def test_shiprocket_calculate_rates():
+    """Test ShipRocket rate calculation endpoint"""
+    print("🧪 Testing ShipRocket Calculate Rates...")
+    
+    async with httpx.AsyncClient(timeout=30.0) as client:
+        try:
+            response = await client.post(
+                f"{BASE_URL}/shiprocket/calculate-rates",
+                json=rate_calculation_data
+            )
+            
+            print(f"   Status Code: {response.status_code}")
+            
+            if response.status_code == 200:
+                data = response.json()
+                print(f"   ✅ Shipping rates calculated successfully!")
+                
+                # Check if we have rate data
+                if 'data' in data and isinstance(data['data'], list):
+                    rates = data['data']
+                    print(f"   Available courier services: {len(rates)}")
+                    
+                    # Show first few rates
+                    for i, rate in enumerate(rates[:3]):
+                        courier_name = rate.get('courier_name', 'Unknown')
+                        rate_value = rate.get('rate', 0)
+                        print(f"   • {courier_name}: ₹{rate_value}")
+                        
+                elif 'available_courier_companies' in data:
+                    companies = data['available_courier_companies']
+                    print(f"   Available courier companies: {len(companies)}")
+                    
+                return True
+            else:
+                print(f"   ❌ Failed: {response.text}")
+                return False
+                
+        except Exception as e:
+            print(f"   ❌ Exception: {str(e)}")
+            return False
+
+async def test_invalid_signature_verification(order_id):
+    """Test payment verification with invalid signature (should fail)"""
+    print("🧪 Testing Invalid Signature Verification...")
+    
+    if not order_id:
+        print("   ❌ Skipped: No order ID available")
+        return False
+        
+    # Use invalid signature
+    verify_data = {
+        "razorpay_order_id": order_id,
+        "razorpay_payment_id": "pay_invalid_test",
+        "razorpay_signature": "invalid_signature_12345"
+    }
+    
+    async with httpx.AsyncClient(timeout=30.0) as client:
+        try:
+            response = await client.post(
+                f"{BASE_URL}/payments/verify-payment",
+                json=verify_data
+            )
+            
+            print(f"   Status Code: {response.status_code}")
+            
+            if response.status_code == 400:
+                print(f"   ✅ Invalid signature properly rejected!")
+                return True
+            else:
+                print(f"   ❌ Unexpected response: {response.text}")
+                return False
+                
+        except Exception as e:
+            print(f"   ❌ Exception: {str(e)}")
+            return False
+
+async def main():
+    """Run all integration tests"""
+    print("🚀 Starting Razorpay & ShipRocket Integration Tests")
+    print("=" * 60)
+    
+    test_results = []
+    
+    # Test 1: Razorpay Order Creation
+    order_id = await test_razorpay_create_order()
+    test_results.append(("Razorpay Create Order", order_id is not None))
+    
+    print("\n" + "-" * 40 + "\n")
+    
+    # Test 2: Razorpay Payment Verification
+    verify_success = await test_razorpay_verify_payment(order_id)
+    test_results.append(("Razorpay Verify Payment", verify_success))
+    
+    print("\n" + "-" * 40 + "\n")
+    
+    # Test 3: Razorpay Order Status
+    status_success = await test_razorpay_order_status(order_id)
+    test_results.append(("Razorpay Order Status", status_success))
+    
+    print("\n" + "-" * 40 + "\n")
+    
+    # Test 4: ShipRocket Rate Calculation
+    rates_success = await test_shiprocket_calculate_rates()
+    test_results.append(("ShipRocket Calculate Rates", rates_success))
+    
+    print("\n" + "-" * 40 + "\n")
+    
+    # Test 5: Invalid Signature (Security Test)
+    invalid_sig_success = await test_invalid_signature_verification(order_id)
+    test_results.append(("Invalid Signature Rejection", invalid_sig_success))
+    
+    # Final Results
+    print("\n" + "=" * 60)
+    print("📊 INTEGRATION TEST RESULTS:")
+    print("=" * 60)
+    
+    passed = 0
+    for test_name, success in test_results:
+        status = "✅ PASS" if success else "❌ FAIL"
+        print(f"{status} - {test_name}")
+        if success:
+            passed += 1
+    
+    print(f"\nSUMMARY: {passed}/{len(test_results)} tests passed")
+    
+    if passed == len(test_results):
+        print("🎉 All integration tests passed!")
+    else:
+        print("⚠️  Some tests failed - check logs above")
+    
+    return test_results
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
