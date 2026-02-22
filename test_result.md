@@ -224,10 +224,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Razorpay API - Create order"
-    - "Razorpay API - Verify payment"
-    - "ShipRocket API - Create shipment"
-    - "ShipRocket API - Calculate rates"
+    []
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
