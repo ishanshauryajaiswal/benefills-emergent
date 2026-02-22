@@ -319,11 +319,14 @@ test_plan:
     file: "/app/backend/routes/shiprocket.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Implemented ShipRocket integration with authentication, shipment creation, tracking, and rate calculation endpoints. Token caching implemented for 239-hour validity. Needs testing with real ShipRocket API."
+      - working: "NA"
+        agent: "testing"
+        comment: "Skipped testing as per review request instructions - shipment creation requires actual order data and cannot be tested with mock data. Implementation appears correct based on code review."
 
   - task: "ShipRocket API - Track shipment"
     implemented: true
