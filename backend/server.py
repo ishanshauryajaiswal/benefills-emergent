@@ -14,7 +14,7 @@ sys.path.insert(0, str(ROOT_DIR))
 load_dotenv(ROOT_DIR / '.env')
 
 # Import routes
-from routes import products, orders, auth, coupons
+from routes import products, orders, auth, coupons, payments, shiprocket
 
 # MongoDB connection
 mongo_url = os.environ['MONGO_URL']
@@ -37,6 +37,8 @@ app.include_router(products.router)
 app.include_router(orders.router)
 app.include_router(auth.router)
 app.include_router(coupons.router)
+app.include_router(payments.router)
+app.include_router(shiprocket.router)
 app.include_router(api_router)
 
 # CORS middleware
