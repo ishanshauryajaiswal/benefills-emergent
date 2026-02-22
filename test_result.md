@@ -369,15 +369,18 @@ test_plan:
 
   - task: "Razorpay API - Verify payment"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/routes/payments.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Payment signature verification endpoint implemented using HMAC SHA256. Needs testing."
+      - working: true
+        agent: "testing"
+        comment: "✅ POST /api/payments/verify-payment endpoint working correctly. Successfully verified payment signature using HMAC SHA256 validation. Tested with mock payment ID and proper signature generation. Database update to 'paid' status confirmed working. Security validation: Invalid signature properly rejected with 400 status."
 
   - task: "Razorpay API - Webhook handler"
     implemented: true
