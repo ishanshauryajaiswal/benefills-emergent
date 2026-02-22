@@ -354,15 +354,18 @@ test_plan:
 
   - task: "Razorpay API - Create order"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/routes/payments.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Razorpay order creation endpoint implemented with MongoDB storage. Needs testing with test credentials."
+      - working: true
+        agent: "testing"
+        comment: "✅ POST /api/payments/create-order endpoint working correctly. Successfully created Razorpay order with amount ₹100 (10000 paise). Order ID generated: order_SJM8QLf5MUsMFo, proper response with key_id and amount verification. MongoDB storage confirmed working."
 
   - task: "Razorpay API - Verify payment"
     implemented: true
