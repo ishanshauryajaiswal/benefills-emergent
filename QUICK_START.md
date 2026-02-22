@@ -3,7 +3,7 @@
 ## 📍 Access Your Store
 
 ### Customer View (Shop)
-**URL**: `https://shiprock-integration.preview.emergentagent.com/`
+**URL**: `https://frontend-first-check.preview.emergentagent.com/`
 
 **Features**:
 - Browse all products
@@ -12,7 +12,7 @@
 - Apply coupon code: `FIRSTLOVE20` for 20% off
 
 ### Admin Dashboard
-**URL**: `https://shiprock-integration.preview.emergentagent.com/admin`
+**URL**: `https://frontend-first-check.preview.emergentagent.com/admin`
 
 **Login Credentials**:
 - **Email**: `admin@benefills.com`
