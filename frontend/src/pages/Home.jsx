@@ -7,13 +7,6 @@ import { Button } from '../components/ui/button';
 import { Card, CardContent } from '../components/ui/card';
 import { Zap, Heart, Sparkles, Flame, Star, Instagram } from 'lucide-react';
 import TrustBadges from '../components/TrustBadges';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-} from '../components/ui/carousel';
-import Autoplay from 'embla-carousel-autoplay';
-
 const iconMap = {
   Zap,
   Heart,
@@ -21,54 +14,48 @@ const iconMap = {
   Flame
 };
 
-const heroSlides = [
-  {
-    id: 1,
-    headline: 'The most lipsmacking and clean Nut Butters, made to Benefit Health',
-    subtext: 'ThyroVibe by Benefills — tasty, thyroid-friendly, on-the-go nut butters with selenium, zinc & adaptogens for clean daily thyroid support.',
-    image: '/images/hero-slide-1.png',
-    bgClass: 'from-amber-50 via-orange-50 to-white',
-  },
-  {
-    id: 2,
-    headline: 'Not just any BAR — Your go-to for Thyroid Nourishment',
-    subtext: 'Seeds & Nuts, Herbs like Mulethi, Dates — Crunchy, Chewy, just 110 calories per bar.',
-    image: '/images/hero-slide-2.png',
-    bgClass: 'from-purple-100 via-purple-50 to-white',
-  },
-];
+const rotatingWords = ["clean.", "tasty.", "health-focused.", "thyroid-friendly."];
 
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [carouselApi, setCarouselApi] = useState(null);
+  const [typewriterText, setTypewriterText] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [loopNum, setLoopNum] = useState(0);
+  const [typingSpeed, setTypingSpeed] = useState(150);
 
   useEffect(() => {
     fetchProducts();
   }, []);
 
   useEffect(() => {
-    if (!carouselApi) return;
+    const handleType = () => {
+      const i = loopNum % rotatingWords.length;
+      const fullText = rotatingWords[i];
 
-    const onSelect = () => {
-      setCurrentSlide(carouselApi.selectedScrollSnap());
+      setTypewriterText(
+        isDeleting
+          ? fullText.substring(0, typewriterText.length - 1)
+          : fullText.substring(0, typewriterText.length + 1)
+      );
+
+      let nextSpeed = isDeleting ? 50 : 100;
+
+      if (!isDeleting && typewriterText === fullText) {
+        nextSpeed = 2000;
+        setIsDeleting(true);
+      } else if (isDeleting && typewriterText === '') {
+        setIsDeleting(false);
+        setLoopNum(loopNum + 1);
+        nextSpeed = 500;
+      }
+
+      setTypingSpeed(nextSpeed);
     };
 
-    carouselApi.on('select', onSelect);
-    onSelect();
-
-    return () => {
-      carouselApi.off('select', onSelect);
-    };
-  }, [carouselApi]);
-
-  const scrollToSlide = useCallback(
-    (index) => {
-      carouselApi?.scrollTo(index);
-    },
-    [carouselApi]
-  );
+    const timer = setTimeout(handleType, typingSpeed);
+    return () => clearTimeout(timer);
+  }, [typewriterText, isDeleting, loopNum, typingSpeed]);
 
   const fetchProducts = async () => {
     try {
@@ -95,77 +82,48 @@ const Home = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-b from-purple-50 to-white overflow-hidden">
-        <Carousel
-          className="w-full"
-          opts={{ loop: true, align: 'start' }}
-          plugins={[
-            Autoplay({
-              delay: 5000,
-              stopOnInteraction: false,
-              stopOnMouseEnter: true,
-            }),
-          ]}
-          setApi={setCarouselApi}
-        >
-          <CarouselContent className="-ml-0">
-            {heroSlides.map((slide) => (
-              <CarouselItem key={slide.id} className="pl-0">
-                <div
-                  className={`bg-gradient-to-b ${slide.bgClass} py-16 md:py-20 lg:py-24`}
-                >
-                  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-center">
-                      {/* Text Column */}
-                      <div className="text-center md:text-left order-2 md:order-1">
-                        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 leading-tight">
-                          {slide.headline}
-                        </h1>
-                        <p className="text-lg text-gray-600 max-w-xl mb-8">
-                          {slide.subtext}
-                        </p>
-                        <Link to="/shop">
-                          <Button className="bg-theme-primary hover:bg-theme-primary-hover text-white px-8 py-6 text-lg rounded-full shadow-lg hover:shadow-xl transition-all duration-300">
-                            Shop Now
-                          </Button>
-                        </Link>
-                      </div>
-                      {/* Image Column */}
-                      <div className="order-1 md:order-2 flex justify-center">
-                        <img
-                          src={slide.image}
-                          alt={slide.headline}
-                          width={512}
-                          height={512}
-                          className="w-full max-w-lg rounded-2xl shadow-xl transform hover:scale-[1.02] transition-transform duration-500"
-                          fetchpriority={slide.id === 1 ? "high" : "low"}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
+      <section className="relative w-full min-h-[100vh] flex flex-col justify-center bg-gradient-to-b from-purple-50 to-white overflow-hidden">
+        <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-20 mt-16 md:mt-20 flex-1 flex items-center">
+          <div className="flex flex-col lg:flex-row w-full items-center justify-between gap-12 lg:gap-8">
+            {/* Left Column (Text Block - ~55%) */}
+            <div className="flex-[0_0_100%] lg:flex-[0_0_55%] flex flex-col justify-center text-center lg:text-left pt-8 lg:pt-0">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-gray-900 mb-6 leading-tight min-h-[120px] sm:min-h-[140px] md:min-h-[150px] lg:min-h-[220px]">
+                The most lipsmacking Nut Butters, made to be
+                <br className="hidden sm:block" />
+                <span className="text-theme-primary inline-flex relative mt-2">
+                  <span aria-hidden="true">{typewriterText}</span>
+                  <span className="animate-pulse absolute -right-1 top-0 bottom-0 border-r-4 border-theme-primary"></span>
+                  <span className="sr-only">{rotatingWords.join(', ')}</span>
+                </span>
+              </h1>
+              <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto lg:mx-0 line-clamp-3">
+                ThyroVibe by Benefills — tasty, thyroid-friendly, on-the-go nut butters with selenium, zinc & adaptogens for clean daily thyroid support. Every spoonful is a step towards better health.
+              </p>
+              <div className="flex justify-center lg:justify-start">
+                <Link to="/shop">
+                  <Button className="bg-theme-primary hover:bg-theme-primary-hover text-white px-10 py-7 text-xl rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                    Shop Now
+                  </Button>
+                </Link>
+              </div>
+            </div>
 
-          {/* Dot Indicators */}
-          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2.5 z-10">
-            {heroSlides.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => scrollToSlide(index)}
-                className={`rounded-full transition-all duration-300 ${currentSlide === index
-                    ? 'w-8 h-3 bg-theme-primary'
-                    : 'w-3 h-3 bg-gray-400/50 hover:bg-gray-500/70'
-                  }`}
-                aria-label={`Go to slide ${index + 1}`}
-              />
-            ))}
+            {/* Right Column (Image Placeholder - 45%) */}
+            <div className="flex-[0_0_100%] lg:flex-[0_0_45%] w-full flex justify-center items-center mt-12 lg:mt-0">
+              <div className="w-full max-w-[450px] lg:max-w-[550px] aspect-[4/5] md:aspect-[3/4] lg:aspect-square relative rounded-3xl overflow-hidden shadow-2xl transition-transform duration-700 hover:scale-[1.02]">
+                <img
+                  src="/images/hero-slide-1.png"
+                  alt="ThyroVibe Nut Butters"
+                  className="object-cover w-full h-full"
+                  fetchpriority="high"
+                />
+              </div>
+            </div>
           </div>
-        </Carousel>
+        </div>
 
-        {/* Trust Badges — Static below carousel */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Trust Badges — Static below hero */}
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8 pt-4">
           <TrustBadges />
         </div>
       </section>
@@ -305,16 +263,16 @@ const Home = () => {
           {/* SnapWidget Instagram Feed Embed - Replace WIDGET_ID with your actual widget ID from snapwidget.com */}
           <div className="flex justify-center" id="instagram-feed-container">
             <script src="https://snapwidget.com/js/snapwidget.js"></script>
-            <iframe 
-              src="https://snapwidget.com/embed/1089953" 
-              className="snapwidget-widget" 
-              allowTransparency="true" 
-              frameBorder="0" 
-              scrolling="no" 
+            <iframe
+              src="https://snapwidget.com/embed/1089953"
+              className="snapwidget-widget"
+              allowTransparency="true"
+              frameBorder="0"
+              scrolling="no"
               style={{
-                border: 'none', 
-                overflow: 'hidden', 
-                width: '100%', 
+                border: 'none',
+                overflow: 'hidden',
+                width: '100%',
                 maxWidth: '1000px',
                 height: '500px'
               }}
@@ -322,7 +280,7 @@ const Home = () => {
               loading="lazy"
             />
           </div>
-          
+
           {/* Follow Button */}
           <div className="text-center mt-8">
             <a

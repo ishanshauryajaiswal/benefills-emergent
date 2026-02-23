@@ -8,12 +8,13 @@ Successfully run the full stack on localhost and stabilize the frontend build en
 ## 📋 Recent Local Commits (For Emergent Review)
 **Emergent Agent**: Please review these commits before making any integration changes to ensure compatibility.
 
-### Commit [NEW] - "feat: implement dynamic hero carousel and fix color transparency"
-- **Hero Carousel**:
-    - Replaced static hero image with a dynamic, auto-playing carousel using `embla-carousel-react` and `embla-carousel-autoplay`.
-    - Implemented 2 data-driven slides with headlines and subtext matching the live site.
-    - Added custom dot indicators and loop functionality.
-    - Integrated high-res hero assets: `hero-slide-1.png` and `hero-slide-2.png`.
+### Commit [NEW] - "feat: upgrade Hero section to Typewriter Layout"
+- **Typewriter Hero Section**:
+    - Replaced the `embla-carousel-react` hero carousel with a sleek, full-viewport-height static layout.
+    - Implemented a custom React `useEffect` Typewriter animation for rotating the headline ("clean.", "tasty.", etc.).
+    - Adjusted mobile responsiveness to stack the text block *above* the image placeholder.
+    - Note for Emergent: The `<Carousel>` component and `embla-carousel-autoplay` are no longer utilized in the `Home.jsx` Hero section.
+    - The Hero text arrays (`rotatingWords`) are currently statically defined in `Home.jsx`.
 - **UI/UX & Aesthetics**:
     - **Color Transparency**: Introduced custom opacity modifiers (e.g., `theme-glass`, `bg-white/10`) to the tailwind theme for better layering.
     - **Premium Styling**: Refined the `Header`, `Checkout`, and `CouponModal` components to use richer gradients and more subtle transparency, matching the `benefills.com` aesthetic.
@@ -30,7 +31,7 @@ Successfully run the full stack on localhost and stabilize the frontend build en
     - Updated `mockData.js` with correct images for "Seeds Boost Bar" and "Nut-ella Nut Butter".
 
 ## ✅ Done (Ready for Emergent Review)
-- **Hero Carousel**: Full-width dynamic carousel with autoplay and indicators.
+- **Typewriter Hero**: Full-viewport-height static layout with a React-driven rotating text effect.
 - **Visual Harmonization**: Color transparency and UI layering match the premium design language.
 - **Static Pages**: Full content implementation for all 5 legal/info pages.
 - **Homepage Parity**: Visual updates to match Live site.
@@ -40,7 +41,7 @@ Successfully run the full stack on localhost and stabilize the frontend build en
 
 ## ⚠️ Emergent Integration Safeguards
 - **CRACO Config**: I added a conditional check to `frontend/craco.config.js` for `process.env.ENABLE_VISUAL_EDITS`. Emergent SHOULD NOT remove this.
-- **Dependencies**: New package `embla-carousel-autoplay` must be installed in the Emergent environment.
+- **Dependencies**: Note that `embla-carousel-autoplay` is no longer required by the `Home.jsx` Hero section.
 
 ## 🤝 Emergent Agent Review Protocol
 **IMPORTANT**: Before making any changes in the Emergent environment:
