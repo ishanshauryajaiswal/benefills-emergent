@@ -1,0 +1,36 @@
+{
+    "project": "Benefills E-commerce",
+    "source_url": "https://backend-product-sync-1.preview.emergentagent.com/",
+    "assets": {
+        "logo": "logo.png",
+        "products": [
+            {
+                "name": "Thyrovibe Seeds Boost Bar - pack of 7",
+                "price": 410,
+                "original_price": 490,
+                "image": "boost-bar.png",
+                "tag": "most repurchased"
+            },
+            {
+                "name": "Thyrovibe Nut-ella Nut Butter",
+                "price": 650,
+                "original_price": 750,
+                "image": "nut-butter.png",
+                "tag": "bestseller"
+            },
+            {
+                "name": "Thyrovibe nut butters - the duo pack",
+                "price": 1200,
+                "original_price": 1590,
+                "image": "duo-pack.png"
+            },
+            {
+                "name": "Benefills Monthly Pack",
+                "price": 1900,
+                "original_price": 2200,
+                "image": "monthly-pack.webp"
+            }
+        ]
+    },
+    "notes": "These assets are for local development purposes only. Image hosting on live site is via Zyro CDN."
+}
