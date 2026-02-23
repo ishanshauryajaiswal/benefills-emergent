@@ -1,6 +1,6 @@
 # 🌉 Emergent-Local Sync Bridge
-**Last Local Sync:** 2026-02-19 08:40 AM IST
-**Local State Hash:** Frontend Active (3000) | Hero Carousel Implemented | Color Transparency Fixed | UI Layering Improved
+**Last Local Sync:** 2026-02-24 00:50 AM IST
+**Local State Hash:** Frontend Active (3000) | Typewriter Hero | Carousel Removed | Dependencies Cleaned
 
 ## 🎯 Current Protocol Objectives
 Successfully run the full stack on localhost and stabilize the frontend build environment while maintaining parity with Emergent's visual-edit plugins.
@@ -8,18 +8,26 @@ Successfully run the full stack on localhost and stabilize the frontend build en
 ## 📋 Recent Local Commits (For Emergent Review)
 **Emergent Agent**: Please review these commits before making any integration changes to ensure compatibility.
 
-### Commit [NEW] - "feat: upgrade Hero section to Typewriter Layout"
+### Commit [NEW] - "chore: cleanup unused carousel dependencies and re-pin critical backend deps"
+- **Frontend Cleanup**:
+    - Removed `embla-carousel-react` and `embla-carousel-autoplay` packages from `package.json`
+    - Deleted unused `frontend/src/components/ui/carousel.jsx` component
+    - Carousel functionality is NO LONGER available - Hero uses Typewriter layout
+- **Backend Dependencies**:
+    - Re-pinned critical dependencies in `requirements.txt` for stability
+    - Pinned: fastapi==0.110.1, uvicorn==0.25.0, pydantic==2.12.5, motor==3.3.1, pymongo==4.5.0, etc.
+    - Other less-critical dependencies left unpinned for flexibility
+
+### Commit [PREVIOUS] - "feat: upgrade Hero section to Typewriter Layout"
 - **Typewriter Hero Section**:
     - Replaced the `embla-carousel-react` hero carousel with a sleek, full-viewport-height static layout.
     - Implemented a custom React `useEffect` Typewriter animation for rotating the headline ("clean.", "tasty.", etc.).
     - Adjusted mobile responsiveness to stack the text block *above* the image placeholder.
-    - Note for Emergent: The `<Carousel>` component and `embla-carousel-autoplay` are no longer utilized in the `Home.jsx` Hero section.
     - The Hero text arrays (`rotatingWords`) are currently statically defined in `Home.jsx`.
 - **UI/UX & Aesthetics**:
     - **Color Transparency**: Introduced custom opacity modifiers (e.g., `theme-glass`, `bg-white/10`) to the tailwind theme for better layering.
     - **Premium Styling**: Refined the `Header`, `Checkout`, and `CouponModal` components to use richer gradients and more subtle transparency, matching the `benefills.com` aesthetic.
     - **Navigation**: Cleaned up the Header layout and added responsive padding.
-- **Dependencies**: Added `embla-carousel-autoplay` to frontend.
 
 ### Commit [Pending] - "feat: static pages, homepage updates, and asset corrections"
 - **Static Pages**: Implemented `/terms`, `/privacy`, `/returns`, `/payments-delivery`, `/contact` with content from `static_pages_content.md`.
