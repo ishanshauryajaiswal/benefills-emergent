@@ -39,6 +39,8 @@ Successfully run the full stack on localhost and stabilize the frontend build en
     - Updated `mockData.js` with correct images for "Seeds Boost Bar" and "Nut-ella Nut Butter".
 
 ## ✅ Done (Ready for Emergent Review)
+- **Dependency Cleanup**: Removed unused carousel packages and component
+- **Backend Stability**: Re-pinned critical dependencies for consistent builds
 - **Typewriter Hero**: Full-viewport-height static layout with a React-driven rotating text effect.
 - **Visual Harmonization**: Color transparency and UI layering match the premium design language.
 - **Static Pages**: Full content implementation for all 5 legal/info pages.
@@ -49,19 +51,20 @@ Successfully run the full stack on localhost and stabilize the frontend build en
 
 ## ⚠️ Emergent Integration Safeguards
 - **CRACO Config**: I added a conditional check to `frontend/craco.config.js` for `process.env.ENABLE_VISUAL_EDITS`. Emergent SHOULD NOT remove this.
-- **Dependencies**: Note that `embla-carousel-autoplay` is no longer required by the `Home.jsx` Hero section.
+- **Carousel REMOVED**: `embla-carousel-react` and `embla-carousel-autoplay` have been completely removed from the project. DO NOT re-add.
+- **Backend Deps Pinned**: Critical backend dependencies are now version-pinned. Review before upgrading.
 
 ## 🤝 Emergent Agent Review Protocol
 **IMPORTANT**: Before making any changes in the Emergent environment:
-1. **Review Recent Commits**: Check both the carousel/color fixes and the static pages implementation.
+1. **Review Recent Commits**: Check the cleanup commit and typewriter hero implementation.
 2. **Preserve Local Fixes**: Do NOT overwrite `craco.config.js` or `babel-metadata-plugin.js` fixes.
 3. **UI Standards**: All UI changes MUST prioritize:
    - ⚡ **Performance**: Fast load times
    - 🎨 **Aesthetics**: Premium, translucent, and layered design
-   - 🧈 **Smoothness**: Fluid carousel transitions
+   - 🧈 **Smoothness**: Typewriter text animation
 
 ## 🚨 Emergent Action Items (High Priority)
-1. **Dependencies**: Install `embla-carousel-autoplay` in your environment.
+1. **Dependencies**: DO NOT install embla-carousel packages - they are no longer used.
 2. **Verify Razorpay/Shiprocket**: Check `contracts.md` vs `backend/requirements.txt` for implementation consistency.
 3. **Checkout Flow**: Test the Guest Checkout flow with the new UI layering.
 
