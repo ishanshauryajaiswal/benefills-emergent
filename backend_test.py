@@ -13,7 +13,7 @@ from datetime import datetime
 import uuid
 
 # Test Configuration
-BASE_URL = "https://frontend-first-check.preview.emergentagent.com/api"
+BASE_URL = "https://commit-review.preview.emergentagent.com/api"
 RAZORPAY_KEY_SECRET = "ob3lcfFkZz3A7w5uwjriR5GH"  # From backend .env
 
 # Test Data
