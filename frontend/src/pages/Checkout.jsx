@@ -51,6 +51,7 @@ const Checkout = () => {
         total: total,
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleChange = (e) => {
@@ -104,7 +105,7 @@ const Checkout = () => {
       ...prev,
       couponCode: code
     }));
-    
+
     // Apply coupon directly with the code (avoid stale state issue)
     try {
       const response = await axios.post(`${BACKEND_URL}/api/coupons/validate`, {

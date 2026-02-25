@@ -6,7 +6,9 @@ import ProductCard from '../components/ProductCard';
 import { Button } from '../components/ui/button';
 import { Card, CardContent } from '../components/ui/card';
 import { Zap, Heart, Sparkles, Flame, Star, Instagram } from 'lucide-react';
-import TrustBadges from '../components/TrustBadges';
+
+const rotatingWords = ["Thyroid Nourishment.", "Targeted Nutrition.", "Hormone Balance."];
+
 const iconMap = {
   Zap,
   Heart,
@@ -14,11 +16,22 @@ const iconMap = {
   Flame
 };
 
-const rotatingWords = ["clean.", "tasty.", "health-focused.", "thyroid-friendly."];
+const rotatingSymptoms = ["feeling tired?", "losing hair?", "weight resistance?", "dull skin?", "Brain Fog?"];
 
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [symptomIndex, setSymptomIndex] = useState(0);
+  const [fade, setFade] = useState(true);
+
+  // Hero Image swapping state
+  const [heroImageIndex, setHeroImageIndex] = useState(0);
+  const heroImages = [
+    "/images/thyrovibe-care-pack-updated.png",
+    "/images/hero 2.png"
+  ];
+
+  // Typewriter state
   const [typewriterText, setTypewriterText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
   const [loopNum, setLoopNum] = useState(0);
@@ -28,6 +41,7 @@ const Home = () => {
     fetchProducts();
   }, []);
 
+  // Typewriter effect
   useEffect(() => {
     const handleType = () => {
       const i = loopNum % rotatingWords.length;
@@ -57,6 +71,29 @@ const Home = () => {
     return () => clearTimeout(timer);
   }, [typewriterText, isDeleting, loopNum, typingSpeed]);
 
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setFade(false);
+
+      setTimeout(() => {
+        setSymptomIndex((prev) => (prev + 1) % rotatingSymptoms.length);
+        setFade(true);
+      }, 500);
+
+    }, 2500);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  // Effect for hero image auto-swapping
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setHeroImageIndex((prev) => (prev + 1) % heroImages.length);
+    }, 3500); // changes image every 3.5 seconds
+
+    return () => clearInterval(interval);
+  }, [heroImages.length]);
+
   const fetchProducts = async () => {
     try {
       const response = await productsAPI.getAll();
@@ -82,13 +119,13 @@ const Home = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative w-full min-h-[100vh] flex flex-col justify-center bg-gradient-to-b from-purple-50 to-white overflow-hidden">
-        <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-20 mt-16 md:mt-20 flex-1 flex items-center">
+      <section className="relative w-full pt-24 lg:pt-28 pb-12 flex flex-col justify-start bg-gradient-to-b from-purple-50 to-white overflow-hidden">
+        <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 flex-1 flex items-center">
           <div className="flex flex-col lg:flex-row w-full items-center justify-between gap-12 lg:gap-8">
             {/* Left Column (Text Block - ~55%) */}
             <div className="flex-[0_0_100%] lg:flex-[0_0_55%] flex flex-col justify-center text-center lg:text-left pt-8 lg:pt-0">
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-gray-900 mb-6 leading-tight min-h-[120px] sm:min-h-[140px] md:min-h-[150px] lg:min-h-[220px]">
-                The most lipsmacking Nut Butters, made to be
+                The most lipsmacking Nut Butters and Bars made for
                 <br className="hidden sm:block" />
                 <span className="text-theme-primary inline-flex relative mt-2">
                   <span aria-hidden="true">{typewriterText}</span>
@@ -97,7 +134,7 @@ const Home = () => {
                 </span>
               </h1>
               <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto lg:mx-0 line-clamp-3">
-                ThyroVibe by Benefills — tasty, thyroid-friendly, on-the-go nut butters with selenium, zinc & adaptogens for clean daily thyroid support. Every spoonful is a step towards better health.
+                A daily ritual which you will happily stick to and regain wellness
               </p>
               <div className="flex justify-center lg:justify-start">
                 <Link to="/shop">
@@ -108,23 +145,107 @@ const Home = () => {
               </div>
             </div>
 
-            {/* Right Column (Image Placeholder - 45%) */}
+            {/* Right Column (Image Auto-Swapper - 45%) */}
             <div className="flex-[0_0_100%] lg:flex-[0_0_45%] w-full flex justify-center items-center mt-12 lg:mt-0">
-              <div className="w-full max-w-[450px] lg:max-w-[550px] aspect-[4/5] md:aspect-[3/4] lg:aspect-square relative rounded-3xl overflow-hidden shadow-2xl transition-transform duration-700 hover:scale-[1.02]">
-                <img
-                  src="/images/hero-slide-1.png"
-                  alt="ThyroVibe Nut Butters"
-                  className="object-cover w-full h-full"
-                  fetchpriority="high"
-                />
+              <div className="w-full max-w-[450px] lg:max-w-[550px] aspect-[4/5] md:aspect-[3/4] lg:aspect-square relative rounded-3xl overflow-hidden shadow-2xl transition-transform duration-700 hover:scale-[1.02] bg-white">
+                {heroImages.map((src, idx) => (
+                  <img
+                    key={src}
+                    src={src}
+                    alt={`ThyroVibe Hero ${idx + 1}`}
+                    className={`absolute inset-0 object-cover w-full h-full transition-opacity duration-1000 ease-in-out ${heroImageIndex === idx ? 'opacity-100 z-10' : 'opacity-0 z-0'
+                      }`}
+                    fetchpriority={idx === 0 ? "high" : "low"}
+                  />
+                ))}
               </div>
             </div>
           </div>
         </div>
 
-        {/* Trust Badges — Static below hero */}
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8 pt-4">
-          <TrustBadges />
+        {/* Running Text Banner Below Hero */}
+        <div className="w-full bg-theme-primary overflow-hidden flex relative z-20 py-3 selection:bg-transparent">
+          <div className="flex animate-marquee whitespace-nowrap w-max">
+            {[...Array(6)].map((_, i) => (
+              <span key={i} className="text-lg md:text-xl font-semibold px-6 text-white uppercase tracking-wider">
+                Selenium-Magnesium-Zinc Rich Ingredients &bull; Powered with Adaptogens &bull; Based on Real Whole Foods &bull; Thyroid Nourishing &bull; Vegan &bull; No added sugar &bull; No preservatives &bull;
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Target Nutrition Problem Section */}
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 pt-8">
+          <div className="bg-white rounded-3xl shadow-xl p-8 lg:p-12 border border-gray-100 flex flex-col items-center gap-12 text-center">
+
+            {/* Copy */}
+            <div className="w-full max-w-4xl">
+              <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-gray-900 mb-6 leading-tight min-h-[160px] sm:min-h-[140px] md:min-h-[150px] lg:min-h-[180px]">
+                Tired of
+                <br />
+                <span className="text-theme-primary inline-flex relative mt-2 justify-center">
+                  <span
+                    aria-hidden="true"
+                    className={`transition-opacity duration-500 ease-in-out ${fade ? 'opacity-100' : 'opacity-0'}`}
+                  >
+                    {rotatingSymptoms[symptomIndex]}
+                  </span>
+                  <span className="sr-only">{rotatingSymptoms.join(', ')}</span>
+                </span>
+              </h2>
+
+              <div className="bg-orange-50 p-6 md:p-10 rounded-2xl border border-orange-100">
+                <p className="text-xl md:text-2xl font-bold text-gray-800 mb-4 max-w-3xl mx-auto">
+                  Doing everything right and still feeling like this?
+                </p>
+                <p className="text-lg md:text-xl text-gray-600 mb-2 max-w-3xl mx-auto">
+                  It's not your fault. Most efforts to improve thyroid symptoms don't work because daily Targeted Nutrition is the missing link.
+                </p>
+                <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+                  Benefills ThyroVibe is exactly that. Its your monthly food ritual — real ingredients your thyroid actually needs.
+                </p>
+                <div className="mt-8 flex justify-center">
+                  <Link to="/shop">
+                    <Button className="bg-theme-primary hover:bg-theme-primary-hover text-white px-8 py-6 text-lg rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                      Start Your Ritual
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* Thyrovibe Ritual Pack Introduction Section */}
+      <section className="py-24 bg-white border-b border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-theme-primary mb-8 leading-tight max-w-5xl mx-auto">
+            Everything you need for thyroid targeted nutrition- wrapped in a monthly pack.
+          </h2>
+          <p className="text-2xl md:text-3xl text-gray-800 font-medium mb-16 italic">
+            "One tablespoon or one bar. Every day. No guesswork."
+          </p>
+
+          <div className="w-full flex justify-center items-center">
+            <div className="w-full max-w-4xl relative rounded-3xl overflow-hidden shadow-2xl transition-transform duration-700 hover:scale-[1.02] bg-gradient-to-b from-purple-50/30 to-white">
+              <img
+                src="/images/thyrovibe-care-pack-updated.png"
+                alt="Thyrovibe Monthly Ritual Pack"
+                className="w-full h-auto object-cover rounded-3xl"
+                loading="lazy"
+              />
+            </div>
+          </div>
+
+          <div className="mt-16">
+            <Link to="/shop">
+              <Button className="bg-theme-primary hover:bg-theme-primary-hover text-white px-12 py-7 text-xl rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 font-bold">
+                Shop Monthly Pack
+              </Button>
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -295,7 +416,7 @@ const Home = () => {
           </div>
         </div>
       </section>
-    </div>
+    </div >
   );
 };
 

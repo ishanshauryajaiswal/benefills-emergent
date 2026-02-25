@@ -129,3 +129,90 @@ export const instagramPosts = [
   'https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=300&h=300&fit=crop',
   'https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?w=300&h=300&fit=crop'
 ];
+
+export const scienceIngredients = [
+  {
+    name: 'Brazil nuts',
+    nutrient: 'Selenium',
+    description: 'Powers the conversion of T4 to active T3 hormone, boosts metabolism',
+    image: '/images/ingredients/brazil_nuts.png'
+  },
+  {
+    name: 'Pumpkin seeds',
+    nutrient: 'Zinc',
+    description: 'Essential for thyroid hormone production and immune balance',
+    image: '/images/ingredients/pumpkin_seeds.png'
+  },
+  {
+    name: 'Aliv seeds',
+    nutrient: 'Iron & Folate',
+    description: 'Combats thyroid-related anaemia and fatigue',
+    image: '/images/ingredients/aliv_seeds.png'
+  },
+  {
+    name: 'Sesame seeds',
+    nutrient: 'Copper & Zinc',
+    description: 'Maintains the mineral balance thyroid function depends on',
+    image: '/images/ingredients/sesame_seeds.png'
+  },
+  {
+    name: 'Coconut',
+    nutrient: 'Healthy fats & MCTs',
+    description: 'Supports metabolism and energy often sluggish in thyroid conditions',
+    image: '/images/ingredients/coconut.png'
+  },
+  {
+    name: 'Berries',
+    nutrient: 'Antioxidants',
+    description: 'Fight oxidative stress that worsens thyroid inflammation',
+    image: '/images/ingredients/berries.png'
+  },
+  {
+    name: 'Dates',
+    nutrient: 'Natural energy & Iron',
+    description: 'Combats the chronic fatigue and low energy of thyroid dysfunction',
+    image: '/images/ingredients/dates.png'
+  },
+  {
+    name: 'Mulethi',
+    nutrient: 'Adaptogen',
+    description: 'Supports adrenal and thyroid axis, reduces inflammation',
+    image: '/images/ingredients/mulethi.png'
+  },
+  {
+    name: 'Cashews',
+    nutrient: 'Magnesium & Zinc',
+    description: 'Supports nerve function and thyroid hormone synthesis',
+    image: '/images/ingredients/cashews.png'
+  },
+  {
+    name: 'Almonds',
+    nutrient: 'Vitamin E & Magnesium',
+    description: 'Protects thyroid cells from oxidative damage',
+    image: '/images/ingredients/almonds.png'
+  },
+  {
+    name: 'Pistachios',
+    nutrient: 'B6 & Manganese',
+    description: 'Supports hormone regulation and metabolic function',
+    image: '/images/ingredients/pistachios.png'
+  },
+  {
+    name: 'Hazelnuts',
+    nutrient: 'Vitamin E & Folate',
+    description: 'Nourishes thyroid cell health and hormone stability',
+    image: '/images/ingredients/hazelnuts.png'
+  },
+  {
+    name: 'Cinnamon',
+    nutrient: 'Blood sugar balance',
+    description: 'Helps manage insulin resistance commonly linked to thyroid disorders',
+    image: '/images/ingredients/cinnamon.png'
+  },
+  {
+    name: 'Ashwagandha',
+    nutrient: 'Adaptogen',
+    description: 'Lowers cortisol, reduces stress load on the thyroid, supports T3/T4 balance',
+    image: '/images/ingredients/ashwagandha.png'
+  }
+];
