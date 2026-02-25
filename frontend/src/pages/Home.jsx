@@ -37,6 +37,9 @@ const Home = () => {
   const [loopNum, setLoopNum] = useState(0);
   const [typingSpeed, setTypingSpeed] = useState(150);
 
+  // Testimonial Carousel State
+  const [testimonialIndex, setTestimonialIndex] = useState(0);
+
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -94,6 +97,15 @@ const Home = () => {
     return () => clearInterval(interval);
   }, [heroImages.length]);
 
+  // Effect for testimonial auto-swiping
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTestimonialIndex((prev) => (prev + 1) % (testimonials?.length || 1));
+    }, 3000); // changes testimonial every 3 seconds
+
+    return () => clearInterval(interval);
+  }, []);
+
   const fetchProducts = async () => {
     try {
       const response = await productsAPI.getAll();
@@ -119,7 +131,7 @@ const Home = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative w-full pt-24 lg:pt-28 pb-12 flex flex-col justify-start bg-gradient-to-b from-purple-50 to-white overflow-hidden">
+      <section className="relative w-full pt-16 lg:pt-20 pb-12 flex flex-col justify-start bg-gradient-to-b from-purple-50 to-white overflow-hidden">
         <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 flex-1 flex items-center">
           <div className="flex flex-col lg:flex-row w-full items-center justify-between gap-12 lg:gap-8">
             {/* Left Column (Text Block - ~55%) */}
@@ -219,7 +231,7 @@ const Home = () => {
       </section>
 
       {/* Thyrovibe Ritual Pack Introduction Section */}
-      <section className="py-24 bg-white border-b border-gray-100">
+      <section className="pt-11 pb-16 bg-white border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-theme-primary mb-8 leading-tight max-w-5xl mx-auto">
             Everything you need for thyroid targeted nutrition- wrapped in a monthly pack.
@@ -326,9 +338,64 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl font-bold text-center mb-12">Real people, Real results</h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Mobile Carousel View */}
+          <div className="block md:hidden">
+            <div className="overflow-hidden w-full">
+              <div
+                className="flex transition-transform duration-500 ease-in-out"
+                style={{ transform: `translateX(-${testimonialIndex * 100}%)` }}
+              >
+                {testimonials.map((testimonial) => (
+                  <div key={testimonial.id} className="w-full flex-shrink-0">
+                    <div className="mx-2 h-full">
+                      <Card className="bg-theme-glass border-white/20 h-full">
+                        <CardContent className="p-6">
+                          <div className="flex gap-1 mb-3">
+                            {[...Array(5)].map((_, i) => (
+                              <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
+                            ))}
+                          </div>
+
+                          <p className="text-lg font-semibold mb-3 italic">"{testimonial.text}"</p>
+                          <p className="text-white/90 mb-4">{testimonial.description}</p>
+
+                          <div className="flex items-center gap-3">
+                            <img
+                              src={testimonial.image}
+                              alt={testimonial.name}
+                              className="w-12 h-12 rounded-full object-cover"
+                              loading="lazy"
+                              width={48}
+                              height={48}
+                            />
+                            <span className="font-medium">{testimonial.name}</span>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Dots navigation */}
+            <div className="flex justify-center gap-2 mt-6">
+              {testimonials.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setTestimonialIndex(idx)}
+                  className={`w-2.5 h-2.5 rounded-full transition-colors ${idx === testimonialIndex ? 'bg-white' : 'bg-white/30'
+                    }`}
+                  aria-label={`Go to slide ${idx + 1}`}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Desktop Grid View */}
+          <div className="hidden md:grid md:grid-cols-3 gap-8">
             {testimonials.map((testimonial) => (
-              <Card key={testimonial.id} className="bg-theme-glass border-white/20">
+              <Card key={testimonial.id} className="bg-theme-glass border-white/20 h-full">
                 <CardContent className="p-6">
                   <div className="flex gap-1 mb-3">
                     {[...Array(5)].map((_, i) => (
