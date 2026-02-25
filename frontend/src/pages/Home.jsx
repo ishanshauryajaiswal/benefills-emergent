@@ -131,12 +131,12 @@ const Home = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative w-full pt-16 lg:pt-20 pb-12 flex flex-col justify-start bg-gradient-to-b from-purple-50 to-white overflow-hidden">
+      <section className="relative w-full pt-10 lg:pt-14 pb-12 flex flex-col justify-start bg-gradient-to-b from-purple-50 to-white overflow-hidden">
         <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 flex-1 flex items-center">
           <div className="flex flex-col lg:flex-row w-full items-center justify-between gap-12 lg:gap-8">
             {/* Left Column (Text Block - ~55%) */}
-            <div className="flex-[0_0_100%] lg:flex-[0_0_55%] flex flex-col justify-center text-center lg:text-left pt-8 lg:pt-0">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-gray-900 mb-6 leading-tight min-h-[120px] sm:min-h-[140px] md:min-h-[150px] lg:min-h-[220px]">
+            <div className="flex-[0_0_100%] lg:flex-[0_0_55%] flex flex-col justify-center text-center lg:text-left pt-4 lg:pt-0">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-gray-900 mb-4 leading-tight min-h-[84px] sm:min-h-[100px] md:min-h-[110px] lg:min-h-[160px]">
                 The most lipsmacking Nut Butters and Bars made for
                 <br className="hidden sm:block" />
                 <span className="text-theme-primary inline-flex relative mt-2">
@@ -176,7 +176,7 @@ const Home = () => {
         </div>
 
         {/* Running Text Banner Below Hero */}
-        <div className="w-full bg-theme-primary overflow-hidden flex relative z-20 py-3 selection:bg-transparent">
+        <div className="w-full bg-theme-primary overflow-hidden flex relative z-20 py-3 mt-8 selection:bg-transparent">
           <div className="flex animate-marquee whitespace-nowrap w-max">
             {[...Array(6)].map((_, i) => (
               <span key={i} className="text-lg md:text-xl font-semibold px-6 text-white uppercase tracking-wider">
@@ -231,12 +231,12 @@ const Home = () => {
       </section>
 
       {/* Thyrovibe Ritual Pack Introduction Section */}
-      <section className="pt-11 pb-16 bg-white border-b border-gray-100">
+      <section className="pt-6 pb-16 bg-white border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-theme-primary mb-8 leading-tight max-w-5xl mx-auto">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-theme-primary mb-5 leading-tight max-w-5xl mx-auto">
             Everything you need for thyroid targeted nutrition- wrapped in a monthly pack.
           </h2>
-          <p className="text-2xl md:text-3xl text-gray-800 font-medium mb-16 italic">
+          <p className="text-2xl md:text-3xl text-gray-800 font-medium mb-10 italic">
             "One tablespoon or one bar. Every day. No guesswork."
           </p>
 
