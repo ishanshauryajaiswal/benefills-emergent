@@ -7,13 +7,19 @@ export const products = [
     description: 'Crunchy, chewy energy bars packed with thyroid-supporting seeds and nutrients. Perfect grab-and-go snack.',
     price: 410,
     originalPrice: 490,
-    image: 'https://cdn.zyrosite.com/cdn-cgi/image/format=auto,w=768,h=768,fit=crop,q=100/cdn-ecommerce/store_01JV34HD4RNHZAHYNVCHTPM6QH/assets/d7dfeaea-8b58-4050-af66-914067979d02.png',
+    images: [
+      '/images/products/seeds-boost-bar--pack-of-7-1.png',
+      '/images/products/seeds-boost-bar--pack-of-7-2.png'
+    ],
     category: 'bars',
     badge: 'most repurchased',
     stock: 50,
     ingredients: ['Pumpkin Seeds', 'Sunflower Seeds', 'Selenium', 'Zinc', 'No refined sugar'],
     rating: 5,
-    reviews: 42
+    reviews: 42,
+    benefitTitle: 'Thyroid Nourishment & Sustained Energy',
+    benefitDescription: 'Pumpkin and sunflower seeds provide dense Zinc and Selenium required for T4-to-T3 hormone conversion. Natural macronutrients prevent afternoon sugar crashes.',
+    benefitImage: '/images/benefits/benefits_seeds_bar.png'
   },
   {
     id: '2',
@@ -21,13 +27,20 @@ export const products = [
     description: 'Rich, creamy nut butter with adaptogens and thyroid-supporting minerals. Spread it, spoon it, love it.',
     price: 650,
     originalPrice: 750,
-    image: 'https://cdn.zyrosite.com/cdn-cgi/image/format=auto,w=768,h=768,fit=crop,q=100/cdn-ecommerce/store_01JV34HD4RNHZAHYNVCHTPM6QH/assets/da53d612-dd3d-4e7a-9df2-73c297921502.png',
+    images: [
+      '/images/products/benefills-nut-ella-nut-butter-1.png',
+      '/images/products/benefills-nut-ella-nut-butter-2.png',
+      '/images/products/benefills-nut-ella-nut-butter-3.webp'
+    ],
     category: 'nut-butter',
     badge: 'bestseller',
     stock: 35,
     ingredients: ['Cacao', 'Hazelnuts', 'Ashwagandha', 'Pumpkin Seeds', 'No preservatives'],
     rating: 5,
-    reviews: 89
+    reviews: 89,
+    benefitTitle: 'Stress Relief & Hormone Balance',
+    benefitDescription: 'The inclusion of Ashwagandha actively lowers cortisol levels, which takes the stress load off the thyroid and stabilizes mood, all while satisfying sweet cravings guilt-free.',
+    benefitImage: '/images/benefits/benefits_nut_butter.png'
   },
   {
     id: '3',
@@ -35,13 +48,20 @@ export const products = [
     description: 'Two jars of thyroid-loving goodness. Mix and match your favorites for complete hormone support.',
     price: 1200,
     originalPrice: 1590,
-    image: 'https://cdn.zyrosite.com/cdn-cgi/image/format=auto,w=375,h=375,fit=crop,q=100/cdn-ecommerce/store_01JV34HD4RNHZAHYNVCHTPM6QH/assets/29648e82-16b5-4fa6-b8c0-c382f34e2144.png',
+    images: [
+      '/images/products/thyrovibe-nut-butters--the-duo-pack-1.png',
+      '/images/products/thyrovibe-nut-butters--the-duo-pack-2.webp',
+      '/images/products/thyrovibe-nut-butters--the-duo-pack-3.png'
+    ],
     category: 'combo',
     badge: '',
     stock: 20,
     ingredients: ['Premium Nut Butters', 'Selenium', 'Zinc', 'Adaptogens'],
     rating: 5,
-    reviews: 67
+    reviews: 67,
+    benefitTitle: 'Complete Daily Synergy',
+    benefitDescription: 'Combining both profiles gives you a broader spectrum of Zinc, Selenium, clean fats from Hazelnuts, and stress-modulation from adaptogens. A holistic protocol in a jar.',
+    benefitImage: '/images/benefits/benefits_duo_pack.png'
   },
   {
     id: '4',
@@ -49,13 +69,20 @@ export const products = [
     description: 'Complete monthly supply of bars and nut butters. Everything you need for consistent thyroid nourishment.',
     price: 1900,
     originalPrice: 2200,
-    image: 'https://cdn.zyrosite.com/cdn-cgi/image/format=auto,w=375,h=375,fit=crop,q=100/cdn-ecommerce/store_01JV34HD4RNHZAHYNVCHTPM6QH/assets/eb35c973-f306-4874-8c62-e5b5b8c371de.webp',
+    images: [
+      '/images/products/benefills-monthly-pack-1.webp',
+      '/images/products/benefills-monthly-pack-2.png',
+      '/images/products/benefills-monthly-pack-3.png'
+    ],
     category: 'combo',
     badge: '',
     stock: 15,
     ingredients: ['Complete variety pack', 'Full spectrum nutrients', '30-day supply'],
     rating: 5,
-    reviews: 34
+    reviews: 34,
+    benefitTitle: '30 Days of Habit & Consistency',
+    benefitDescription: 'Biological healing takes time. This whole-month protocol removes the friction of daily supplementation by turning nutrient intake into an exciting, zero-prep food ritual.',
+    benefitImage: '/images/benefits/benefits_monthly_pack.png'
   }
 ];
 

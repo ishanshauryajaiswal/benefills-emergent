@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { benefits, howItWorks, testimonials } from '../mockData';
+import { benefits, testimonials } from '../mockData';
 import { productsAPI } from '../services/api';
 import ProductCard from '../components/ProductCard';
 import { Button } from '../components/ui/button';
 import { Card, CardContent } from '../components/ui/card';
+import LifestyleSection from '../components/LifestyleSection';
 import { Zap, Heart, Sparkles, Flame, Star, Instagram } from 'lucide-react';
 
 const rotatingWords = ["Thyroid Nourishment.", "Targeted Nutrition.", "Hormone Balance."];
@@ -273,9 +274,11 @@ const Home = () => {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="flex overflow-x-auto pb-6 -mx-4 px-4 snap-x snap-mandatory hide-scrollbar sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-6 sm:overflow-visible sm:px-0 sm:mx-0">
             {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <div key={product.id} className="flex-shrink-0 w-[85vw] sm:w-auto snap-center snap-always mr-4 sm:mr-0">
+                <ProductCard product={product} />
+              </div>
             ))}
           </div>
         </div>
@@ -305,28 +308,6 @@ const Home = () => {
             <Link to="/shop">
               <Button className="bg-white text-theme-primary hover:bg-gray-100 px-8 py-6 text-lg">
                 Shop Now
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* How It Works */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            {howItWorks.map((step, index) => (
-              <div key={index} className="text-center">
-                <h3 className="text-2xl font-bold mb-4">{step.title}</h3>
-                <p className="text-gray-600 leading-relaxed">{step.description}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="text-center mt-12">
-            <Link to="/shop">
-              <Button className="bg-theme-primary hover:bg-theme-primary-hover text-white px-8 py-6 text-lg">
-                TRY NOW
               </Button>
             </Link>
           </div>
@@ -431,6 +412,9 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      {/* Lifestyle Section */}
+      <LifestyleSection />
 
       {/* Instagram Section - SnapWidget Embed */}
       <section className="py-16 bg-white">
