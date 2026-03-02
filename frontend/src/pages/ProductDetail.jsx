@@ -5,10 +5,10 @@ import { toast } from '../hooks/use-toast';
 import { Button } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
 import { Star, CheckCircle, ArrowLeft, Leaf, Droplets, Sun } from 'lucide-react';
-import { testimonials } from '../mockData';
 import { productsAPI } from '../services/api';
 import { trackAddToCart } from '../utils/metaPixel';
 import LifestyleSection from '../components/LifestyleSection';
+import TestimonialSection from '../components/TestimonialSection';
 
 const ProductDetail = () => {
     const { id } = useParams();
@@ -77,7 +77,9 @@ const ProductDetail = () => {
         });
     };
 
-    const discount = Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100);
+    const discount = product.originalPrice && product.originalPrice > product.price
+        ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
+        : 0;
 
     return (
         <div className="min-h-screen bg-gray-50">
@@ -145,10 +147,14 @@ const ProductDetail = () => {
 
                             <div className="flex items-end gap-3 mb-6">
                                 <span className="text-4xl font-bold text-theme-primary">₹{product.price}</span>
-                                <span className="text-xl text-gray-400 line-through mb-1">₹{product.originalPrice}</span>
-                                <Badge variant="outline" className="text-green-600 border-green-600 bg-green-50 mb-1.5 ml-2 px-2 py-0.5">
-                                    Save {discount}%
-                                </Badge>
+                                {discount > 0 && (
+                                    <>
+                                        <span className="text-xl text-gray-400 line-through mb-1">₹{product.originalPrice}</span>
+                                        <Badge variant="outline" className="text-green-600 border-green-600 bg-green-50 mb-1.5 ml-2 px-2 py-0.5">
+                                            Save {discount}%
+                                        </Badge>
+                                    </>
+                                )}
                             </div>
 
                             <p className="text-lg text-gray-600 mb-8 leading-relaxed">
@@ -203,31 +209,11 @@ const ProductDetail = () => {
             <LifestyleSection />
 
             {/* Trust / Reviews generic block below */}
-            <section className="py-16 bg-theme-primary-section-alt text-white">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-center mb-10">
-                        <h2 className="text-3xl font-bold mb-4">Loved by our Community</h2>
-                        <div className="flex justify-center mb-6">
-                            {[...Array(5)].map((_, i) => (
-                                <Star key={i} className="h-6 w-6 fill-yellow-400 text-yellow-400" />
-                            ))}
-                        </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        {testimonials.slice(0, 3).map((testimonial) => (
-                            <div key={testimonial.id} className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6">
-                                <p className="text-lg font-semibold mb-2 italic">"{testimonial.text}"</p>
-                                <p className="text-white/80 mb-6 flex-1 text-sm">{testimonial.description}</p>
-                                <div className="flex items-center gap-3">
-                                    <img src={testimonial.image} alt={testimonial.name} className="w-10 h-10 rounded-full object-cover" />
-                                    <span className="font-medium text-sm">{testimonial.name}</span>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
+            <TestimonialSection
+                title="Loved by our Community"
+                maxItems={3}
+                showStarsHeader={true}
+            />
 
         </div>
     );

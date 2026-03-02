@@ -11,7 +11,7 @@ import { useImageHover } from '../hooks/useImageHover';
 
 const ProductCard = ({ product }) => {
   const { addToCart } = useCart();
-  const images = product.images || [product.image];
+  const images = product?.images || (product?.image ? [product?.image] : []);
   const { activeImageIndex, handleMouseMove, handleMouseLeave } = useImageHover(images);
 
   const handleAddToCart = () => {
@@ -30,7 +30,9 @@ const ProductCard = ({ product }) => {
     });
   };
 
-  const discount = Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100);
+  const discount = product.originalPrice && product.originalPrice > product.price
+    ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
+    : 0;
 
   return (
     <Card className="group hover:shadow-lg transition-all duration-300 overflow-hidden">
@@ -86,11 +88,15 @@ const ProductCard = ({ product }) => {
           </div>
 
           <div className="flex items-center gap-2 mb-4">
-            <span className="text-gray-400 line-through text-sm">₹{product.originalPrice}</span>
             <span className="text-2xl font-bold text-theme-primary">₹{product.price}</span>
-            <Badge variant="outline" className="text-green-600 border-green-600">
-              {discount}% OFF
-            </Badge>
+            {discount > 0 && (
+              <>
+                <span className="text-gray-400 line-through text-sm">₹{product.originalPrice}</span>
+                <Badge variant="outline" className="text-green-600 border-green-600">
+                  {discount}% OFF
+                </Badge>
+              </>
+            )}
           </div>
 
           <Button

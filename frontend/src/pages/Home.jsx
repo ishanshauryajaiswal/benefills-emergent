@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { benefits, testimonials } from '../mockData';
+import { benefits } from '../mockData';
 import { productsAPI } from '../services/api';
 import ProductCard from '../components/ProductCard';
 import { Button } from '../components/ui/button';
 import { Card, CardContent } from '../components/ui/card';
 import LifestyleSection from '../components/LifestyleSection';
+import TypewriterHeader from '../components/TypewriterHeader';
+import TestimonialSection from '../components/TestimonialSection';
 import { Zap, Heart, Sparkles, Flame, Star, Instagram } from 'lucide-react';
 
 const rotatingWords = ["Thyroid Nourishment.", "Targeted Nutrition.", "Hormone Balance."];
@@ -32,48 +34,9 @@ const Home = () => {
     "/images/hero 2.png"
   ];
 
-  // Typewriter state
-  const [typewriterText, setTypewriterText] = useState('');
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [loopNum, setLoopNum] = useState(0);
-  const [typingSpeed, setTypingSpeed] = useState(150);
-
-  // Testimonial Carousel State
-  const [testimonialIndex, setTestimonialIndex] = useState(0);
-
   useEffect(() => {
     fetchProducts();
   }, []);
-
-  // Typewriter effect
-  useEffect(() => {
-    const handleType = () => {
-      const i = loopNum % rotatingWords.length;
-      const fullText = rotatingWords[i];
-
-      setTypewriterText(
-        isDeleting
-          ? fullText.substring(0, typewriterText.length - 1)
-          : fullText.substring(0, typewriterText.length + 1)
-      );
-
-      let nextSpeed = isDeleting ? 50 : 100;
-
-      if (!isDeleting && typewriterText === fullText) {
-        nextSpeed = 2000;
-        setIsDeleting(true);
-      } else if (isDeleting && typewriterText === '') {
-        setIsDeleting(false);
-        setLoopNum(loopNum + 1);
-        nextSpeed = 500;
-      }
-
-      setTypingSpeed(nextSpeed);
-    };
-
-    const timer = setTimeout(handleType, typingSpeed);
-    return () => clearTimeout(timer);
-  }, [typewriterText, isDeleting, loopNum, typingSpeed]);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -97,15 +60,6 @@ const Home = () => {
 
     return () => clearInterval(interval);
   }, [heroImages.length]);
-
-  // Effect for testimonial auto-swiping
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTestimonialIndex((prev) => (prev + 1) % (testimonials?.length || 1));
-    }, 3000); // changes testimonial every 3 seconds
-
-    return () => clearInterval(interval);
-  }, []);
 
   const fetchProducts = async () => {
     try {
@@ -140,11 +94,7 @@ const Home = () => {
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-gray-900 mb-4 leading-tight min-h-[84px] sm:min-h-[100px] md:min-h-[110px] lg:min-h-[160px]">
                 The most lipsmacking Nut Butters and Bars made for
                 <br className="hidden sm:block" />
-                <span className="text-theme-primary inline-flex relative mt-2">
-                  <span aria-hidden="true">{typewriterText}</span>
-                  <span className="animate-pulse absolute -right-1 top-0 bottom-0 border-r-4 border-theme-primary"></span>
-                  <span className="sr-only">{rotatingWords.join(', ')}</span>
-                </span>
+                <TypewriterHeader words={rotatingWords} />
               </h1>
               <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto lg:mx-0 line-clamp-3">
                 A daily ritual which you will happily stick to and regain wellness
@@ -315,103 +265,11 @@ const Home = () => {
       </section>
 
       {/* Testimonials */}
-      <section className="py-16 bg-theme-primary-section-alt text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-bold text-center mb-12">Real people, Real results</h2>
-
-          {/* Mobile Carousel View */}
-          <div className="block md:hidden">
-            <div className="overflow-hidden w-full">
-              <div
-                className="flex transition-transform duration-500 ease-in-out"
-                style={{ transform: `translateX(-${testimonialIndex * 100}%)` }}
-              >
-                {testimonials.map((testimonial) => (
-                  <div key={testimonial.id} className="w-full flex-shrink-0">
-                    <div className="mx-2 h-full">
-                      <Card className="bg-theme-glass border-white/20 h-full">
-                        <CardContent className="p-6">
-                          <div className="flex gap-1 mb-3">
-                            {[...Array(5)].map((_, i) => (
-                              <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-                            ))}
-                          </div>
-
-                          <p className="text-lg font-semibold mb-3 italic">"{testimonial.text}"</p>
-                          <p className="text-white/90 mb-4">{testimonial.description}</p>
-
-                          <div className="flex items-center gap-3">
-                            <img
-                              src={testimonial.image}
-                              alt={testimonial.name}
-                              className="w-12 h-12 rounded-full object-cover"
-                              loading="lazy"
-                              width={48}
-                              height={48}
-                            />
-                            <span className="font-medium">{testimonial.name}</span>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Dots navigation */}
-            <div className="flex justify-center gap-2 mt-6">
-              {testimonials.map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setTestimonialIndex(idx)}
-                  className={`w-2.5 h-2.5 rounded-full transition-colors ${idx === testimonialIndex ? 'bg-white' : 'bg-white/30'
-                    }`}
-                  aria-label={`Go to slide ${idx + 1}`}
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* Desktop Grid View */}
-          <div className="hidden md:grid md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial) => (
-              <Card key={testimonial.id} className="bg-theme-glass border-white/20 h-full">
-                <CardContent className="p-6">
-                  <div className="flex gap-1 mb-3">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-                    ))}
-                  </div>
-
-                  <p className="text-lg font-semibold mb-3 italic">"{testimonial.text}"</p>
-                  <p className="text-white/90 mb-4">{testimonial.description}</p>
-
-                  <div className="flex items-center gap-3">
-                    <img
-                      src={testimonial.image}
-                      alt={testimonial.name}
-                      className="w-12 h-12 rounded-full object-cover"
-                      loading="lazy"
-                      width={48}
-                      height={48}
-                    />
-                    <span className="font-medium">{testimonial.name}</span>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          <div className="text-center mt-12">
-            <Link to="/shop">
-              <Button className="bg-white text-theme-primary hover:bg-gray-100 px-8 py-6 text-lg">
-                Shop Now
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
+      <TestimonialSection
+        title="Real people, Real results"
+        showCarousel={true}
+        showShopButton={true}
+      />
 
       {/* Lifestyle Section */}
       <LifestyleSection />
