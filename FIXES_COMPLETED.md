@@ -292,6 +292,6 @@ curl -X POST http://localhost:8001/api/coupons/ \
 
 **Status**: ✅ All requested issues fixed and ready for testing!
 
-**Test URL**: https://commit-review.preview.emergentagent.com/
+**Test URL**: https://shop-inventory-test.preview.emergentagent.com/
 
 **Last Updated**: 2026-02-19 00:30 UTC
