@@ -8,6 +8,16 @@ Successfully run the full stack on localhost and stabilize the frontend build en
 ## 📋 Recent Local Commits (For Emergent Review)
 **Emergent Agent**: Please review these commits before making any integration changes to ensure compatibility.
 
+### Commit [NEW] - "fix: PR review comments and component extractions"
+- **Bug Fixes & Guards**:
+    - Implemented NaN/Infinity guards for product discount calculations in `ProductCard.jsx` and `ProductDetail.jsx`.
+    - Added safer image array fallback in `ProductCard.jsx` to prevent crashes on missing image data.
+- **Performance Optimization**:
+    - Extracted Typewriter logic from `Home.jsx` into a standalone `<TypewriterHeader />` component. This prevents the entire Home page from re-rendering every 50-100ms during the animation.
+- **Architectural Refactoring**:
+    - Created a shared `<TestimonialSection />` component and removed ~60 lines of duplicated testimonial code from `Home.jsx` and `ProductDetail.jsx`.
+    - Note for Emergent: The Testimonial block is now a reusable component that supports both the mobile carousel and desktop grid views via props.
+
 ### Commit [NEW] - "feat: upgrade Hero section to Typewriter Layout"
 - **Typewriter Hero Section**:
     - Replaced the `embla-carousel-react` hero carousel with a sleek, full-viewport-height static layout.
