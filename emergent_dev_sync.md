@@ -29,6 +29,17 @@ Successfully run the full stack on localhost and stabilize the frontend build en
     - **Premium Styling**: Refined the `Header`, `Checkout`, and `CouponModal` components to use richer gradients and more subtle transparency, matching the `benefills.com` aesthetic.
     - **Navigation**: Cleaned up the Header layout and added responsive padding.
 
+### Commit [NEW] - "feat: add Lifestyle section, multi-image product cards, and mobile scroll"
+- **Homepage Structure**:
+    - Added `<LifestyleSection />` to `Home.jsx`.
+    - Transformed the `ProductCard` grid to a horizontal scroll `snap-x` container for mobile devices, while retaining the grid for larger screens.
+- **Product Data Enhancements**:
+    - Updated `mockData.js` to support multiple images per product.
+    - Added `benefitTitle`, `benefitDescription`, and `benefitImage` to product mock data.
+- **CSS Utilities**:
+    - Added `hide-scrollbar` utility to `index.css` for clean horizontal scrolling.
+- Note for Emergent: The visual-edit plugins should account for the new `images` array (instead of single `image`) in `products` data and the horizontal scroll behavior on mobile.
+
 ### Commit [Pending] - "feat: static pages, homepage updates, and asset corrections"
 - **Static Pages**: Implemented `/terms`, `/privacy`, `/returns`, `/payments-delivery`, `/contact` with content from `static_pages_content.md`.
 - **Homepage**:

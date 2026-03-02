@@ -36,7 +36,7 @@ const Checkout = () => {
   });
 
   const [discount, setDiscount] = useState(0);
-  const deliveryCharge = 50;
+  const deliveryCharge = 0;
   const subtotal = getCartTotal();
   const total = subtotal + deliveryCharge - discount;
 
@@ -51,6 +51,7 @@ const Checkout = () => {
         total: total,
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleChange = (e) => {
@@ -104,7 +105,7 @@ const Checkout = () => {
       ...prev,
       couponCode: code
     }));
-    
+
     // Apply coupon directly with the code (avoid stale state issue)
     try {
       const response = await axios.post(`${BACKEND_URL}/api/coupons/validate`, {
@@ -424,7 +425,7 @@ const Checkout = () => {
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-gray-600">Delivery</span>
-                    <span>₹{deliveryCharge}</span>
+                    <span className={deliveryCharge === 0 ? "text-green-600" : ""}>{deliveryCharge === 0 ? 'Free' : `₹${deliveryCharge}`}</span>
                   </div>
                   {discount > 0 && (
                     <div className="flex justify-between text-sm text-green-600">

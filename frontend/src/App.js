@@ -12,6 +12,7 @@ import Shop from "./pages/Shop";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Checkout from "./pages/Checkout";
+import ProductDetail from "./pages/ProductDetail";
 import AdminDashboard from "./pages/AdminDashboard";
 import { Terms, Privacy, Returns, PaymentsDelivery, Contact } from "./pages/StaticPages";
 
@@ -26,6 +27,7 @@ function App() {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/shop" element={<Shop />} />
+                <Route path="/product/:id" element={<ProductDetail />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/checkout" element={<Checkout />} />

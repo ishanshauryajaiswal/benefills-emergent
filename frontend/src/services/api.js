@@ -1,4 +1,6 @@
 import axios from 'axios';
+// import { products } from '../mockData'; // Commented out to unlink mock data
+
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
