@@ -5,7 +5,8 @@ import { toast } from '../hooks/use-toast';
 import { Button } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
 import { Star, CheckCircle, ArrowLeft, Leaf, Droplets, Sun } from 'lucide-react';
-import { products, testimonials } from '../mockData';
+import { testimonials } from '../mockData';
+import { productsAPI } from '../services/api';
 import { trackAddToCart } from '../utils/metaPixel';
 import LifestyleSection from '../components/LifestyleSection';
 
@@ -17,18 +18,29 @@ const ProductDetail = () => {
     const [loading, setLoading] = useState(true);
     const [activeImageIndex, setActiveImageIndex] = useState(0);
 
-    const images = product?.images || [product?.image];
+    const images = product?.images || (product?.image ? [product?.image] : []);
 
 
     useEffect(() => {
-        // Simulate API fetch lookup by ID
-        window.scrollTo(0, 0); // Reset scroll on load
-        const foundProduct = products.find(p => p.id === id);
-        if (foundProduct) {
-            setProduct(foundProduct);
-            setActiveImageIndex(0);
+        const fetchProduct = async () => {
+            try {
+                setLoading(true);
+                window.scrollTo(0, 0); // Reset scroll on load
+                const response = await productsAPI.getById(id);
+                if (response.data) {
+                    setProduct(response.data);
+                    setActiveImageIndex(0);
+                }
+            } catch (error) {
+                console.error('Error fetching product:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (id) {
+            fetchProduct();
         }
-        setLoading(false);
     }, [id]);
 
     if (loading) {

@@ -7,29 +7,12 @@ import { useCart } from '../context/CartContext';
 import { toast } from '../hooks/use-toast';
 import { Star } from 'lucide-react';
 import { trackAddToCart } from '../utils/metaPixel';
+import { useImageHover } from '../hooks/useImageHover';
 
 const ProductCard = ({ product }) => {
   const { addToCart } = useCart();
-  const [activeImageIndex, setActiveImageIndex] = useState(0);
-
   const images = product.images || [product.image];
-
-  const handleMouseMove = (e) => {
-    const { left, width } = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - left;
-    const sliceWidth = width / images.length;
-    let newIndex = Math.floor(x / sliceWidth);
-    if (newIndex >= images.length) newIndex = images.length - 1;
-    if (newIndex < 0) newIndex = 0;
-
-    if (newIndex !== activeImageIndex) {
-      setActiveImageIndex(newIndex);
-    }
-  };
-
-  const handleMouseLeave = () => {
-    setActiveImageIndex(0);
-  };
+  const { activeImageIndex, handleMouseMove, handleMouseLeave } = useImageHover(images);
 
   const handleAddToCart = () => {
     addToCart(product);
@@ -60,18 +43,21 @@ const ProductCard = ({ product }) => {
           )}
 
           <div
-            className="aspect-square relative overflow-hidden"
+            className="aspect-square relative overflow-hidden bg-gray-50"
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
           >
-            <img
-              src={images[activeImageIndex]}
-              alt={product.name}
-              className="w-full h-full object-cover transition-opacity duration-300"
-              loading="lazy"
-              width={400}
-              height={400}
-            />
+            {images.map((img, idx) => (
+              <img
+                key={idx}
+                src={img}
+                alt={`${product.name} view ${idx + 1}`}
+                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out ${idx === activeImageIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
+                loading="lazy"
+                width={400}
+                height={400}
+              />
+            ))}
             {images.length > 1 && (
               <div className="absolute bottom-3 left-0 w-full flex justify-center gap-1 z-20">
                 {images.map((_, idx) => (
