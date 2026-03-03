@@ -295,6 +295,13 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Testimonials */}
+      <TestimonialSection
+        title="Real people, Real results"
+        showCarousel={true}
+        showShopButton={true}
+      />
+
       {/* Why Benefills Works */}
       <section className="py-16 bg-theme-primary-section text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -324,13 +331,6 @@ const Home = () => {
           </div>
         </div>
       </section>
-
-      {/* Testimonials */}
-      <TestimonialSection
-        title="Real people, Real results"
-        showCarousel={true}
-        showShopButton={true}
-      />
 
       {/* Lifestyle Section */}
       <LifestyleSection />

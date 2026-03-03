@@ -22,6 +22,27 @@ export const products = [
     benefitImage: '/images/benefits/benefits_monthly_pack.png'
   },
   {
+    id: '3',
+    name: 'Thyrovibe nut butters- the duo pack',
+    description: 'Two jars of thyroid-loving goodness. Mix and match your favorites for complete hormone support.',
+    price: 1200,
+    originalPrice: 1590,
+    images: [
+      '/images/products/thyrovibe-nut-butters--the-duo-pack-1.png',
+      '/images/products/thyrovibe-nut-butters--the-duo-pack-2.webp',
+      '/images/products/thyrovibe-nut-butters--the-duo-pack-3.png'
+    ],
+    category: 'combo',
+    badge: '',
+    stock: 20,
+    ingredients: ['Premium Nut Butters', 'Selenium', 'Zinc', 'Adaptogens'],
+    rating: 5,
+    reviews: 67,
+    benefitTitle: 'Complete Daily Synergy',
+    benefitDescription: 'Combining both profiles gives you a broader spectrum of Zinc, Selenium, clean fats from Hazelnuts, and stress-modulation from adaptogens. A holistic protocol in a jar.',
+    benefitImage: '/images/benefits/benefits_duo_pack.png'
+  },
+  {
     id: '1',
     name: 'Seeds Boost Bar- pack of 7',
     description: 'Crunchy, chewy energy bars packed with thyroid-supporting seeds and nutrients. Perfect grab-and-go snack.',
@@ -91,28 +112,6 @@ export const products = [
     benefitDescription: 'The inclusion of Ashwagandha actively lowers cortisol levels, taking the stress load off the thyroid and stabilizing mood. Additionally, Brazil nuts deliver a rich source of selenium—a crucial mineral for regulating and balancing thyroid function—all while satisfying sweet cravings guilt-free.',
     benefitImage: '/images/benefits/benefits_nut_butter.png'
   },
-  {
-    id: '3',
-    name: 'Thyrovibe nut butters- the duo pack',
-    description: 'Two jars of thyroid-loving goodness. Mix and match your favorites for complete hormone support.',
-    price: 1200,
-    originalPrice: 1590,
-    images: [
-      '/images/products/thyrovibe-nut-butters--the-duo-pack-1.png',
-      '/images/products/thyrovibe-nut-butters--the-duo-pack-2.webp',
-      '/images/products/thyrovibe-nut-butters--the-duo-pack-3.png'
-    ],
-    category: 'combo',
-    badge: '',
-    stock: 20,
-    ingredients: ['Premium Nut Butters', 'Selenium', 'Zinc', 'Adaptogens'],
-    rating: 5,
-    reviews: 67,
-    benefitTitle: 'Complete Daily Synergy',
-    benefitDescription: 'Combining both profiles gives you a broader spectrum of Zinc, Selenium, clean fats from Hazelnuts, and stress-modulation from adaptogens. A holistic protocol in a jar.',
-    benefitImage: '/images/benefits/benefits_duo_pack.png'
-  },
-
   {
     id: '6',
     name: 'Thyrovibe Kunafa Nut Butter',
