@@ -18,7 +18,7 @@ from routes import products, orders, auth, coupons, payments, shiprocket
 
 # MongoDB connection
 mongo_url = os.environ['MONGO_URL']
-client = AsyncIOMotorClient(mongo_url)
+client = AsyncIOMotorClient(mongo_url, serverSelectionTimeoutMS=2000)
 db = client[os.environ['DB_NAME']]
 
 # Create the main app
@@ -60,13 +60,17 @@ logger = logging.getLogger(__name__)
 @app.on_event("startup")
 async def startup_event():
     logger.info("Benefills API starting up...")
-    # Create indexes
-    await db.products.create_index("id", unique=True)
-    await db.orders.create_index("id", unique=True)
-    await db.users.create_index("email", unique=True)
-    await db.coupons.create_index("code", unique=True)
-    await db.coupons.create_index("id", unique=True)
-    logger.info("Database indexes created")
+    try:
+        # Create indexes
+        await db.products.create_index("id", unique=True)
+        await db.orders.create_index("id", unique=True)
+        await db.users.create_index("email", unique=True)
+        await db.coupons.create_index("code", unique=True)
+        await db.coupons.create_index("id", unique=True)
+        logger.info("Database indexes created")
+    except Exception as e:
+        logger.error(f"Failed to create database indexes: {e}")
+        logger.warning("Backend starting in degraded mode without MongoDB connection")
 
     # Auto-seed if products collection is empty
     product_count = await db.products.count_documents({})
