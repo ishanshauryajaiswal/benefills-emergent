@@ -10,7 +10,7 @@ import { Label } from '../components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Separator } from '../components/ui/separator';
 import { toast } from '../hooks/use-toast';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, ShieldCheck } from 'lucide-react';
 import CouponModal from '../components/CouponModal';
 import useRazorpay from '../hooks/useRazorpay';
 import { trackInitiateCheckout, trackPurchase } from '../utils/metaPixel';
@@ -348,13 +348,22 @@ const Checkout = () => {
                     </div>
                   </div>
 
+                  <div className="mt-8 flex items-center justify-center gap-2 text-sm text-gray-600 bg-green-50/50 py-2 rounded-lg border border-green-100">
+                    <ShieldCheck className="w-5 h-5 text-green-600" />
+                    <span className="font-medium text-green-800">Secure checkout. Dispatched within 24-48 hours.</span>
+                  </div>
+
                   <Button
                     type="submit"
-                    className="w-full bg-theme-primary hover:bg-theme-primary-hover py-6 text-lg mt-6"
+                    className="w-full bg-theme-primary hover:bg-theme-primary-hover py-6 text-lg mt-4 font-bold rounded-xl shadow-lg transition-transform hover:scale-[1.02]"
                     disabled={isProcessing}
                   >
                     {isProcessing ? 'Processing...' : `Pay ₹${total}`}
                   </Button>
+
+                  <div className="mt-4 text-center text-xs text-gray-500 font-medium tracking-wide">
+                    100% SECURE PAYMENT WITH RAZORPAY
+                  </div>
                 </form>
               </CardContent>
             </Card>
@@ -437,6 +446,9 @@ const Checkout = () => {
                   <div className="flex justify-between text-lg font-bold">
                     <span>Total</span>
                     <span className="text-theme-primary">₹{total}</span>
+                  </div>
+                  <div className="text-center font-medium text-theme-primary bg-purple-50 rounded-xl p-3 border border-purple-100 text-sm mt-4">
+                    ✨ Consistent thyroid support starts today.
                   </div>
                 </div>
               </CardContent>

@@ -8,7 +8,7 @@ import { Card, CardContent } from '../components/ui/card';
 import LifestyleSection from '../components/LifestyleSection';
 import TypewriterHeader from '../components/TypewriterHeader';
 import TestimonialSection from '../components/TestimonialSection';
-import { Zap, Heart, Sparkles, Flame, Star, Instagram } from 'lucide-react';
+import { Zap, Heart, Sparkles, Flame, Star, Instagram, Check, X } from 'lucide-react';
 
 const rotatingWords = ["Thyroid Nourishment.", "Targeted Nutrition.", "Hormone Balance."];
 
@@ -86,7 +86,7 @@ const Home = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative w-full pt-10 lg:pt-14 pb-12 flex flex-col justify-start bg-gradient-to-b from-purple-50 to-white overflow-hidden">
+      <section className="relative w-full pt-10 lg:pt-14 pb-0 flex flex-col justify-start bg-gradient-to-b from-purple-50 to-white overflow-hidden">
         <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 flex-1 flex items-center">
           <div className="flex flex-col lg:flex-row w-full items-center justify-between gap-12 lg:gap-8">
             {/* Left Column (Text Block - ~55%) */}
@@ -96,13 +96,13 @@ const Home = () => {
                 <br className="hidden sm:block" />
                 <TypewriterHeader words={rotatingWords} />
               </h1>
-              <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto lg:mx-0 line-clamp-3">
-                A daily ritual which you will happily stick to and regain wellness
+              <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto lg:mx-0">
+                500+ early users turned ThyroVibe into their daily ritual — with noticeable improvements in energy, hair fall & mood stability.
               </p>
               <div className="flex justify-center lg:justify-start">
                 <Link to="/shop">
                   <Button className="bg-theme-primary hover:bg-theme-primary-hover text-white px-10 py-7 text-xl rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-                    Shop Now
+                    Get Thyrovibe Ritual
                   </Button>
                 </Link>
               </div>
@@ -138,7 +138,7 @@ const Home = () => {
         </div>
 
         {/* Target Nutrition Problem Section */}
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 pt-8">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-4 pt-8">
           <div className="bg-white rounded-3xl shadow-xl p-8 lg:p-12 border border-gray-100 flex flex-col items-center gap-12 text-center">
 
             {/* Copy */}
@@ -181,33 +181,94 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Thyrovibe Ritual Pack Introduction Section */}
-      <section className="pt-6 pb-16 bg-white border-b border-gray-100">
+      {/* Us vs Them Section */}
+      <section className="pt-8 pb-20 bg-gray-50 border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-theme-primary mb-5 leading-tight max-w-5xl mx-auto">
-            Everything you need for thyroid targeted nutrition- wrapped in a monthly pack.
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-900 mb-12 leading-tight">
+            Not just healthy. <span className="text-theme-primary">Targeted.</span>
           </h2>
-          <p className="text-2xl md:text-3xl text-gray-800 font-medium mb-10 italic">
-            "One tablespoon or one bar. Every day. No guesswork."
-          </p>
 
-          <div className="w-full flex justify-center items-center">
-            <div className="w-full max-w-4xl relative rounded-3xl overflow-hidden shadow-2xl transition-transform duration-700 hover:scale-[1.02] bg-gradient-to-b from-purple-50/30 to-white">
-              <img
-                src="/images/thyrovibe-care-pack-updated.png"
-                alt="Thyrovibe Monthly Ritual Pack"
-                className="w-full h-auto object-cover rounded-3xl"
-                loading="lazy"
-              />
+          <div className="grid grid-cols-2 gap-3 sm:gap-8 max-w-5xl mx-auto">
+            {/* The "Them" Column */}
+            <div className="bg-white rounded-2xl sm:rounded-3xl shadow-lg border border-gray-100 p-4 sm:p-8 flex flex-col items-center">
+              <div className="w-full h-24 sm:h-56 mb-4 sm:mb-8 flex justify-center items-center rounded-xl sm:rounded-2xl bg-gray-50 overflow-hidden">
+                <img
+                  src="/images/generic-snacks.png"
+                  alt="Generic Healthy Snacks"
+                  className="h-full object-contain mix-blend-multiply opacity-80"
+                  loading="lazy"
+                />
+              </div>
+              <h3 className="text-base sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-8 text-center leading-tight">General "Healthy" Snacks</h3>
+              <ul className="text-left w-full space-y-3 sm:space-y-5">
+                <li className="flex items-start gap-2 sm:gap-4">
+                  <X className="w-4 h-4 sm:w-6 sm:h-6 text-red-500 mt-1 flex-shrink-0" />
+                  <span className="text-xs sm:text-lg text-gray-600">Focus on protein or calories</span>
+                </li>
+                <li className="flex items-start gap-2 sm:gap-4">
+                  <X className="w-4 h-4 sm:w-6 sm:h-6 text-red-500 mt-1 flex-shrink-0" />
+                  <span className="text-xs sm:text-lg text-gray-600">No targeted selenium or zinc</span>
+                </li>
+                <li className="flex items-start gap-2 sm:gap-4">
+                  <X className="w-4 h-4 sm:w-6 sm:h-6 text-red-500 mt-1 flex-shrink-0" />
+                  <span className="text-xs sm:text-lg text-gray-600">Generic superfood blends</span>
+                </li>
+                <li className="flex items-start gap-2 sm:gap-4">
+                  <X className="w-4 h-4 sm:w-6 sm:h-6 text-red-500 mt-1 flex-shrink-0" />
+                  <span className="text-xs sm:text-lg text-gray-600">Inconsistent daily intake</span>
+                </li>
+                <li className="flex items-start gap-2 sm:gap-4">
+                  <X className="w-4 h-4 sm:w-6 sm:h-6 text-red-500 mt-1 flex-shrink-0" />
+                  <span className="text-xs sm:text-lg text-gray-600">Designed for trends — not thyroid</span>
+                </li>
+              </ul>
             </div>
-          </div>
 
-          <div className="mt-16">
-            <Link to="/shop">
-              <Button className="bg-theme-primary hover:bg-theme-primary-hover text-white px-12 py-7 text-xl rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 font-bold">
-                Shop Monthly Pack
-              </Button>
-            </Link>
+            {/* The "Us" (ThyroVibe) Column */}
+            <div className="bg-white rounded-2xl sm:rounded-3xl shadow-xl border sm:border-2 border-theme-primary p-4 sm:p-8 flex flex-col items-center relative overflow-hidden">
+              <div className="absolute top-0 right-0 bg-theme-primary text-white px-2 py-1 sm:px-5 sm:py-2 rounded-bl-xl sm:rounded-bl-2xl font-bold text-[10px] sm:text-sm shadow-md">
+                The Solution
+              </div>
+              <div className="w-full h-24 sm:h-56 mb-4 sm:mb-8 flex justify-center items-center rounded-xl sm:rounded-2xl bg-purple-50 overflow-hidden">
+                <img
+                  src="/images/thyrovibe-care-pack-updated.png"
+                  alt="ThyroVibe Daily Ritual"
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+              <h3 className="text-base sm:text-2xl font-bold text-theme-primary mb-4 sm:mb-8 text-center leading-tight">ThyroVibe</h3>
+              <ul className="text-left w-full space-y-3 sm:space-y-5">
+                <li className="flex items-start gap-2 sm:gap-4">
+                  <Check className="w-4 h-4 sm:w-6 sm:h-6 text-theme-primary mt-1 flex-shrink-0" />
+                  <span className="text-xs sm:text-lg text-gray-800 font-medium">Selenium from real Brazil nuts</span>
+                </li>
+                <li className="flex items-start gap-2 sm:gap-4">
+                  <Check className="w-4 h-4 sm:w-6 sm:h-6 text-theme-primary mt-1 flex-shrink-0" />
+                  <span className="text-xs sm:text-lg text-gray-800 font-medium">Zinc from pumpkin seeds</span>
+                </li>
+                <li className="flex items-start gap-2 sm:gap-4">
+                  <Check className="w-4 h-4 sm:w-6 sm:h-6 text-theme-primary mt-1 flex-shrink-0" />
+                  <span className="text-xs sm:text-lg text-gray-800 font-medium">Adaptogens for stress balance</span>
+                </li>
+                <li className="flex items-start gap-2 sm:gap-4">
+                  <Check className="w-4 h-4 sm:w-6 sm:h-6 text-theme-primary mt-1 flex-shrink-0" />
+                  <span className="text-xs sm:text-lg text-gray-800 font-medium">Fiber for gut–thyroid support</span>
+                </li>
+                <li className="flex items-start gap-2 sm:gap-4">
+                  <Check className="w-4 h-4 sm:w-6 sm:h-6 text-theme-primary mt-1 flex-shrink-0" />
+                  <span className="text-xs sm:text-lg text-gray-800 font-medium">Measured daily ritual (1 tbsp or 1 bar)</span>
+                </li>
+              </ul>
+
+              <div className="mt-6 sm:mt-10 w-full flex-grow flex flex-col justify-end">
+                <Link to="/shop">
+                  <Button className="w-full bg-theme-primary hover:bg-theme-primary-hover text-white py-4 sm:py-6 text-xs sm:text-lg rounded-xl shadow-md transition-all font-bold whitespace-normal h-auto text-center leading-tight">
+                    Start Your Ritual
+                  </Button>
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </section>

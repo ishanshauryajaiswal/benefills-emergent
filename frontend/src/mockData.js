@@ -2,6 +2,26 @@
 
 export const products = [
   {
+    id: '4',
+    name: '30-Day Thyroid Ritual Pack',
+    description: 'Includes: • 2 Nut Butters (Nut-ella and Kunafa) • 10 Bars. 1 spoon or 1 bar a day.',
+    price: 1790,
+    originalPrice: 2200,
+    priceSubtitle: '(₹59/day for targeted thyroid support)',
+    images: [
+      '/images/thyrovibe-care-pack-updated.png'
+    ],
+    category: 'combo',
+    badge: 'value pack',
+    stock: 15,
+    ingredients: ['Complete variety pack', 'Full spectrum nutrients', '30-day supply'],
+    rating: 5,
+    reviews: 34,
+    benefitTitle: '30 Days of Habit & Consistency',
+    benefitDescription: 'Biological healing takes time. This whole-month protocol removes the friction of daily supplementation by turning nutrient intake into an exciting, zero-prep food ritual.',
+    benefitImage: '/images/benefits/benefits_monthly_pack.png'
+  },
+  {
     id: '1',
     name: 'Seeds Boost Bar- pack of 7',
     description: 'Crunchy, chewy energy bars packed with thyroid-supporting seeds and nutrients. Perfect grab-and-go snack.',
@@ -9,7 +29,11 @@ export const products = [
     originalPrice: 490,
     images: [
       '/images/products/seeds-boost-bar--pack-of-7-1.png',
-      '/images/products/seeds-boost-bar--pack-of-7-2.png'
+      '/images/products/seeds-boost-bar--pack-of-7-2.png',
+      '/images/products/seeds-boost-bar--pack-of-7-3.png',
+      '/images/products/seeds-boost-bar--pack-of-7-4.png',
+      '/images/products/seeds-boost-bar--pack-of-7-5.png',
+      '/images/products/seeds-boost-bar--pack-of-7-6.png'
     ],
     category: 'bars',
     badge: 'most repurchased',
@@ -22,6 +46,30 @@ export const products = [
     benefitImage: '/images/benefits/benefits_seeds_bar.png'
   },
   {
+    id: '5',
+    name: 'Berry Bliss Bars- pack of 7',
+    description: 'Delicious berry-infused energy bars with essential vitamins and antioxidants.',
+    price: 410,
+    originalPrice: 490,
+    images: [
+      '/images/products/berry-bliss-bars--pack-of-7-1.png.avif',
+      '/images/products/berry-bliss-bars--pack-of-7-2.png.avif',
+      '/images/products/berry-bliss-bars--pack-of-7-3.png',
+      '/images/products/berry-bliss-bars--pack-of-7-4.png',
+      '/images/products/berry-bliss-bars--pack-of-7-5.png',
+      '/images/products/berry-bliss-bars--pack-of-7-6.png'
+    ],
+    category: 'bars',
+    badge: 'new',
+    stock: 50,
+    ingredients: ['Berries', 'Almonds', 'Antioxidants', 'No refined sugar'],
+    rating: 5,
+    reviews: 12,
+    benefitTitle: 'Antioxidant Support & Vitality',
+    benefitDescription: 'Rich in antioxidants and natural vitamins to support metabolic health and overall vitality.',
+    benefitImage: '/images/benefits/benefits_seeds_bar.png'
+  },
+  {
     id: '2',
     name: 'Benefills Nut-ella Nut Butter',
     description: 'Rich, creamy nut butter with adaptogens and thyroid-supporting minerals. Spread it, spoon it, love it.',
@@ -30,16 +78,17 @@ export const products = [
     images: [
       '/images/products/benefills-nut-ella-nut-butter-1.png',
       '/images/products/benefills-nut-ella-nut-butter-2.png',
-      '/images/products/benefills-nut-ella-nut-butter-3.webp'
+      '/images/products/benefills-nut-ella-nut-butter-3.png',
+      '/images/products/benefills-nut-ella-nut-butter-4.png'
     ],
     category: 'nut-butter',
     badge: 'bestseller',
     stock: 35,
-    ingredients: ['Cacao', 'Hazelnuts', 'Ashwagandha', 'Pumpkin Seeds', 'No preservatives'],
+    ingredients: ['Brazil nuts', 'Cacao', 'Hazelnuts', 'Ashwagandha', 'Pumpkin Seeds', 'No preservatives'],
     rating: 5,
     reviews: 89,
     benefitTitle: 'Stress Relief & Hormone Balance',
-    benefitDescription: 'The inclusion of Ashwagandha actively lowers cortisol levels, which takes the stress load off the thyroid and stabilizes mood, all while satisfying sweet cravings guilt-free.',
+    benefitDescription: 'The inclusion of Ashwagandha actively lowers cortisol levels, taking the stress load off the thyroid and stabilizing mood. Additionally, Brazil nuts deliver a rich source of selenium—a crucial mineral for regulating and balancing thyroid function—all while satisfying sweet cravings guilt-free.',
     benefitImage: '/images/benefits/benefits_nut_butter.png'
   },
   {
@@ -63,53 +112,63 @@ export const products = [
     benefitDescription: 'Combining both profiles gives you a broader spectrum of Zinc, Selenium, clean fats from Hazelnuts, and stress-modulation from adaptogens. A holistic protocol in a jar.',
     benefitImage: '/images/benefits/benefits_duo_pack.png'
   },
+
   {
-    id: '4',
-    name: 'Benefills Monthly Pack',
-    description: 'Complete monthly supply of bars and nut butters. Everything you need for consistent thyroid nourishment.',
-    price: 1900,
-    originalPrice: 2200,
+    id: '6',
+    name: 'Thyrovibe Kunafa Nut Butter',
+    description: 'A rich, decadent Kunafa-inspired nut butter powered by pistachio, Brazil nuts, and licorice to gently support thyroid function.',
+    price: 650,
+    originalPrice: 750,
     images: [
-      '/images/products/benefills-monthly-pack-1.webp',
-      '/images/products/benefills-monthly-pack-2.png',
-      '/images/products/benefills-monthly-pack-3.png'
+      '/images/products/thyrovibe-kunafa-nut-butter-main.png',
+      '/images/products/benefills-kunafa-butter-2.png',
+      '/images/products/benefills-kunafa-butter-3.png',
+      '/images/products/benefills-kunafa-butter-4.png'
     ],
-    category: 'combo',
-    badge: '',
-    stock: 15,
-    ingredients: ['Complete variety pack', 'Full spectrum nutrients', '30-day supply'],
+    category: 'nut-butter',
+    badge: 'new',
+    stock: 45,
+    ingredients: ['Pistachio', 'Brazil nut', 'Cashew', 'Almond', 'Dates', 'Pumpkin seeds', 'Peanut butter', 'Cardamom', 'Mulethi'],
     rating: 5,
-    reviews: 34,
-    benefitTitle: '30 Days of Habit & Consistency',
-    benefitDescription: 'Biological healing takes time. This whole-month protocol removes the friction of daily supplementation by turning nutrient intake into an exciting, zero-prep food ritual.',
-    benefitImage: '/images/benefits/benefits_monthly_pack.png'
+    reviews: 62,
+    benefitTitle: 'Selenium Boost & Vitality',
+    benefitDescription: 'Brazil nuts deliver a rich source of selenium, crucial for thyroid balance, while pistachios and licorice work synergistically to support metabolism without any refined sugars.',
+    benefitImage: '/images/benefits/benefits_nut_butter.png'
   }
 ];
 
 export const testimonials = [
   {
     id: '1',
-    name: 'Priya S.',
+    name: 'Himangi',
     rating: 5,
     text: 'Clean ingredients, great taste, zero guilt.',
     description: 'What I love is how thoughtfully it\'s made. The ingredients feel high quality and earthy. It feels like a snack made for people who care about their health long-term.',
-    image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop'
+    image: 'https://images.unsplash.com/photo-1621252179022-81452bc4fca0?w=150&h=150&fit=crop'
   },
   {
     id: '2',
-    name: 'Ananya K.',
+    name: 'Pranita',
     rating: 5,
     text: 'Fits into my routine, effortlessly',
     description: 'Its become a part of my daily routine. I spread the nut butters on my pancakes and smoothies all the time.',
-    image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop'
+    image: 'https://images.unsplash.com/photo-1582260654060-de6708764835?w=150&h=150&fit=crop'
   },
   {
     id: '3',
-    name: 'Meera R.',
+    name: 'Ishan',
     rating: 5,
     text: 'Healthy can be tasty.',
     description: 'Its so tasty that doesn\'t feel like a health food, but my body definitely feels the difference in terms of energy and improved hair health',
-    image: 'https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?w=150&h=150&fit=crop'
+    image: 'https://images.unsplash.com/photo-1555529733-0e670560f7e1?w=150&h=150&fit=crop'
+  },
+  {
+    id: '4',
+    name: 'Neha T.',
+    rating: 5,
+    text: 'Active till the end of the day!',
+    description: 'After using the monthly ritual pack consitently , by 20th my energy crashes were gone, which used to be so common because of my thyroid. I can get so much more done.',
+    image: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=150&h=150&fit=crop'
   }
 ];
 

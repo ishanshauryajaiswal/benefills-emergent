@@ -8,6 +8,18 @@ Successfully run the full stack on localhost and stabilize the frontend build en
 ## 📋 Recent Local Commits (For Emergent Review)
 **Emergent Agent**: Please review these commits before making any integration changes to ensure compatibility.
 
+### Commit [NEW] - "feat: enhance Us vs Them layout, update products, and refine checkout"
+- **Homepage Structure**:
+    - Replaced the "Thyrovibe Ritual Pack Introduction Section" with an "Us vs Them" comparison UI in `Home.jsx`.
+    - This new section uses a two-column grid (side-by-side on mobile and desktop) with individual images for "Generic Snacks" and "Thyrovibe".
+    - Reduced padding between Hero/Target Nutrition section and the Us vs Them section.
+- **Product Components & Data**:
+    - Modified `ProductCard.jsx` to dynamically render a small, italicized `priceSubtitle` beneath the pricing row if one is provided in `mockData.js`.
+    - Moved the "30-Day Thyroid Ritual Pack" to the first slot within `mockData.js`, updated its description, and added a specific `priceSubtitle`.
+- **Checkout UI**:
+    - Embedded secure Razorpay payment trust badges around the Pay button (`Checkout.jsx`).
+    - Added a motivational statement directly under the Total summary box on checkout.
+
 ### Commit [NEW] - "fix: PR review comments and component extractions"
 - **Bug Fixes & Guards**:
     - Implemented NaN/Infinity guards for product discount calculations in `ProductCard.jsx` and `ProductDetail.jsx`.
@@ -17,7 +29,6 @@ Successfully run the full stack on localhost and stabilize the frontend build en
 - **Architectural Refactoring**:
     - Created a shared `<TestimonialSection />` component and removed ~60 lines of duplicated testimonial code from `Home.jsx` and `ProductDetail.jsx`.
     - Note for Emergent: The Testimonial block is now a reusable component that supports both the mobile carousel and desktop grid views via props.
-
 ### Commit [NEW] - "feat: upgrade Hero section to Typewriter Layout"
 - **Typewriter Hero Section**:
     - Replaced the `embla-carousel-react` hero carousel with a sleek, full-viewport-height static layout.

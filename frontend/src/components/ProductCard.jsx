@@ -87,15 +87,20 @@ const ProductCard = ({ product }) => {
             <span className="text-sm text-gray-500 ml-1">({product.reviews})</span>
           </div>
 
-          <div className="flex items-center gap-2 mb-4">
-            <span className="text-2xl font-bold text-theme-primary">₹{product.price}</span>
-            {discount > 0 && (
-              <>
-                <span className="text-gray-400 line-through text-sm">₹{product.originalPrice}</span>
-                <Badge variant="outline" className="text-green-600 border-green-600">
-                  {discount}% OFF
-                </Badge>
-              </>
+          <div className="flex flex-col mb-4">
+            <div className="flex items-center gap-2">
+              <span className="text-2xl font-bold text-theme-primary">₹{product.price}</span>
+              {discount > 0 && (
+                <>
+                  <span className="text-gray-400 line-through text-sm">₹{product.originalPrice}</span>
+                  <Badge variant="outline" className="text-green-600 border-green-600">
+                    {discount}% OFF
+                  </Badge>
+                </>
+              )}
+            </div>
+            {product.priceSubtitle && (
+              <span className="text-xs text-theme-primary mt-1 font-medium italic">{product.priceSubtitle}</span>
             )}
           </div>
 
