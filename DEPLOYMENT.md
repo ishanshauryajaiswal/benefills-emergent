@@ -147,6 +147,7 @@ The admin dashboard is available at `/admin` (requires admin credentials seeded 
 | 500 on order creation | Fixed `OrderCreate` model to include `paymentId` and `paymentStatus` fields |
 | Razorpay client with null keys | Made client lazy-initialized inside route handler |
 | Wrong codebase deployed | Correct Benefills code from `apeksha` branch used |
+| `.env` not deployed to production | Removed `*.env` patterns from `.gitignore` so credentials are included in deployments |
 
 ---
 
