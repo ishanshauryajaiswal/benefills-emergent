@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const useRazorpay = () => {
   const [loading, setLoading] = useState(false);
@@ -40,22 +41,14 @@ const useRazorpay = () => {
         throw new Error('Failed to load Razorpay SDK');
       }
 
-      // Create Razorpay order via backend
+      // Create Razorpay order via backend (using axios to avoid fetch body-stream issues with PostHog)
       const backendUrl = process.env.REACT_APP_BACKEND_URL || '';
-      const response = await fetch(`${backendUrl}/api/payments/create-order`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          amount: Math.round(orderData.amount * 100), // Convert to paise
-          currency: 'INR',
-          receipt: orderData.receipt || `receipt_${Date.now()}`,
-          notes: orderData.notes || {},
-        }),
+      const { data } = await axios.post(`${backendUrl}/api/payments/create-order`, {
+        amount: Math.round(orderData.amount * 100), // Convert to paise
+        currency: 'INR',
+        receipt: orderData.receipt || `receipt_${Date.now()}`,
+        notes: orderData.notes || {},
       });
-
-      const data = await response.json();
 
       if (!data.success) {
         throw new Error('Failed to create order');
@@ -72,22 +65,14 @@ const useRazorpay = () => {
         handler: async function (response) {
           try {
             // Verify payment on backend
-            const verifyResponse = await fetch(
+            const { data: verifyData } = await axios.post(
               `${backendUrl}/api/payments/verify-payment`,
               {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                  razorpay_order_id: response.razorpay_order_id,
-                  razorpay_payment_id: response.razorpay_payment_id,
-                  razorpay_signature: response.razorpay_signature,
-                }),
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
               }
             );
-
-            const verifyData = await verifyResponse.json();
 
             if (verifyData.success) {
               if (onSuccess) {
