@@ -41,10 +41,12 @@ class OrderCreate(BaseModel):
     items: List[OrderItem]
     subtotal: float
     discount: float = 0
-    deliveryCharge: float = 50
+    deliveryCharge: float = 0
     total: float
     couponCode: Optional[str] = ''
     userId: Optional[str] = None
+    paymentId: Optional[str] = ''
+    paymentStatus: Optional[str] = 'pending'
 
 class OrderStatusUpdate(BaseModel):
     status: str

@@ -25,8 +25,10 @@ async def create_order(order: OrderCreate):
         if product['stock'] < item.quantity:
             raise HTTPException(status_code=400, detail=f'Insufficient stock for {item.name}')
     
-    # Create order
-    order_obj = Order(**order.dict())
+    # Create order (merge payment info from request)
+    order_dict = order.dict()
+    order_dict['status'] = 'processing' if order_dict.get('paymentStatus') == 'paid' else 'pending'
+    order_obj = Order(**order_dict)
     await db.orders.insert_one(order_obj.dict())
     
     # Update product stock
