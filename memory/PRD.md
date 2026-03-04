@@ -22,6 +22,12 @@ E-commerce platform for thyroid health products (Benefills). User needed the cor
 - [x] Fixed: body stream already read error (fetch -> axios)
 - [x] Fixed: 500 on payment (lazy Razorpay client init, OrderCreate model)
 - [x] Fixed: .env files not deployed to production (removed *.env from .gitignore)
+- [x] Re-validated production credentials in repo env files for Razorpay + Shiprocket
+- [x] Cleaned `.gitignore` again to ensure `*.env`/`*.env.*` are NOT ignored
+- [x] Verified live integrations from preview API:
+  - `/api/payments/health` -> live mode + keys configured
+  - `/api/payments/create-order` -> order created successfully
+  - `/api/shiprocket/calculate-rates` -> authenticated and returned courier rates
 
 ## Production Credentials (in backend/.env)
 - Razorpay: Live keys configured
@@ -45,7 +51,7 @@ E-commerce platform for thyroid health products (Benefills). User needed the cor
 - /app/frontend/src/pages/Checkout.jsx - Checkout page
 
 ## Pending Items
-- P0: User must REDEPLOY to push .gitignore fix to production (Razorpay keys will be included after redeploy)
+- P0: User must click **Save** on hosting dashboard env vars and redeploy **main** so production picks latest values
 - P1: User must whitelist production domain (benefills.com) in Razorpay Dashboard > Accounts & Settings > Business Website Details
 
 ## Backlog
