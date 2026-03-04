@@ -14,6 +14,7 @@ import Register from "./pages/Register";
 import Checkout from "./pages/Checkout";
 import ProductDetail from "./pages/ProductDetail";
 import AdminDashboard from "./pages/AdminDashboard";
+import OrderSuccess from "./pages/OrderSuccess";
 import { Terms, Privacy, Returns, PaymentsDelivery, Contact } from "./pages/StaticPages";
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/checkout" element={<Checkout />} />
+                <Route path="/order-success/:orderId" element={<OrderSuccess />} />
                 <Route path="/admin" element={<AdminDashboard />} />
                 <Route path="/terms" element={<Terms />} />
                 <Route path="/privacy" element={<Privacy />} />
