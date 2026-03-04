@@ -1,4 +1,5 @@
 from fastapi import FastAPI, APIRouter
+from fastapi import Query
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -55,9 +56,9 @@ async def create_status_check(input: StatusCheckCreate):
     return status_obj
 
 @api_router.get("/status", response_model=List[StatusCheck])
-async def get_status_checks():
+async def get_status_checks(skip: int = Query(0, ge=0), limit: int = Query(100, ge=1, le=1000)):
     # Exclude MongoDB's _id field from the query results
-    status_checks = await db.status_checks.find({}, {"_id": 0}).to_list(1000)
+    status_checks = await db.status_checks.find({}, {"_id": 0}).skip(skip).to_list(length=limit)
     
     # Convert ISO string timestamps back to datetime objects
     for check in status_checks:
