@@ -45,7 +45,8 @@ E-commerce platform for thyroid health products (Benefills). User needed the cor
 - /app/frontend/src/pages/Checkout.jsx - Checkout page
 
 ## Pending Items
-- P0: User must REDEPLOY to push .gitignore fix to production (Razorpay will work after redeploy)
+- P0: User must REDEPLOY to push .gitignore fix to production (Razorpay keys will be included after redeploy)
+- P1: User must whitelist production domain (benefills.com) in Razorpay Dashboard > Accounts & Settings > Business Website Details
 
 ## Backlog
 - None identified
