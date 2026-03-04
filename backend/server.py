@@ -151,6 +151,23 @@ async def auto_seed_database():
             'isActive': True,
             'createdAt': datetime.utcnow(),
             'updatedAt': datetime.utcnow()
+        },
+        {
+            'id': '5',
+            'name': 'Thyrovibe Wellness Digital Ritual',
+            'description': 'A complete digital guide and wellness ritual to support your daily thyroid health journey.',
+            'price': 1,
+            'originalPrice': 99,
+            'image': 'https://cdn.zyrosite.com/cdn-cgi/image/format=auto,w=375,h=375,fit=crop,q=100/cdn-ecommerce/store_01JV34HD4RNHZAHYNVCHTPM6QH/assets/eb35c973-f306-4874-8c62-e5b5b8c371de.webp',
+            'category': 'digital',
+            'badge': 'new',
+            'stock': 999,
+            'ingredients': ['Digital Guide', 'Daily Ritual Tracker', 'Wellness Tips'],
+            'rating': 5.0,
+            'reviews': 15,
+            'isActive': True,
+            'createdAt': datetime.utcnow(),
+            'updatedAt': datetime.utcnow()
         }
     ]
 
