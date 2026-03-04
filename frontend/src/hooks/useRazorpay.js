@@ -38,25 +38,41 @@ const useRazorpay = () => {
       // Load Razorpay script
       const scriptLoaded = await loadRazorpayScript();
       if (!scriptLoaded) {
-        throw new Error('Failed to load Razorpay SDK');
+        throw new Error('Failed to load Razorpay SDK. Please check your internet connection and try again.');
       }
 
       // Create Razorpay order via backend (using axios to avoid fetch body-stream issues with PostHog)
       const backendUrl = process.env.REACT_APP_BACKEND_URL || '';
-      const { data } = await axios.post(`${backendUrl}/api/payments/create-order`, {
-        amount: Math.round(orderData.amount * 100), // Convert to paise
-        currency: 'INR',
-        receipt: orderData.receipt || `receipt_${Date.now()}`,
-        notes: orderData.notes || {},
-      });
+      
+      let data;
+      try {
+        const response = await axios.post(`${backendUrl}/api/payments/create-order`, {
+          amount: Math.round(orderData.amount * 100), // Convert to paise
+          currency: 'INR',
+          receipt: orderData.receipt || `receipt_${Date.now()}`,
+          notes: orderData.notes || {},
+        });
+        data = response.data;
+      } catch (apiError) {
+        console.error('Create order API error:', apiError);
+        const errorMsg = apiError?.response?.data?.detail || apiError.message || 'Failed to create payment order';
+        throw new Error(`Payment order creation failed: ${errorMsg}`);
+      }
 
-      if (!data.success) {
-        throw new Error('Failed to create order');
+      if (!data || !data.success) {
+        throw new Error('Failed to create payment order. Please try again.');
+      }
+
+      // Use key from backend response, fallback to env var
+      const razorpayKeyId = data.key_id || process.env.REACT_APP_RAZORPAY_KEY_ID;
+      
+      if (!razorpayKeyId) {
+        throw new Error('Razorpay configuration error. Please contact support.');
       }
 
       // Initialize Razorpay payment
       const options = {
-        key: data.key_id,
+        key: razorpayKeyId,
         amount: data.amount,
         currency: data.currency,
         name: 'Benefills',
@@ -85,6 +101,7 @@ const useRazorpay = () => {
               throw new Error('Payment verification failed');
             }
           } catch (error) {
+            console.error('Payment verification error:', error);
             if (onFailure) onFailure(error);
           }
         },
@@ -104,8 +121,17 @@ const useRazorpay = () => {
       };
 
       const razorpay = new window.Razorpay(options);
+      
+      razorpay.on('payment.failed', function (response) {
+        console.error('Razorpay payment failed:', response.error);
+        if (onFailure) {
+          onFailure(new Error(response.error.description || 'Payment failed'));
+        }
+      });
+      
       razorpay.open();
     } catch (error) {
+      console.error('Payment initiation error:', error);
       if (onFailure) onFailure(error);
     } finally {
       setLoading(false);

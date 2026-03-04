@@ -33,7 +33,7 @@ SHIPROCKET_PASSWORD=tXFYS!D!VLj0CHN@YzUL4eZ72Mn!f3Vr
 ### Frontend (`/app/frontend/.env`)
 
 ```env
-REACT_APP_BACKEND_URL=https://payment-debug-33.preview.emergentagent.com
+REACT_APP_BACKEND_URL=https://razorpay-payment-fix-1.preview.emergentagent.com
 WDS_SOCKET_PORT=443
 ENABLE_HEALTH_CHECK=false
 ```
@@ -89,7 +89,7 @@ ENABLE_HEALTH_CHECK=false
 ## Production Domain
 
 - **Live URL:** `https://benefills.com`
-- **Preview URL:** `https://payment-debug-33.preview.emergentagent.com`
+- **Preview URL:** `https://razorpay-payment-fix-1.preview.emergentagent.com`
 - **GitHub Repo:** `https://github.com/ishanshauryajaiswal/benefills-emergent`
 - **Active Branch:** `apeksha`
 
