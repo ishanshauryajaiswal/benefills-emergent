@@ -1,6 +1,6 @@
 # 🌉 Emergent-Local Sync Bridge
-**Last Local Sync:** 2026-02-19 08:40 AM IST
-**Local State Hash:** Frontend Active (3000) | Hero Carousel Implemented | Color Transparency Fixed | UI Layering Improved
+**Last Local Sync:** 2026-03-04 14:15 PM IST
+**Local State Hash:** Us vs Them | Checkout Redirects | Component Extractions | Dependency Cleanup
 
 ## 🎯 Current Protocol Objectives
 Successfully run the full stack on localhost and stabilize the frontend build environment while maintaining parity with Emergent's visual-edit plugins.
@@ -29,18 +29,26 @@ Successfully run the full stack on localhost and stabilize the frontend build en
 - **Architectural Refactoring**:
     - Created a shared `<TestimonialSection />` component and removed ~60 lines of duplicated testimonial code from `Home.jsx` and `ProductDetail.jsx`.
     - Note for Emergent: The Testimonial block is now a reusable component that supports both the mobile carousel and desktop grid views via props.
-### Commit [NEW] - "feat: upgrade Hero section to Typewriter Layout"
+
+### Commit [NEW] - "chore: cleanup unused carousel dependencies and re-pin critical backend deps"
+- **Frontend Cleanup**:
+    - Removed `embla-carousel-react` and `embla-carousel-autoplay` packages from `package.json`
+    - Deleted unused `frontend/src/components/ui/carousel.jsx` component
+    - Carousel functionality is NO LONGER available - Hero uses Typewriter layout
+- **Backend Dependencies**:
+    - Re-pinned critical dependencies in `requirements.txt` for stability
+    - Pinned: fastapi==0.110.1, uvicorn==0.25.0, pydantic==2.12.5, motor==3.3.1, pymongo==4.5.0, etc.
+
+### Commit [PREVIOUS] - "feat: upgrade Hero section to Typewriter Layout"
 - **Typewriter Hero Section**:
     - Replaced the `embla-carousel-react` hero carousel with a sleek, full-viewport-height static layout.
     - Implemented a custom React `useEffect` Typewriter animation for rotating the headline ("clean.", "tasty.", etc.).
     - Adjusted mobile responsiveness to stack the text block *above* the image placeholder.
-    - Note for Emergent: The `<Carousel>` component and `embla-carousel-autoplay` are no longer utilized in the `Home.jsx` Hero section.
     - The Hero text arrays (`rotatingWords`) are currently statically defined in `Home.jsx`.
 - **UI/UX & Aesthetics**:
     - **Color Transparency**: Introduced custom opacity modifiers (e.g., `theme-glass`, `bg-white/10`) to the tailwind theme for better layering.
     - **Premium Styling**: Refined the `Header`, `Checkout`, and `CouponModal` components to use richer gradients and more subtle transparency, matching the `benefills.com` aesthetic.
     - **Navigation**: Cleaned up the Header layout and added responsive padding.
-- **Dependencies**: Added `embla-carousel-autoplay` to frontend.
 
 ### Commit [NEW] - "feat: add Lifestyle section, multi-image product cards, and mobile scroll"
 - **Homepage Structure**:
@@ -63,6 +71,8 @@ Successfully run the full stack on localhost and stabilize the frontend build en
     - Updated `mockData.js` with correct images for "Seeds Boost Bar" and "Nut-ella Nut Butter".
 
 ## ✅ Done (Ready for Emergent Review)
+- **Dependency Cleanup**: Removed unused carousel packages and component
+- **Backend Stability**: Re-pinned critical dependencies for consistent builds
 - **Typewriter Hero**: Full-viewport-height static layout with a React-driven rotating text effect.
 - **Visual Harmonization**: Color transparency and UI layering match the premium design language.
 - **Static Pages**: Full content implementation for all 5 legal/info pages.
@@ -73,23 +83,24 @@ Successfully run the full stack on localhost and stabilize the frontend build en
 
 ## ⚠️ Emergent Integration Safeguards
 - **CRACO Config**: I added a conditional check to `frontend/craco.config.js` for `process.env.ENABLE_VISUAL_EDITS`. Emergent SHOULD NOT remove this.
-- **Dependencies**: Note that `embla-carousel-autoplay` is no longer required by the `Home.jsx` Hero section.
+- **Carousel REMOVED**: `embla-carousel-react` and `embla-carousel-autoplay` have been completely removed from the project. DO NOT re-add.
+- **Backend Deps Pinned**: Critical backend dependencies are now version-pinned. Review before upgrading.
 
 ## 🤝 Emergent Agent Review Protocol
 **IMPORTANT**: Before making any changes in the Emergent environment:
-1. **Review Recent Commits**: Check both the carousel/color fixes and the static pages implementation.
+1. **Review Recent Commits**: Check the cleanup commit and typewriter hero implementation.
 2. **Preserve Local Fixes**: Do NOT overwrite `craco.config.js` or `babel-metadata-plugin.js` fixes.
 3. **UI Standards**: All UI changes MUST prioritize:
    - ⚡ **Performance**: Fast load times
    - 🎨 **Aesthetics**: Premium, translucent, and layered design
-   - 🧈 **Smoothness**: Fluid carousel transitions
+   - 🧈 **Smoothness**: Typewriter text animation
 
 ## 🚨 Emergent Action Items (High Priority)
-1. **Dependencies**: Install `embla-carousel-autoplay` in your environment.
+1. **Dependencies**: DO NOT install embla-carousel packages - they are no longer used.
 2. **Verify Razorpay/Shiprocket**: Check `contracts.md` vs `backend/requirements.txt` for implementation consistency.
 3. **Checkout Flow**: Test the Guest Checkout flow with the new UI layering.
 
 ## 📝 User Notes
 - **Frontend State**: Running stably locally at `http://localhost:3000`.
-- **Carousel**: Interactive dots and autoplay are functional.
 - **UI**: Transparency fixes make the site look significantly more premium and closer to the live site.
+

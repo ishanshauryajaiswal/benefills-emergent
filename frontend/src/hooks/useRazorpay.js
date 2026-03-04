@@ -1,16 +1,23 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const useRazorpay = () => {
   const [loading, setLoading] = useState(false);
 
   const loadRazorpayScript = () => {
     return new Promise((resolve) => {
-      if (document.getElementById('razorpay-script')) {
+      if (window.Razorpay) {
         resolve(true);
         return;
       }
 
-      const script = document.createElement('script');
+      let script = document.getElementById('razorpay-script');
+      if (script) {
+        script.addEventListener('load', () => resolve(true));
+        script.addEventListener('error', () => resolve(false));
+        return;
+      }
+
+      script = document.createElement('script');
       script.id = 'razorpay-script';
       script.src = 'https://checkout.razorpay.com/v1/checkout.js';
       script.onload = () => resolve(true);
@@ -18,6 +25,10 @@ const useRazorpay = () => {
       document.body.appendChild(script);
     });
   };
+
+  useEffect(() => {
+    loadRazorpayScript();
+  }, []);
 
   const initiatePayment = async (orderData, onSuccess, onFailure) => {
     setLoading(true);

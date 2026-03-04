@@ -3,7 +3,8 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from models.order import Order, OrderCreate, OrderStatusUpdate
 from typing import List, Optional
 import os
-
+import asyncio
+from utils.email import send_order_confirmation
 router = APIRouter(prefix='/api/orders', tags=['orders'])
 
 # MongoDB connection
@@ -34,6 +35,9 @@ async def create_order(order: OrderCreate):
             {'id': item.productId},
             {'$inc': {'stock': -item.quantity}}
         )
+    
+    # Trigger email asynchronously and don't block API response
+    asyncio.create_task(send_order_confirmation(order_obj.customerInfo.email, order_obj.dict()))
     
     return order_obj
 
