@@ -204,7 +204,7 @@ const Checkout = () => {
             });
 
             clearCart();
-            navigate('/');
+            navigate(`/order-success/${response.data.id}`);
           } catch (error) {
             toast({
               title: 'Order creation failed',

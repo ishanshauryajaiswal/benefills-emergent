@@ -16,7 +16,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger(__name__)
 
 # Backend URL from frontend environment
-BACKEND_URL = "https://checkout-verify-5.preview.emergentagent.com/api"
+BACKEND_URL = "https://payment-confirmed-3.preview.emergentagent.com/api"
 
 class RazorpayAPITester:
     def __init__(self, base_url):

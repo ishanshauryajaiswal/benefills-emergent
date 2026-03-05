@@ -7,7 +7,7 @@ import asyncio
 import httpx
 import json
 
-BASE_URL = "https://payment-optimize-1.preview.emergentagent.com/api"
+BASE_URL = "https://payment-confirmed-3.preview.emergentagent.com/api"
 
 async def detailed_shiprocket_test():
     """Detailed ShipRocket test to check response format"""

@@ -175,6 +175,18 @@ frontend:
           agent: "main"
           comment: "Improved error handling, added key_id fallback from env var, better error messages."
 
+  - task: "Order Success Page routing"
+    implemented: true
+    working: true
+    file: "frontend/src/pages/OrderSuccess.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "main"
+          comment: "OrderSuccess.jsx already existed but was not registered as a route and Checkout.jsx was navigating to '/' instead. Fixed: added route '/order-success/:orderId' in App.js and updated Checkout.jsx to navigate to '/order-success/${response.data.id}' after successful payment."
+
 metadata:
   created_by: "main_agent"
   version: "1.0"
