@@ -73,13 +73,13 @@ const CouponModal = ({ onApplyCoupon, orderAmount = 0 }) => {
 
   /* ── Skeleton placeholder while loading ── */
   const SkeletonCard = () => (
-    <div className="rounded-xl border border-gray-100 bg-gray-50/60 p-5 animate-pulse">
+    <div className="rounded-2xl border border-purple-100/50 bg-purple-50/40 p-5 animate-pulse">
       <div className="flex items-center gap-3 mb-3">
-        <div className="h-7 w-28 rounded-md bg-gray-200" />
-        <div className="h-5 w-16 rounded-full bg-gray-200" />
+        <div className="h-7 w-28 rounded-full bg-purple-100" />
+        <div className="h-5 w-16 rounded-full bg-purple-100" />
       </div>
-      <div className="h-4 w-3/4 rounded bg-gray-200 mb-2" />
-      <div className="h-3 w-1/2 rounded bg-gray-200" />
+      <div className="h-4 w-3/4 rounded-full bg-purple-100 mb-2" />
+      <div className="h-3 w-1/2 rounded-full bg-purple-100" />
     </div>
   );
 
@@ -95,16 +95,18 @@ const CouponModal = ({ onApplyCoupon, orderAmount = 0 }) => {
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="max-w-2xl max-h-[85vh] overflow-hidden rounded-2xl shadow-2xl p-0 bg-gradient-to-b from-white to-green-50/30">
+      <DialogContent className="max-w-2xl max-h-[85vh] overflow-hidden rounded-[24px] shadow-2xl p-0 bg-gradient-to-b from-purple-50/80 via-white to-white border-0">
         {/* ── Header ── */}
-        <DialogHeader className="px-6 pt-6 pb-4 border-b border-gray-100">
-          <DialogTitle className="text-xl font-bold flex items-center gap-2">
-            <Sparkles className="h-5 w-5 text-[#3b825f]" />
+        <DialogHeader className="px-6 pt-6 pb-5 relative">
+          <DialogTitle className="text-2xl font-extrabold flex items-center gap-2 text-gray-900">
+            <Sparkles className="h-6 w-6 text-theme-primary" />
             Available Coupons
           </DialogTitle>
-          <DialogDescription className="text-sm text-gray-400 mt-1">
+          <DialogDescription className="text-sm text-gray-500 mt-1.5 font-medium">
             Select a coupon to apply to your order
           </DialogDescription>
+          {/* Gradient Divider */}
+          <div className="absolute bottom-0 left-6 right-6 h-[1px] bg-gradient-to-r from-transparent via-[#3b825f]/20 to-transparent" />
         </DialogHeader>
 
         {/* ── Scrollable coupon list ── */}
@@ -116,10 +118,10 @@ const CouponModal = ({ onApplyCoupon, orderAmount = 0 }) => {
               <SkeletonCard />
             </div>
           ) : coupons.length === 0 ? (
-            <div className="text-center py-12 text-gray-400">
-              <Ticket className="h-10 w-10 mx-auto mb-3 text-gray-300" />
-              <p className="font-medium">No coupons available</p>
-              <p className="text-sm mt-1">Check back later for great deals!</p>
+            <div className="text-center py-16 text-gray-400">
+              <Ticket className="h-12 w-12 mx-auto mb-4 text-theme-primary/30" />
+              <p className="font-semibold text-gray-600 text-lg">No coupons available right now</p>
+              <p className="text-sm mt-1.5 text-gray-500">Check back later for great deals!</p>
             </div>
           ) : (
             <div className="space-y-3">
@@ -130,10 +132,10 @@ const CouponModal = ({ onApplyCoupon, orderAmount = 0 }) => {
                   <div
                     key={coupon.id}
                     className={`
-                      relative rounded-xl border bg-white p-4 transition-all duration-200
+                      relative rounded-2xl bg-white p-5 transition-all duration-300 border
                       ${eligible
-                        ? 'border-l-4 border-l-[#3b825f] border-t-gray-100 border-r-gray-100 border-b-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5'
-                        : 'border-l-4 border-l-gray-300 border-t-gray-100 border-r-gray-100 border-b-gray-100 bg-gray-50/80'
+                        ? 'border-gray-100 border-t-2 border-t-theme-primary shadow-sm hover:shadow-[0_8px_30px_rgba(59,130,95,0.08)] hover:-translate-y-1'
+                        : 'border-gray-100 bg-gray-50/80 opacity-80'
                       }
                     `}
                   >
@@ -141,14 +143,14 @@ const CouponModal = ({ onApplyCoupon, orderAmount = 0 }) => {
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex-1 min-w-0">
                         {/* Code & Discount badges */}
-                        <div className="flex items-center flex-wrap gap-2 mb-2">
+                        <div className="flex items-center flex-wrap gap-2.5 mb-2.5">
                           <span
                             className={`
-                              inline-flex items-center font-mono text-sm tracking-wider font-bold uppercase
-                              border-2 border-dashed rounded-md px-3 py-1
+                              inline-flex items-center font-mono text-sm tracking-widest font-black uppercase
+                              border rounded-full px-3.5 py-1
                               ${eligible
-                                ? 'border-[#3b825f] bg-green-50 text-[#3b825f]'
-                                : 'border-gray-300 bg-gray-100 text-gray-400'
+                                ? 'border-theme-primary/20 bg-theme-primary-overlay text-theme-primary'
+                                : 'border-gray-200 bg-gray-100/50 text-gray-400'
                               }
                             `}
                           >
@@ -156,10 +158,10 @@ const CouponModal = ({ onApplyCoupon, orderAmount = 0 }) => {
                           </span>
                           <span
                             className={`
-                              inline-flex items-center text-xs font-bold px-2.5 py-0.5 rounded-full shadow-sm
+                              inline-flex items-center text-xs font-bold px-3 py-1 rounded-full shadow-sm
                               ${eligible
-                                ? 'bg-gradient-to-r from-green-600 to-emerald-500 text-white'
-                                : 'bg-gray-300 text-gray-500'
+                                ? 'bg-theme-primary text-white'
+                                : 'bg-gray-200 text-gray-500 shadow-none'
                               }
                             `}
                           >
@@ -191,9 +193,9 @@ const CouponModal = ({ onApplyCoupon, orderAmount = 0 }) => {
                           onClick={() => handleCopyCode(coupon.code)}
                           disabled={!eligible}
                           className={`
-                            rounded-full px-3 h-8 text-xs font-medium transition-all duration-200
+                            rounded-full px-3.5 h-8 text-xs font-semibold transition-all duration-300
                             ${eligible
-                              ? 'border-[#3b825f]/30 text-[#3b825f] hover:bg-green-50'
+                              ? 'border-theme-primary/30 text-theme-primary hover:bg-theme-primary-overlay hover:border-theme-primary/50'
                               : 'opacity-40 cursor-not-allowed'
                             }
                           `}
@@ -216,10 +218,10 @@ const CouponModal = ({ onApplyCoupon, orderAmount = 0 }) => {
                           onClick={() => handleApplyCoupon(coupon.code)}
                           disabled={!eligible}
                           className={`
-                            rounded-full px-5 h-8 text-xs font-medium transition-all duration-200
+                            rounded-full px-5 h-8 text-xs font-semibold transition-all duration-300
                             ${eligible
-                              ? 'bg-[#3b825f] hover:bg-[#2d6848] text-white shadow-sm hover:shadow-md'
-                              : 'bg-gray-300 text-gray-500 opacity-50 cursor-not-allowed'
+                              ? 'bg-theme-primary hover:bg-theme-primary-hover text-white shadow-md hover:shadow-lg hover:-translate-y-0.5'
+                              : 'bg-gray-200 text-gray-400 opacity-60 cursor-not-allowed shadow-none'
                             }
                           `}
                         >
@@ -243,9 +245,9 @@ const CouponModal = ({ onApplyCoupon, orderAmount = 0 }) => {
         </div>
 
         {/* ── Footer ── */}
-        <div className="px-6 pb-5 pt-2">
-          <div className="bg-green-50/60 border border-green-100 rounded-lg p-3 text-center text-xs text-green-700 flex items-center justify-center gap-1.5">
-            <span>💡</span>
+        <div className="px-6 pb-6 pt-2">
+          <div className="bg-purple-50/60 border border-purple-100/60 rounded-xl p-3 text-center text-xs text-purple-900/60 flex items-center justify-center gap-2 font-medium">
+            <Sparkles className="h-4 w-4 text-theme-primary/60" />
             <span>Coupons are automatically applied based on your order value</span>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
@@ -10,9 +10,10 @@ import { Label } from '../components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Separator } from '../components/ui/separator';
 import { toast } from '../hooks/use-toast';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, MapPin, Loader2 } from 'lucide-react';
 import CouponModal from '../components/CouponModal';
 import useRazorpay from '../hooks/useRazorpay';
+import useGooglePlaces from '../hooks/useGooglePlaces';
 import { trackInitiateCheckout, trackPurchase } from '../utils/metaPixel';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
@@ -23,6 +24,9 @@ const Checkout = () => {
   const navigate = useNavigate();
   const [isProcessing, setIsProcessing] = useState(false);
   const { initiatePayment, loading: razorpayLoading } = useRazorpay();
+  const { scriptLoaded, attachAutocomplete, lookupPincode } = useGooglePlaces();
+  const addressInputRef = useRef(null);
+  const [pincodeLooking, setPincodeLooking] = useState(false);
 
   const [formData, setFormData] = useState({
     name: user?.name || '',
@@ -54,11 +58,61 @@ const Checkout = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Attach Google Places Autocomplete to the address input
+  useEffect(() => {
+    if (scriptLoaded && addressInputRef.current) {
+      attachAutocomplete(addressInputRef.current, (placeData) => {
+        setFormData((prev) => ({
+          ...prev,
+          address: placeData.address || prev.address,
+          city: placeData.city || prev.city,
+          state: placeData.state || prev.state,
+          pincode: placeData.pincode || prev.pincode,
+        }));
+
+        toast({
+          title: 'Address auto-filled!',
+          description: 'City, state and pincode have been filled from your selection.',
+        });
+      });
+    }
+  }, [scriptLoaded, attachAutocomplete]);
+
+  // PIN code → City/State lookup
+  const handlePincodeChange = useCallback(
+    async (pincode) => {
+      if (pincode.length === 6 && /^\d{6}$/.test(pincode)) {
+        setPincodeLooking(true);
+        const result = await lookupPincode(pincode);
+        if (result) {
+          setFormData((prev) => ({
+            ...prev,
+            city: result.city || prev.city,
+            state: result.state || prev.state,
+          }));
+          toast({
+            title: 'Location found!',
+            description: `${result.city}, ${result.state}`,
+          });
+        }
+        setPincodeLooking(false);
+      }
+    },
+    [lookupPincode]
+  );
+
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.id]: e.target.value
-    });
+    const { id, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [id]: value,
+    }));
+
+    // Trigger pincode lookup when user types 6 digits
+    if (id === 'pincode') {
+      handlePincodeChange(value);
+    }
   };
 
   const applyCoupon = async () => {
@@ -235,8 +289,8 @@ const Checkout = () => {
 
   if (cartItems.length === 0) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <Card className="max-w-md w-full">
+      <div className="min-h-screen bg-gradient-to-b from-purple-50/30 to-white flex items-center justify-center">
+        <Card className="max-w-md w-full rounded-2xl shadow-sm border border-gray-100">
           <CardContent className="pt-6 text-center">
             <p className="text-gray-600 mb-4">Your cart is empty</p>
             <Button
@@ -252,7 +306,7 @@ const Checkout = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
+    <div className="min-h-screen bg-gradient-to-b from-purple-50/30 to-white py-12">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <Button
           variant="ghost"
@@ -263,14 +317,17 @@ const Checkout = () => {
           Back
         </Button>
 
-        <h1 className="text-3xl font-bold mb-8">Checkout</h1>
+        <h1 className="text-3xl font-bold mb-8 text-theme-primary">Checkout</h1>
 
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Checkout Form */}
           <div className="lg:col-span-2">
-            <Card>
+            <Card className="rounded-2xl shadow-sm border border-gray-100">
               <CardHeader>
-                <CardTitle>Shipping Information</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <MapPin className="h-5 w-5 text-theme-primary" />
+                  Shipping Information
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-4">
@@ -281,6 +338,7 @@ const Checkout = () => {
                         id="name"
                         value={formData.name}
                         onChange={handleChange}
+                        autoComplete="name"
                         required
                       />
                     </div>
@@ -291,6 +349,7 @@ const Checkout = () => {
                         type="email"
                         value={formData.email}
                         onChange={handleChange}
+                        autoComplete="email"
                         required
                       />
                     </div>
@@ -303,28 +362,53 @@ const Checkout = () => {
                       type="tel"
                       value={formData.phone}
                       onChange={handleChange}
+                      autoComplete="tel"
                       required
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="address">Address *</Label>
+                    <Label htmlFor="address">
+                      Address *
+                    </Label>
                     <Input
                       id="address"
+                      ref={addressInputRef}
                       value={formData.address}
                       onChange={handleChange}
-                      placeholder="House no, Street name"
+                      placeholder="Start typing your address..."
+                      autoComplete="street-address"
                       required
                     />
                   </div>
 
                   <div className="grid md:grid-cols-3 gap-4">
                     <div className="space-y-2">
+                      <Label htmlFor="pincode" className="flex items-center gap-1.5">
+                        Pincode *
+                        {pincodeLooking && (
+                          <Loader2 className="h-3 w-3 animate-spin text-theme-primary" />
+                        )}
+                      </Label>
+                      <Input
+                        id="pincode"
+                        value={formData.pincode}
+                        onChange={handleChange}
+                        placeholder="6-digit PIN"
+                        maxLength={6}
+                        inputMode="numeric"
+                        pattern="[0-9]{6}"
+                        autoComplete="postal-code"
+                        required
+                      />
+                    </div>
+                    <div className="space-y-2">
                       <Label htmlFor="city">City *</Label>
                       <Input
                         id="city"
                         value={formData.city}
                         onChange={handleChange}
+                        autoComplete="address-level2"
                         required
                       />
                     </div>
@@ -334,15 +418,7 @@ const Checkout = () => {
                         id="state"
                         value={formData.state}
                         onChange={handleChange}
-                        required
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="pincode">Pincode *</Label>
-                      <Input
-                        id="pincode"
-                        value={formData.pincode}
-                        onChange={handleChange}
+                        autoComplete="address-level1"
                         required
                       />
                     </div>
@@ -362,7 +438,7 @@ const Checkout = () => {
 
           {/* Order Summary */}
           <div className="lg:col-span-1">
-            <Card className="sticky top-24">
+            <Card className="sticky top-24 rounded-2xl shadow-sm border border-gray-100">
               <CardHeader>
                 <CardTitle>Order Summary</CardTitle>
               </CardHeader>
@@ -425,7 +501,9 @@ const Checkout = () => {
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-gray-600">Delivery</span>
-                    <span className={deliveryCharge === 0 ? "text-green-600" : ""}>{deliveryCharge === 0 ? 'Free' : `₹${deliveryCharge}`}</span>
+                    <span className={deliveryCharge === 0 ? "text-green-600" : ""}>
+                      {deliveryCharge === 0 ? 'Free' : `₹${deliveryCharge}`}
+                    </span>
                   </div>
                   {discount > 0 && (
                     <div className="flex justify-between text-sm text-green-600">

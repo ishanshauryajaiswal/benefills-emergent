@@ -1,6 +1,5 @@
 import axios from 'axios';
-// import { products } from '../mockData'; // Commented out to unlink mock data
-
+import { products } from '../mockData';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
@@ -24,8 +23,14 @@ apiClient.interceptors.request.use((config) => {
 
 // Products API
 export const productsAPI = {
-  getAll: (params) => apiClient.get('/products/', { params }),
-  getById: (id) => apiClient.get(`/products/${id}`),
+  getAll: (params) => {
+    console.log('Using mock products data');
+    return Promise.resolve({ data: products });
+  },
+  getById: (id) => {
+    const product = products.find(p => p.id === id);
+    return Promise.resolve({ data: product });
+  },
   create: (data) => apiClient.post('/products/', data),
   update: (id, data) => apiClient.put(`/products/${id}`, data),
   delete: (id) => apiClient.delete(`/products/${id}`),

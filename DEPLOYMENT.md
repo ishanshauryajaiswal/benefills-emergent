@@ -34,11 +34,28 @@ SHIPROCKET_PASSWORD=tXFYS!D!VLj0CHN@YzUL4eZ72Mn!f3Vr
 
 ```env
 REACT_APP_BACKEND_URL=https://payment-confirmed-3.preview.emergentagent.com
+REACT_APP_GOOGLE_MAPS_API_KEY=AIzaSyCW3M5DMsz5vCJiZ56zjbdM4GZT2UZyMdk
 WDS_SOCKET_PORT=443
 ENABLE_HEALTH_CHECK=false
 ```
 
-> **Note:** `REACT_APP_BACKEND_URL` is baked into the frontend bundle at build time. In production deployment, this points to the live backend URL automatically configured by the Emergent platform.
+> **Note:** `REACT_APP_BACKEND_URL` and `REACT_APP_GOOGLE_MAPS_API_KEY` are baked into the frontend bundle at build time. In production deployment, the backend URL is automatically configured by the Emergent platform.
+
+---
+
+## Google Places Configuration
+
+| Setting | Value |
+|---|---|
+| API Key | `AIzaSyCW3M5DMsz5vCJiZ56zjbdM4GZT2UZyMdk` |
+| Libraries | `places` |
+| Restriction | Should be restricted to `https://benefills.com/*` |
+
+### Setup Requirements
+1. Log in to [Google Cloud Console](https://console.cloud.google.com/)
+2. Ensure **Billing** is enabled for the project.
+3. Enable the **Places API** (not just the "New" version).
+4. Restrict the API Key to the production domain to prevent unauthorized usage.
 
 ---
 
