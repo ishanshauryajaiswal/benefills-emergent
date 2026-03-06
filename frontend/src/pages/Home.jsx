@@ -91,7 +91,7 @@ const Home = () => {
           <div className="flex flex-col lg:flex-row w-full items-center justify-between gap-12 lg:gap-8">
             {/* Left Column (Text Block - ~55%) */}
             <div className="flex-[0_0_100%] lg:flex-[0_0_55%] flex flex-col justify-center text-center lg:text-left pt-4 lg:pt-0">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-gray-900 mb-4 leading-tight min-h-[84px] sm:min-h-[100px] md:min-h-[110px] lg:min-h-[160px]">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-gray-900 mb-4 leading-tight">
                 The most lipsmacking Nut Butters and Bars made for
                 <br className="hidden sm:block" />
                 <TypewriterHeader words={rotatingWords} />
@@ -143,13 +143,17 @@ const Home = () => {
 
             {/* Copy */}
             <div className="w-full max-w-4xl">
-              <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-gray-900 mb-6 leading-tight min-h-[160px] sm:min-h-[140px] md:min-h-[150px] lg:min-h-[180px]">
+              <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-gray-900 mb-6 leading-tight">
                 Tired of
                 <br />
-                <span className="text-theme-primary inline-flex relative mt-2 justify-center">
+                <span className="text-theme-primary inline-grid mt-2 justify-center items-end relative">
+                  {/* Invisible placeholder sized to the longest symptom — prevents layout shift */}
+                  <span className="invisible col-start-1 row-start-1 select-none" aria-hidden="true">
+                    {rotatingSymptoms.reduce((a, b) => (a.length > b.length ? a : b), '')}
+                  </span>
                   <span
+                    className={`col-start-1 row-start-1 transition-opacity duration-500 ease-in-out ${fade ? 'opacity-100' : 'opacity-0'}`}
                     aria-hidden="true"
-                    className={`transition-opacity duration-500 ease-in-out ${fade ? 'opacity-100' : 'opacity-0'}`}
                   >
                     {rotatingSymptoms[symptomIndex]}
                   </span>
