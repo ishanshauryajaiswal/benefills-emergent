@@ -6,6 +6,7 @@ import { Button } from '../components/ui/button';
 import { Separator } from '../components/ui/separator';
 import { Skeleton } from '../components/ui/skeleton';
 import { CheckCircle2, Package, MapPin, ShoppingBag } from 'lucide-react';
+import { getProductImage, handleImageError } from '../utils/product';
 
 const OrderSuccess = () => {
     const { orderId } = useParams();
@@ -101,9 +102,10 @@ const OrderSuccess = () => {
                         {items.map((item, index) => (
                             <div key={`${item.productId}-${index}`} className="flex gap-4 items-start">
                                 <img
-                                    src={item.image}
+                                    src={getProductImage(item)}
                                     alt={item.name}
                                     className="w-16 h-16 object-cover rounded-lg flex-shrink-0"
+                                    onError={handleImageError}
                                     loading="lazy"
                                     width={64}
                                     height={64}

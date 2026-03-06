@@ -1,4 +1,5 @@
 import React from 'react';
+import { getProductImage, handleImageError } from '../utils/product';
 import { X, Plus, Minus, ShoppingBag } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { Button } from './ui/button';
@@ -48,9 +49,10 @@ const CartSidebar = () => {
                   {cartItems.map((item) => (
                     <div key={item.id} className="flex gap-4 pb-4 border-b">
                       <img
-                        src={item.image}
+                        src={getProductImage(item)}
                         alt={item.name}
                         className="w-20 h-20 object-cover rounded"
+                        onError={handleImageError}
                         loading="lazy"
                         width={80}
                         height={80}

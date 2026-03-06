@@ -15,6 +15,7 @@ import CouponModal from '../components/CouponModal';
 import useRazorpay from '../hooks/useRazorpay';
 import useGooglePlaces from '../hooks/useGooglePlaces';
 import { trackInitiateCheckout, trackPurchase } from '../utils/metaPixel';
+import { getProductImage, handleImageError } from '../utils/product';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -210,7 +211,7 @@ const Checkout = () => {
           name: item.name,
           price: item.price,
           quantity: item.quantity,
-          image: item.image,
+          image: getProductImage(item),
         })),
         subtotal,
         discount,
@@ -448,9 +449,10 @@ const Checkout = () => {
                   {cartItems.map((item) => (
                     <div key={item.id} className="flex gap-3">
                       <img
-                        src={item.image}
+                        src={getProductImage(item)}
                         alt={item.name}
                         className="w-16 h-16 object-cover rounded"
+                        onError={handleImageError}
                         loading="lazy"
                         width={64}
                         height={64}
