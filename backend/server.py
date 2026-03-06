@@ -79,35 +79,33 @@ async def startup_event():
         await auto_seed_database()
         logger.info("Auto-seeding complete.")
     else:
-        # Upsert any missing products from the seed list
-        await upsert_missing_products()
+        # Cleanup: remove deprecated test product and ensure test coupon exists
+        await cleanup_and_upsert()
 
-async def upsert_missing_products():
-    from datetime import datetime
-    seed_products = [
-        {
-            'id': '5',
-            'name': 'Thyrovibe Wellness Digital Ritual',
-            'description': 'A complete digital guide and wellness ritual to support your daily thyroid health journey.',
-            'price': 1,
-            'originalPrice': 99,
-            'image': 'https://cdn.zyrosite.com/cdn-cgi/image/format=auto,w=375,h=375,fit=crop,q=100/cdn-ecommerce/store_01JV34HD4RNHZAHYNVCHTPM6QH/assets/eb35c973-f306-4874-8c62-e5b5b8c371de.webp',
-            'category': 'digital',
-            'badge': 'new',
-            'stock': 999,
-            'ingredients': ['Digital Guide', 'Daily Ritual Tracker', 'Wellness Tips'],
-            'rating': 5.0,
-            'reviews': 15,
+async def cleanup_and_upsert():
+    # Remove the deprecated test product (id: 5)
+    result = await db.products.delete_one({'id': '5'})
+    if result.deleted_count:
+        logger.info("Removed deprecated test product (id: 5)")
+
+    # Upsert hidden test coupon
+    existing = await db.coupons.find_one({'code': 'TESTPAYMENT105'})
+    if not existing:
+        await db.coupons.insert_one({
+            'id': 'coupon-004',
+            'code': 'TESTPAYMENT105',
+            'discountType': 'fixed',
+            'discountValue': 419.0,
+            'minOrderAmount': 0,
+            'maxDiscountAmount': 419,
+            'description': 'Internal test coupon',
             'isActive': True,
-            'createdAt': datetime.utcnow(),
-            'updatedAt': datetime.utcnow()
-        }
-    ]
-    for product in seed_products:
-        existing = await db.products.find_one({'id': product['id']})
-        if not existing:
-            await db.products.insert_one(product)
-            logger.info(f"Inserted missing product: {product['name']}")
+            'hidden': True,
+            'usageLimit': None,
+            'usageCount': 0,
+            'expiryDate': None
+        })
+        logger.info("Inserted hidden test coupon TESTPAYMENT105")
 
 
 async def auto_seed_database():
@@ -182,23 +180,6 @@ async def auto_seed_database():
             'isActive': True,
             'createdAt': datetime.utcnow(),
             'updatedAt': datetime.utcnow()
-        },
-        {
-            'id': '5',
-            'name': 'Thyrovibe Wellness Digital Ritual',
-            'description': 'A complete digital guide and wellness ritual to support your daily thyroid health journey.',
-            'price': 1,
-            'originalPrice': 99,
-            'image': 'https://cdn.zyrosite.com/cdn-cgi/image/format=auto,w=375,h=375,fit=crop,q=100/cdn-ecommerce/store_01JV34HD4RNHZAHYNVCHTPM6QH/assets/eb35c973-f306-4874-8c62-e5b5b8c371de.webp',
-            'category': 'digital',
-            'badge': 'new',
-            'stock': 999,
-            'ingredients': ['Digital Guide', 'Daily Ritual Tracker', 'Wellness Tips'],
-            'rating': 5.0,
-            'reviews': 15,
-            'isActive': True,
-            'createdAt': datetime.utcnow(),
-            'updatedAt': datetime.utcnow()
         }
     ]
 
@@ -238,6 +219,20 @@ async def auto_seed_database():
             'maxDiscountAmount': None,
             'description': 'Flat ₹100 off on orders above ₹500',
             'isActive': True,
+            'usageLimit': None,
+            'usageCount': 0,
+            'expiryDate': None
+        },
+        {
+            'id': 'coupon-004',
+            'code': 'TESTPAYMENT105',
+            'discountType': 'fixed',
+            'discountValue': 419.0,
+            'minOrderAmount': 0,
+            'maxDiscountAmount': 419,
+            'description': 'Internal test coupon',
+            'isActive': True,
+            'hidden': True,
             'usageLimit': None,
             'usageCount': 0,
             'expiryDate': None

@@ -78,21 +78,6 @@ products = [
         'rating': 5.0,
         'reviews': 34,
         'isActive': True
-    },
-    {
-        'id': '5',
-        'name': 'Thyrovibe Wellness Digital Ritual',
-        'description': 'A complete digital guide and wellness ritual to support your daily thyroid health journey.',
-        'price': 1,
-        'originalPrice': 99,
-        'image': 'https://cdn.zyrosite.com/cdn-cgi/image/format=auto,w=375,h=375,fit=crop,q=100/cdn-ecommerce/store_01JV34HD4RNHZAHYNVCHTPM6QH/assets/eb35c973-f306-4874-8c62-e5b5b8c371de.webp',
-        'category': 'digital',
-        'badge': 'new',
-        'stock': 999,
-        'ingredients': ['Digital Guide', 'Daily Ritual Tracker', 'Wellness Tips'],
-        'rating': 5.0,
-        'reviews': 15,
-        'isActive': True
     }
 ]
 
@@ -133,6 +118,20 @@ coupons = [
         'maxDiscountAmount': None,
         'description': 'Flat ₹100 off on orders above ₹500',
         'isActive': True,
+        'usageLimit': None,
+        'usageCount': 0,
+        'expiryDate': None
+    },
+    {
+        'id': 'coupon-004',
+        'code': 'TESTPAYMENT105',
+        'discountType': 'fixed',
+        'discountValue': 419.0,
+        'minOrderAmount': 0,
+        'maxDiscountAmount': 419,
+        'description': 'Internal test coupon',
+        'isActive': True,
+        'hidden': True,
         'usageLimit': None,
         'usageCount': 0,
         'expiryDate': None

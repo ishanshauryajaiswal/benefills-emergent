@@ -15,9 +15,9 @@ db = client[os.environ['DB_NAME']]
 @router.get('/', response_model=List[Coupon])
 async def get_active_coupons():
     """
-    Get all active coupons
+    Get all active coupons (excludes hidden/internal coupons)
     """
-    query = {'isActive': True}
+    query = {'isActive': True, 'hidden': {'$ne': True}}
     
     # Filter out expired coupons
     coupons = await db.coupons.find(query).to_list(100)
